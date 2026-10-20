@@ -1,0 +1,7 @@
+{
+  "features": [
+    {"attributes": {"PARCELID": "010-000000", "SITEADDRESS": "1234 SAMPLE ST", "ZIPCD": "43200",
+                    "OWNERNME1": "PARKER JAMES L", "OWNERNME2": "PARKER LOUISE M", "OWNERNME3": null,
+                    "SALEDATE": 549504000000, "CLASSDSCRP": "SINGLE FAMILY DWELLING, PLATTED LOT"}}
+  ]
+}
