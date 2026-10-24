@@ -18,8 +18,14 @@ div.stButton > button, div.stDownloadButton > button {font-size: 1.05rem; paddin
 </style>
 """, unsafe_allow_html=True)
 
+# Larger text for older users and anyone reading on a phone
+if st.sidebar.toggle("Larger text", key="big_text", help="Makes all the words on the screen bigger."):
+    st.markdown("<style>html, body, [class*='css'], p, li, label {font-size: 22px !important;}</style>",
+                unsafe_allow_html=True)
+
 pages = [
     st.Page("app_pages/check.py", title="Check my home", icon=":material/home:", default=True),
+    st.Page("app_pages/inherit.py", title="Who would inherit?", icon=":material/family_restroom:"),
     st.Page("app_pages/learn.py", title="What is a tangled title?", icon=":material/help:"),
     st.Page("app_pages/about.py", title="About and sources", icon=":material/info:"),
 ]

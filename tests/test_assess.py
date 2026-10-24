@@ -105,3 +105,9 @@ def test_pdf_builds():
     r = run([A], alive=[NO], tod_recorded=NO, probate_opened=NO, estate_size="Under $35,000")
     pdf = build_pdf(r, "1234 SAMPLE ST", record_notes([A], 38))
     assert pdf[:4] == b"%PDF" and len(pdf) > 1000
+
+
+def test_pdf_with_lot_details():
+    r = run([A], alive=[YES], tod_recorded=NO)
+    pdf = build_pdf(r, "1234 SAMPLE ST", [], ["County parcel ID: 010-000000", "Lot size: 0.16 acres (6,889 sq ft)"])
+    assert pdf[:4] == b"%PDF"

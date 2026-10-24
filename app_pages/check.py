@@ -1,19 +1,16 @@
-from datetime import datetime, timezone
-
 import streamlit as st
+from streamlit_folium import st_folium
 
 from titlecheck.assess import (ESTATE_SIZES, NO, UNSURE, YES, Answers, assess, owner_kind, record_notes,
                                why_it_matters)
 from titlecheck.checklist import build_pdf
-from titlecheck.lookup import AddressLookupError, Parcel, find_parcels
+from titlecheck.demo import DEMO, DEMO_NEIGHBORS
+from titlecheck.geo import FT_PER_M, SQ_FT_PER_ACRE, analyze, lot_sq_ft
+from titlecheck.lookup import AddressLookupError, Parcel, find_nearby, find_parcels
+from titlecheck.parcel_map import build_map
 from titlecheck.resources import link
 
 CHOICES = [YES, NO, UNSURE]
-
-# A made-up home so anyone can try the app without looking up a real family
-DEMO = Parcel(parcel_id="DEMO", address="1234 SAMPLE ST (demo home, not real)", zip_code="43200",
-              owners=["PARKER JAMES L", "PARKER LOUISE M"],
-              last_transfer=datetime(1987, 6, 1, tzinfo=timezone.utc), property_class="SINGLE FAMILY DWELLING")
 
 
 def pretty(name: str) -> str:
@@ -33,9 +30,29 @@ def ask(label: str, key: str, help_text: str | None = None) -> str:
     return st.radio(label, CHOICES, index=None, horizontal=True, key=key, help=help_text) or UNSURE
 
 
+def lot_acres(p: Parcel) -> str:
+    if not p.rings:
+        return "unknown"
+    sq_ft = lot_sq_ft(p.rings)
+    return f"{sq_ft / SQ_FT_PER_ACRE:.2f} acres ({sq_ft:,.0f} sq ft)"
+
+
+def get_nearby(p: Parcel) -> list[Parcel] | None:
+    """Lots around the home, fetched once per home. None if the County's map service didn't answer."""
+    if p.parcel_id == "DEMO":
+        return DEMO_NEIGHBORS
+    cache = st.session_state.setdefault("nearby", {})
+    if p.parcel_id not in cache:
+        try:
+            cache[p.parcel_id] = find_nearby(p)
+        except AddressLookupError:
+            return None
+    return cache[p.parcel_id]
+
+
 def reset():
     for k in list(st.session_state):
-        if k.startswith(("q_", "alive_")) or k in ("parcel", "matches", "manual"):
+        if k.startswith(("q_", "alive_")) or k in ("parcel", "matches", "manual", "nearby"):
             del st.session_state[k]
 
 
@@ -100,15 +117,52 @@ if parcel is None:
 
 # ------------------------------------------------------------------ the record
 st.markdown("**What the County record says**")
+nearby = get_nearby(parcel) if parcel.rings else None
+shape, neighbors = analyze(parcel.rings, {p.parcel_id: p.rings for p in nearby or []}) if parcel.rings else (None, [])
 owners_txt = "<br>".join(pretty(o) for o in parcel.owners) or "No owner listed"
 when = f"{parcel.last_transfer:%Y}" if parcel.last_transfer else "unknown"
+lot_txt = ""
+if shape is not None:
+    lot_txt = f"<br>Lot size: {shape.acres:.2f} acres ({shape.area_sq_ft:,.0f} sq ft)"
+    if shape.frontage_ft:
+        lot_txt += f", about {shape.frontage_ft:,.0f} ft along the street"
 link_html = (f"<br><a href='{parcel.auditor_link}' target='_blank'>See it on the Auditor's website</a>"
              if parcel.parcel_id not in ("DEMO", "MANUAL") else "")
 st.markdown(f"<div class='record-card'><b>{parcel.address}</b><br>Owner(s) on the deed:<br>{owners_txt}"
-            f"<br>Last changed hands: {when}{link_html}</div>", unsafe_allow_html=True)
+            f"<br>Last changed hands: {when}{lot_txt}{link_html}</div>", unsafe_allow_html=True)
 notes = record_notes(parcel.owners, parcel.years_since_transfer)
 for n in notes:
     st.markdown(md(f"- {n}"))
+
+# ------------------------------------------------------------------ the map
+if parcel.rings:
+    with st.expander("Property map: your lot lines and neighbors", expanded=True, icon=":material/map:"):
+        if nearby is None:
+            st.warning("The County's map service didn't answer, so only your lot is shown. Try again in a minute.")
+        by_id = {p.parcel_id: p for p in nearby or []}
+        fmap = build_map(parcel, nearby or [], neighbors, shape, demo=parcel.parcel_id == "DEMO")
+        st.caption("Blue is this home. Orange lots touch it (L = left, R = right, B = behind, as seen from the "
+                   "street). Purple is across the street. Gray lines are the other property lines. Use the ruler "
+                   "to measure, and click any lot to see its public record.")
+        clicked = st_folium(fmap, height=500, use_container_width=True, key=f"map_{parcel.parcel_id}",
+                            returned_objects=["last_active_drawing"])
+        pick = ((clicked or {}).get("last_active_drawing") or {}).get("properties") or {}
+        chosen = by_id.get(pick.get("parcel_id"))
+        if chosen is not None:
+            o = ", ".join(pretty(x) for x in chosen.owners) or "No owner listed"
+            web = (f" [Auditor's page]({chosen.auditor_link})" if not chosen.parcel_id.startswith("DEMO") else "")
+            st.markdown(f"**{pick.get('label')}: {chosen.address}**  \nOwner(s): {o}  \n"
+                        f"Lot size: {lot_acres(chosen)}{web}")
+        if neighbors:
+            st.markdown("**Neighbors**")
+            st.dataframe([{"Where": n.position, "Address": by_id[n.key].address,
+                           "Owner(s)": ", ".join(pretty(x) for x in by_id[n.key].owners),
+                           "Shared property line": f"{n.shared_m * FT_PER_M:,.0f} ft" if n.shared_m else "-"}
+                          for n in neighbors], hide_index=True)
+            st.caption("Left and right are estimated from the shape of the lots. Neighbors only show what the County "
+                       "already shows on its public map; this app never shows a title status for anyone else's home.")
+else:
+    st.caption("No lot outline for this home, so there's no map. You can still finish the checkup.")
 
 # ------------------------------------------------------------------ step 2: questions
 st.header("2. A few questions")
@@ -149,7 +203,10 @@ st.subheader("Your action plan")
 for i, step in enumerate(result.steps, 1):
     st.markdown(md(f"**{i}. {step.title}**  \n{step.detail}"))
 
-st.download_button("Download a printable checklist (PDF)", build_pdf(result, parcel.address, notes),
+pdf_details = [f"County parcel ID: {parcel.parcel_id}"] if parcel.parcel_id not in ("DEMO", "MANUAL") else []
+if shape is not None:
+    pdf_details.append(f"Lot size: {shape.acres:.2f} acres ({shape.area_sq_ft:,.0f} sq ft)")
+st.download_button("Download a printable checklist (PDF)", build_pdf(result, parcel.address, notes, pdf_details),
                    file_name="home-title-action-plan.pdf", mime="application/pdf", icon=":material/print:")
 
 with st.expander("Why a clear title matters", icon=":material/lightbulb:"):
