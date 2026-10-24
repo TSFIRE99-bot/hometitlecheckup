@@ -92,7 +92,7 @@ def homestead_questions(data, who: str = "an owner") -> tuple[list[Question], Ho
                                    QUALIFIERS)
         if INCOME_TESTED & set(h.qualifiers):
             h.income_ok = f.ask(
-                "q_hs_income", f"Was {'your' if you else f'{who}’s'} total income in {HOMESTEAD['income_year']} "
+                "q_hs_income", f"Was {'your' if you else who + chr(39) + 's'} total income in {HOMESTEAD['income_year']} "
                                f"about **{HOMESTEAD['income_limit']} or less**? Count a husband's or wife's income too.",
                 "This is the Ohio adjusted gross income on the state tax return. If the exemption was already "
                 "granted for 2013 at this home, the income limit doesn't apply.")
