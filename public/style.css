@@ -88,6 +88,10 @@ input[type="range"] { width: 11rem; }
 .flow-arrow { color: var(--muted); font-size: .9rem; }
 
 @media (max-width: 600px) {
+  .top { gap: .4rem; padding: .5rem 16px; }
+  .top nav { gap: .2rem .8rem; font-size: .85rem; }
+  .top .brand { width: 100%; }
+  .small-button { font-size: .8rem; padding: .2rem .6rem; }
   h1 { font-size: 1.6rem; }
   iframe.map { height: 380px; }
   .bar-label { font-size: .65rem; }
