@@ -6,7 +6,7 @@ printable action plan to fix a "tangled title", or to prevent one.
 
 ![Home Title Checkup result screen](docs/screenshot.png)
 
-**Live app:** _add your Vercel link here_
+**Live app:** https://hometitlecheckup-h5fn.vercel.app
 **Demo video:** _add your YouTube link here_
 
 ## The problem
