@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Home Title Checkup</h1>
+<p class="lead"><strong>Is your family's home legally in the right name?</strong> Find out in 2 minutes, and get the
+  free steps to fix it or protect it. For homes in Franklin County, Ohio.</p>
+
+<h2>1. Find the home</h2>
+<form method="post" action="/" class="lookup">
+  <label for="address">Street address</label>
+  <input id="address" name="address" type="text" value="{{ address }}" placeholder="123 Main St, Columbus, OH 43215"
+         autocomplete="street-address">
+  <div class="row">
+    <button type="submit" name="action" value="lookup" class="button primary">&#128269; Look it up</button>
+    <button type="submit" name="action" value="demo" class="button">&#9654; Try a demo home</button>
+  </div>
+</form>
+
+{% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+{% if notice %}<div class="alert">{{ notice|md }}</div>{% endif %}
+
+{% if matches %}
+<form method="post" action="/" class="panel-plain">
+  <input type="hidden" name="address" value="{{ address }}">
+  <input type="hidden" name="action" value="pick">
+  <p><strong>A few properties matched. Which one?</strong></p>
+  {% for m in matches %}
+  <label class="choice block"><input type="radio" name="pick" value="{{ m.pid }}" required> {{ m.label }}</label>
+  {% endfor %}
+  <button type="submit" class="button primary">Use this one</button>
+</form>
+{% endif %}
+
+{% if manual %}
+<form method="post" action="/" class="panel-plain">
+  <input type="hidden" name="address" value="{{ address }}">
+  <input type="hidden" name="action" value="manual">
+  <label for="names"><strong>Type the names on the deed</strong> (from the tax bill or the Auditor's website), one per line.</label>
+  <textarea id="names" name="names" rows="3" placeholder="Louise Parker&#10;James Parker"></textarea>
+  <button type="submit" class="button primary">Continue</button>
+</form>
+{% endif %}
+
+{% if record %}
+<p class="label">What the County record says</p>
+<div class="record-card">
+  <strong>{{ record.addr }}</strong><br>
+  Owner(s) on the deed:<br>
+  {% for o in owners_shown %}{{ o }}<br>{% else %}No owner listed<br>{% endfor %}
+  Last changed hands: {{ record.year or "unknown" }}
+  {% if record.lot %}<br>Lot size: {{ record.lot }}{% endif %}
+  {% if auditor_link %}<br><a href="{{ auditor_link }}" target="_blank" rel="noopener">See it on the Auditor's website</a>{% endif %}
+</div>
+<ul>{% for n in notes %}<li>{{ n|md }}</li>{% endfor %}</ul>
+
+{% if map_html %}
+<details class="panel" open>
+  <summary>&#128506; Property map: your lot lines and neighbors</summary>
+  {% if warning %}<div class="alert">{{ warning }}</div>{% endif %}
+  <p class="help">Blue is this home. Orange lots touch it (L = left, R = right, B = behind, as seen from the street).
+    Purple is across the street. {{ "Gray" if demo else "White" }} lines are the other property lines. Use the ruler
+    to measure, and click any lot to see its public record.
+    {% if demo %}The demo block is made up, so it has no satellite photo.
+    {% else %}Switch between the satellite photo and the street map in the top-right corner.{% endif %}</p>
+  <iframe class="map" title="Property map" srcdoc="{{ map_html }}"></iframe>
+  {% if neighbors %}
+  <p><strong>Neighbors</strong></p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Where</th><th>Address</th><th>Owner(s)</th><th>Shared property line</th></tr></thead>
+    <tbody>{% for n in neighbors %}<tr><td>{{ n.where }}</td><td>{{ n.address }}</td><td>{{ n.owners }}</td><td>{{ n.shared }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="help">Left and right are estimated from the shape of the lots. Neighbors only show what the County
+    already shows on its public map; this app never shows a title status for anyone else's home.</p>
+  {% endif %}
+</details>
+{% elif no_map or record.pid == "MANUAL" %}
+<p class="help">No lot outline for this home, so there's no map. You can still finish the checkup.</p>
+{% endif %}
+
+<form method="post" action="/" id="answers" data-live>
+  <input type="hidden" name="pid" value="{{ record.pid }}">
+  <input type="hidden" name="addr" value="{{ record.addr }}">
+  {% for o in record.owners %}<input type="hidden" name="owners" value="{{ o }}">{% endfor %}
+  <input type="hidden" name="years" value="{{ record.years }}">
+  <input type="hidden" name="year" value="{{ record.year }}">
+  <input type="hidden" name="lot" value="{{ record.lot }}">
+  <div id="answers-body">{% include "_answers.html" %}</div>
+</form>
+
+<form method="get" action="/"><button type="submit" class="button">&#8635; Start over</button></form>
+{% else %}
+<div class="alert info">&#8593; Start by typing an address, or try the demo home to see how it works.</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,80 @@
+{# The family builder and both charts. Swapped in place each time something changes. #}
+<input type="hidden" name="spouse_was" value="{{ 'on' if spouse else '' }}">
+
+<h2>1. The family</h2>
+<label class="choice block"><input type="checkbox" name="spouse" {% if spouse %}checked{% endif %}>
+  The owner's husband or wife is living</label>
+<label for="count">How many children did the owner have?</label>
+<select id="count" name="count">
+  {% for n in range(max_children + 1) %}<option value="{{ n }}" {% if n == count %}selected{% endif %}>{{ n }}</option>{% endfor %}
+</select>
+
+{% for c in children %}
+<div class="child">
+  <input type="text" name="name_{{ loop.index0 }}" value="{{ c.name }}" aria-label="Child {{ loop.index }} name" maxlength="40">
+  <label class="choice"><input type="checkbox" name="living_{{ loop.index0 }}" {% if c.living %}checked{% endif %}> Living</label>
+  {% if not c.living %}
+  <label class="inline">Their children
+    <input type="number" name="gk_{{ loop.index0 }}" value="{{ c.grandchildren }}" min="0" max="10"></label>
+  {% endif %}
+  {% if spouse %}
+  <label class="choice"><input type="checkbox" name="ws_{{ loop.index0 }}" {% if c.with_spouse %}checked{% endif %}> Also the spouse's child</label>
+  {% endif %}
+</div>
+{% endfor %}
+
+{% if ask_parents %}
+<div class="row">
+  <label class="inline">Parents living <input type="number" name="parents" value="{{ parents }}" min="0" max="2"></label>
+  <label class="inline">Brothers and sisters living <input type="number" name="siblings" value="{{ siblings }}" min="0" max="15"></label>
+</div>
+{% endif %}
+<noscript><button type="submit" class="button">Update</button></noscript>
+
+<h2>2. Who owns the home</h2>
+{% if not result.heirs %}
+<div class="alert">{{ result.explanation }}</div>
+{% else %}
+{% set n = result.signers %}
+<div class="status-box status-{{ 'green' if n == 1 else 'orange' if n <= 3 else 'red' }}">
+  <h3>{{ n }} {{ 'person owns' if n == 1 else 'people would own' }} the home</h3>
+  {% if n == 1 %}One person can handle the title.{% else %}All {{ n }} would have to agree and sign to sell or refinance it.{% endif %}
+</div>
+<p>{{ result.explanation }} ({{ result.law }})</p>
+<div class="donut-row">
+  <div class="donut" role="img" aria-label="How the home would be split"
+       style="background: conic-gradient({% for s in slices %}{{ s.color }} {{ '%.2f'|format(s.start) }}% {{ '%.2f'|format(s.end) }}%{{ ', ' if not loop.last }}{% endfor %});"></div>
+  <table>
+    <thead><tr><th>Heir</th><th>Fraction</th><th>Percent</th></tr></thead>
+    <tbody>{% for s in slices %}<tr><td><span class="swatch" style="background: {{ s.color }}"></span>{{ s.name }}</td><td>{{ s.fraction }}</td><td>{{ s.percent }}</td></tr>{% endfor %}</tbody>
+  </table>
+</div>
+{% if result.spouse_first_amount %}
+<p class="help">The spouse's ${{ "{:,}".format(result.spouse_first_amount) }} comes off the top of the whole estate
+  first, so the real split of the home depends on what else was left. Ask Legal Aid.</p>
+{% endif %}
+{% endif %}
+
+<h2>3. What happens if nobody files for generations</h2>
+<p>Every time an owner dies without the paperwork, their share splits again among their heirs. Drag the sliders to
+  watch it happen.</p>
+<div class="row">
+  <label class="inline">Children per person: <output>{{ kids }}</output>
+    <input type="range" name="kids" min="1" max="5" value="{{ kids }}"></label>
+  <label class="inline">Generations: <output>{{ gens }}</output>
+    <input type="range" name="gens" min="1" max="5" value="{{ gens }}"></label>
+</div>
+<div class="bars" role="img" aria-label="People who own a piece of the home, by generation">
+  {% for b in bars %}
+  <div class="bar-col"><span class="bar-value">{{ "{:,}".format(b.owners) }}</span>
+    <div class="bar" style="height: {{ '%.1f'|format(b.height) }}%"></div>
+    <span class="bar-label">{{ b.label }}</span></div>
+  {% endfor %}
+</div>
+<p>After <strong>{{ gens }}</strong> generation{{ 's' if gens > 1 }}, <strong>{{ "{:,}".format(last) }} people</strong>
+  each own about <strong>{{ '%.2f'|format(100 / last) }}%</strong> of the home. Every one of them has to be found and
+  has to sign before the home can be sold, refinanced or repaired with a loan.</p>
+
+<div class="alert info">&#128161; The fix takes one form, recorded while the owner is alive: a Transfer on Death
+  Designation Affidavit ({{ tod_link|md }}). Then the home goes straight to the people named, with no court.</div>
+<p><a href="/" class="button">Check a home now &rarr;</a></p>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Who would inherit? · Home Title Checkup{% endblock %}
+{% block content %}
+<h1>Who would inherit the home?</h1>
+<p class="lead">When an Ohio homeowner dies <strong>without a will and without a Transfer on Death affidavit</strong>,
+  state law decides who owns the home next. Build the family below to see how the home would be split, and how many
+  people would have to sign to sell it, refinance it, or fix the title.</p>
+<p class="help">A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change
+  the answer. General information, not legal advice. Nothing you type is saved.</p>
+
+<form method="post" action="/inherit" id="family" data-live>
+  <div id="family-body">{% include "_inherit.html" %}</div>
+</form>
+{% endblock %}

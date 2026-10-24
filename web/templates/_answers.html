@@ -1,0 +1,37 @@
+{# Steps 2 and 3 plus the homestead check. Swapped in place (without reloading the map) each time an answer changes. #}
+<h2>2. A few questions</h2>
+{% for q in questions %}{% include "_question.html" %}{% else %}
+<p class="help">No questions needed for this owner.</p>
+{% endfor %}
+<noscript><button type="submit" class="button">Update my result</button></noscript>
+
+<h2>3. Your result</h2>
+<div class="status-box status-{{ result.color }}">
+  <h3>{{ result.label }}</h3>
+  {{ result.headline }}
+</div>
+<ul>{% for r in result.reasons %}<li>{{ r|md }}</li>{% endfor %}</ul>
+
+<h3>Your action plan</h3>
+<ol class="steps">
+{% for step in result.steps %}<li><strong>{{ step.title }}</strong><br>{{ step.detail|md }}</li>{% endfor %}
+</ol>
+<button type="submit" class="button" formaction="/plan.pdf">&#128438; Download a printable checklist (PDF)</button>
+
+<details class="panel" id="homestead" {% if hs_open %}open{% endif %}>
+  <summary>&#128176; Optional: Homestead Benefits Check (lower your property taxes)</summary>
+  <p>{{ explainer|md }}</p>
+  {% for q in hs_questions %}{% include "_question.html" %}{% endfor %}
+  <p><strong>{{ homestead.headline }}</strong></p>
+  <ul>{% for n in homestead.notes %}<li>{{ n|md }}</li>{% endfor %}</ul>
+  <ol class="steps">
+  {% for step in homestead.steps %}<li><strong>{{ step.title }}</strong><br>{{ step.detail|md }}</li>{% endfor %}
+  </ol>
+  <div class="info"><ul>{% for c in homestead.caveats %}<li>{{ c|md }}</li>{% endfor %}</ul></div>
+  <button type="submit" class="button" formaction="/homestead.pdf">&#128438; Download the homestead checklist (PDF)</button>
+</details>
+
+<details class="panel">
+  <summary>&#128161; Why a clear title matters</summary>
+  <ul>{% for line in why %}<li>{{ line|md }}</li>{% endfor %}</ul>
+</details>

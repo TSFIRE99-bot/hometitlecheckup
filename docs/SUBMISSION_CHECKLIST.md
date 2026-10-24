@@ -11,7 +11,7 @@ Deadline: **Monday, October 26, 2026, 12:00 PM ET.** Aim to submit Sunday.
 - [ ] Recorder fee: check the Franklin County Recorder's fee calculator and decide whether to show the amount.
 - [ ] Test with 2 or 3 real people (an older relative or neighbor). Write down what confused them and fix it.
 - [ ] Your own changes are committed to GitHub under your own names.
-- [ ] The app is live on Streamlit Community Cloud and the link is in the README.
+- [ ] The app is live on Vercel and the link is in the README.
 - [ ] "Team" and "Use of AI tools" are filled in, in the README and on the About page (`app_pages/about.py`).
 
 ## Demo video (1 to 3 minutes, public on YouTube or Vimeo)
@@ -20,8 +20,8 @@ The rules require all of these:
 - [ ] App name
 - [ ] Purpose in one clear sentence
 - [ ] Target audience
-- [ ] Tools and coding languages used (Python, Streamlit, requests, fpdf2, folium / Leaflet, streamlit-folium,
-      Altair, pytest, Franklin County ArcGIS REST data)
+- [ ] Tools and coding languages used (Python, Flask, HTML / CSS / JavaScript, requests, fpdf2, folium / Leaflet,
+      pytest, Vercel, Franklin County ArcGIS REST data)
 - [ ] A live demo of the app working
 
 Suggested order: why you care (15 s), the problem with one number (15 s), live demo (90 s): the demo home, the

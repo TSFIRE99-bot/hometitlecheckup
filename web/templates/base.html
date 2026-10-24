@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Home Title Checkup{% endblock %}</title>
+  <meta name="description" content="Is your family's home legally in the right name? Free checkup for Franklin County, Ohio homes.">
+  <link rel="stylesheet" href="/style.css">
+  <script>try { if (localStorage.getItem("bigText") === "1") document.documentElement.classList.add("big"); } catch (e) {}</script>
+</head>
+<body>
+<header class="top">
+  <nav>
+    <a href="/" class="brand">&#8962; Home Title Checkup</a>
+    <a href="/" {% if request.path == '/' %}aria-current="page"{% endif %}>Check my home</a>
+    <a href="/inherit" {% if request.path == '/inherit' %}aria-current="page"{% endif %}>Who would inherit?</a>
+    <a href="/learn" {% if request.path == '/learn' %}aria-current="page"{% endif %}>What is a tangled title?</a>
+    <a href="/about" {% if request.path == '/about' %}aria-current="page"{% endif %}>About and sources</a>
+  </nav>
+  <button type="button" id="big-text" class="small-button" aria-pressed="false">Larger text</button>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer>
+  General information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices
+  or a lawyer before filing anything. Nothing you type is saved.
+</footer>
+<script src="/app.js"></script>
+</body>
+</html>

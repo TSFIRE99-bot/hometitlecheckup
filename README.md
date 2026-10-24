@@ -6,7 +6,7 @@ printable action plan to fix a "tangled title", or to prevent one.
 
 ![Home Title Checkup result screen](docs/screenshot.png)
 
-**Live app:** _add your Streamlit Community Cloud link here_
+**Live app:** _add your Vercel link here_
 **Demo video:** _add your YouTube link here_
 
 ## The problem
@@ -49,7 +49,7 @@ Along the way:
   Franklin County Auditor forms to file and when, with a printable checklist. If the title isn't settled it says to
   clear it first, and it reminds families that a clear title doesn't guarantee approval: the Auditor checks every
   requirement.
-- **Larger text** switch in the sidebar, for older homeowners and phone screens.
+- **Larger text** button at the top of every page, for older homeowners and phone screens.
 
 There's also a "What is a tangled title?" explainer page and a "Try a demo home" button that uses a made-up home on
 a made-up block, so anyone can test the app (map included) without looking up a real family.
@@ -63,7 +63,7 @@ You need Python 3.12 or 3.13.
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-streamlit run app.py
+flask --app app run --debug
 ```
 
 **Mac (Terminal, in the project folder)**
@@ -71,17 +71,25 @@ streamlit run app.py
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-streamlit run app.py
+flask --app app run --debug
 ```
 
-The app opens at http://localhost:8501.
+The app opens at http://127.0.0.1:5000.
 
-## Put it online (free)
+## Put it online (free, on Vercel)
+
+The app is a small Flask website, which Vercel runs as one Python function. Vercel finds the Flask `app` in
+`app.py` on its own, serves `public/` (stylesheet and script) from its CDN, uses Python 3.12 (`.python-version`), and
+leaves the tests and docs out of the upload (`.vercelignore`).
 
 1. Push this repository to GitHub.
-2. Go to [share.streamlit.io](https://share.streamlit.io), sign in with GitHub, and click **Create app**.
-3. Pick this repository, branch `main`, main file `app.py`. Under **Advanced settings**, choose Python 3.13.
-4. Click **Deploy**. Paste the link at the top of this README.
+2. Go to [vercel.com/new](https://vercel.com/new), sign in with GitHub, and **Import** this repository.
+3. Keep the settings Vercel detects (Framework preset: Flask) and click **Deploy**.
+4. Paste the link at the top of this README. Every push to `main` updates the live site, and every other branch gets
+   its own preview link.
+
+The server keeps nothing between clicks. Once a home is found, its public record rides along in hidden form fields
+and every answer is sent with the whole form, so any copy of the function can answer any click.
 
 ## Run the tests
 
@@ -91,17 +99,18 @@ pytest
 ```
 
 The tests cover the address cleanup, the County lookup (using a saved sample response, so no internet is needed),
-every decision path, and the PDF.
+every decision path, the PDFs, and every web page (using Flask's test client, with the County lookup faked).
 
 ## How it works
 
 | File | What it does |
 |---|---|
-| `app.py` | Page setup, styles, navigation |
-| `app_pages/check.py` | The 3-step checkup screen, with the property map and neighbors |
-| `app_pages/inherit.py` | "Who would inherit?" family builder and generations simulator |
-| `app_pages/learn.py` | "What is a tangled title?" explainer |
-| `app_pages/about.py` | Purpose, privacy, limits, sources |
+| `app.py` | Starts the website (Vercel looks here for the Flask `app`) |
+| `web/routes.py` | The pages: the 3-step checkup with map and neighbors, "Who would inherit?", the explainer, About, the PDF downloads |
+| `web/checkup.py` | Turns the submitted form into the questions on screen and the answers the rules use |
+| `web/markup.py` | Turns the rules' **bold** and [links](#) into safe HTML |
+| `web/templates/` | The HTML for each page |
+| `public/style.css`, `public/app.js` | Styles, and the script that updates the result as you answer (the site works without it too) |
 | `titlecheck/lookup.py` | Cleans up the typed address, queries the County's parcel records, fetches the lots nearby |
 | `titlecheck/geo.py` | Lot geometry in plain Python: area, frontage, which neighbor is left / right / behind / across |
 | `titlecheck/parcel_map.py` | Draws the interactive map (folium / Leaflet) |
@@ -182,12 +191,11 @@ plus children from another relationship, the spouse gets $20,000 or $60,000 off 
 
 | Tool | What for | License |
 |---|---|---|
-| [Streamlit](https://streamlit.io) | The web app | Apache 2.0 |
+| [Flask](https://flask.palletsprojects.com) (with Jinja templates) | The website | BSD-3 |
+| [Vercel](https://vercel.com) | Hosting (free Hobby plan) | Service |
 | [requests](https://requests.readthedocs.io) | Asking the County's server | Apache 2.0 |
-| [fpdf2](https://py-pdf.github.io/fpdf2/) | The printable PDF | LGPL 3.0 |
+| [fpdf2](https://py-pdf.github.io/fpdf2/) | The printable PDFs | LGPL 3.0 |
 | [folium](https://python-visualization.github.io/folium/) and [Leaflet](https://leafletjs.com) | The interactive map | MIT / BSD-2 |
-| [streamlit-folium](https://github.com/randyzwitch/streamlit-folium) | Putting the map in the app, and getting clicks back | MIT |
-| [Altair](https://altair-viz.github.io), [pandas](https://pandas.pydata.org) (come with Streamlit) | The charts | BSD-3 |
 | [pytest](https://pytest.org) | Automated tests | MIT |
 | Map tiles: [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors; satellite imagery from [Esri World Imagery](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9) and street names from Esri World Transportation | Map background | ODbL / Esri terms (credited on the map) |
 | Franklin County Auditor parcel data | Owners and lot lines | Public records |
@@ -219,4 +227,6 @@ Version 2 (the interactive property map, the neighbor detection in `titlecheck/g
 page in `titlecheck/heirs.py` and `app_pages/inherit.py`, the larger-text switch, and their tests) was also generated
 by Claude, at our request. The Homestead Benefits Check (`titlecheck/homestead.py`, its section on the checkup
 screen, the homestead PDF and `tests/test_homestead.py`) was also generated by Claude, from our feature description.
+The move from Streamlit to a Flask website hosted on Vercel (`app.py`, `web/`, `public/`, `tests/test_web.py`) was
+generated by Claude too, at our request; the rules in `titlecheck/` stayed the same.
 _Describe here what you changed, built and tested yourselves, and how you checked the results._

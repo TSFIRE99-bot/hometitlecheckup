@@ -1,0 +1,14 @@
+{# one question: a row of choices (radio buttons), or checkboxes when q.multi #}
+<fieldset class="question">
+  <legend>{{ q.label|md }}</legend>
+  {% if q.help %}<p class="help">{{ q.help }}</p>{% endif %}
+  <div class="choices{% if q.multi %} stacked{% endif %}">
+  {% for c in q.choices %}
+    {% if q.multi %}
+    <label class="choice"><input type="checkbox" name="{{ q.key }}" value="{{ c }}" {% if c in q.values %}checked{% endif %}> {{ c }}</label>
+    {% else %}
+    <label class="choice"><input type="radio" name="{{ q.key }}" value="{{ c }}" {% if q.value == c %}checked{% endif %}> {{ c }}</label>
+    {% endif %}
+  {% endfor %}
+  </div>
+</fieldset>
