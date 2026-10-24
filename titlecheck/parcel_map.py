@@ -15,11 +15,15 @@ from titlecheck.lookup import Parcel
 HOME_COLOR = "#1a73e8"
 NEIGHBOR_COLOR = "#e37400"
 ACROSS_COLOR = "#9334e6"
-LINE_COLOR = "#5f6368"
+LINE_COLOR = "#5f6368"          # other property lines on the plain demo background
+IMAGERY_LINE_COLOR = "#ffffff"  # ...and on the satellite photo, where gray disappears
 BADGE = {"Left": "L", "Right": "R", "Behind": "B", "Next door": "N", "Across the street": "A"}
 
 SATELLITE = ("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}")
 SATELLITE_CREDIT = "Imagery &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+STREET_NAMES = ("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/"
+                "{z}/{y}/{x}")
+STREET_NAMES_CREDIT = "Streets &copy; Esri"
 
 
 def _feature(p: Parcel, role: str, label: str) -> dict:
@@ -30,9 +34,14 @@ def _feature(p: Parcel, role: str, label: str) -> dict:
                            "label": label}}
 
 
-def _style(role: str):
+def _style(role: str, imagery: bool):
+    # on the satellite photo: lighter fills so the roofs and yards show through, thicker lines so they stand out
     color, weight, fill = {"home": (HOME_COLOR, 4, 0.35), "neighbor": (NEIGHBOR_COLOR, 3, 0.18),
                            "across": (ACROSS_COLOR, 2, 0.12)}.get(role, (LINE_COLOR, 1, 0.03))
+    if imagery:
+        weight, fill = weight + 1, fill / 2
+        if role == "other":
+            color, weight = IMAGERY_LINE_COLOR, 1.5
     return lambda _: {"color": color, "weight": weight, "fillColor": color, "fillOpacity": fill}
 
 
@@ -51,9 +60,13 @@ def build_map(home: Parcel, nearby: list[Parcel], neighbors: list[Neighbor], sha
         # made-up block: plain background, no real street or rooftop under it
         m.get_root().header.add_child(folium.Element("<style>.leaflet-container{background:#eef3ea}</style>"))
     else:
-        folium.TileLayer("OpenStreetMap", name="Street map", max_zoom=22, max_native_zoom=19).add_to(m)
+        # satellite photo underneath the property lines; the street map waits in the layer menu (show=False)
         folium.TileLayer(SATELLITE, attr=SATELLITE_CREDIT, name="Satellite", max_zoom=22,
                          max_native_zoom=19).add_to(m)
+        folium.TileLayer("OpenStreetMap", name="Street map", max_zoom=22, max_native_zoom=19, show=False).add_to(m)
+        folium.TileLayer(STREET_NAMES, attr=STREET_NAMES_CREDIT, name="Street names", overlay=True, show=True,
+                         max_zoom=22, max_native_zoom=19).add_to(m)
+    imagery = not demo
 
     place = {n.key: n for n in neighbors}
     lines = folium.FeatureGroup(name="Property lines", show=True)
@@ -64,7 +77,7 @@ def build_map(home: Parcel, nearby: list[Parcel], neighbors: list[Neighbor], sha
         else:
             role = "across" if n.position == "Across the street" else "neighbor"
             label = n.position if n.position in ("Across the street", "Next door") else f"Neighbor: {n.position}"
-        folium.GeoJson(_feature(p, role, label), style_function=_style(role),
+        folium.GeoJson(_feature(p, role, label), style_function=_style(role, imagery),
                        highlight_function=lambda _: {"weight": 5, "fillOpacity": 0.4},
                        tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""])).add_to(lines)
         if n is not None:
@@ -77,7 +90,7 @@ def build_map(home: Parcel, nearby: list[Parcel], neighbors: list[Neighbor], sha
     home_label = "This home"
     if shape is not None:
         home_label += f" ({shape.acres:.2f} acres)"
-    folium.GeoJson(_feature(home, "home", home_label), style_function=_style("home"),
+    folium.GeoJson(_feature(home, "home", home_label), style_function=_style("home", imagery),
                    tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""]), name="This home").add_to(m)
     folium.Marker([lat, lon], icon=_badge("&#8962;", HOME_COLOR), tooltip=home_label).add_to(m)
 
