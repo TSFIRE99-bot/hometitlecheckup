@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 import requests
 
-from titlecheck.lookup import (AddressLookupError, build_params, find_nearby, find_parcels, nearby_params,
-                               normalize_address, parse_features)
+from titlecheck.lookup import (AddressLookupError, build_params, find_in_view, find_nearby, find_parcels,
+                               nearby_params, normalize_address, parcel_at, parse_features, point_params)
 
 FIXTURE = json.loads((Path(__file__).parent / "fixtures" / "parcel_response.json").read_text())
 
@@ -100,3 +100,12 @@ def test_find_nearby_skips_the_home_itself():
     assert [p.parcel_id for p in found] == ["010-000001"]
     params = nearby_params((-83.1, 39.9, -83.0, 40.0))
     assert params["geometryType"] == "esriGeometryEnvelope" and params["inSR"] == "4326"
+
+
+def test_view_and_point_queries():
+    s = FakeSession([FIXTURE, FIXTURE, {"features": []}])
+    assert len(find_in_view((-83.1, 39.9, -83.0, 40.0), session=s)) == 1
+    assert parcel_at(-82.9999, 40.0001, session=s).parcel_id == "010-000000"
+    assert parcel_at(-82.0, 40.0, session=s) is None
+    p = point_params(-82.9999, 40.0001)
+    assert p["geometryType"] == "esriGeometryPoint" and p["geometry"] == "-82.9999000,40.0001000"

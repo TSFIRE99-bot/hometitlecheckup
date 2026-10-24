@@ -22,6 +22,7 @@ FIELDS = ["PARCELID", "SITEADDRESS", "ZIPCD", "OWNERNME1", "OWNERNME2", "OWNERNM
 TIMEOUT = 15
 MAX_MATCHES = 10
 MAX_NEARBY = 200
+MAX_IN_VIEW = 1500       # lots drawn at once on the property map (about a 600 m by 400 m view of a neighborhood)
 NEARBY_PAD_M = 70        # how far around the home to fetch other lots (about one block)
 
 STREET_WORDS = {
@@ -103,11 +104,18 @@ def build_params(street: str, zip_code: str | None) -> dict:
             "outSR": "4326", "orderByFields": "SITEADDRESS", "resultRecordCount": str(MAX_MATCHES), "f": "json"}
 
 
-def nearby_params(box: tuple[float, float, float, float]) -> dict:
+def nearby_params(box: tuple[float, float, float, float], limit: int = MAX_NEARBY) -> dict:
     """Every lot that overlaps a box (west, south, east, north) in longitude / latitude."""
     return {"geometry": ",".join(f"{v:.7f}" for v in box), "geometryType": "esriGeometryEnvelope", "inSR": "4326",
             "spatialRel": "esriSpatialRelIntersects", "where": "1=1", "outFields": ",".join(FIELDS),
-            "returnGeometry": "true", "outSR": "4326", "resultRecordCount": str(MAX_NEARBY), "f": "json"}
+            "returnGeometry": "true", "outSR": "4326", "resultRecordCount": str(limit), "f": "json"}
+
+
+def point_params(lon: float, lat: float) -> dict:
+    """The lot under one point on the map."""
+    return {"geometry": f"{lon:.7f},{lat:.7f}", "geometryType": "esriGeometryPoint", "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects", "where": "1=1", "outFields": ",".join(FIELDS),
+            "returnGeometry": "true", "outSR": "4326", "f": "json"}
 
 
 def _rings(geometry: dict | None) -> list:
@@ -167,3 +175,14 @@ def find_nearby(parcel: Parcel, session: requests.Session | None = None) -> list
         return []
     found = _query(nearby_params(bounding_box(parcel.rings, NEARBY_PAD_M)), session)
     return [p for p in found if p.parcel_id != parcel.parcel_id and p.rings]
+
+
+def find_in_view(box: tuple[float, float, float, float], session: requests.Session | None = None) -> list[Parcel]:
+    """Every lot inside the part of the map on screen (west, south, east, north), for drawing property lines."""
+    return [p for p in _query(nearby_params(box, MAX_IN_VIEW), session) if p.rings]
+
+
+def parcel_at(lon: float, lat: float, session: requests.Session | None = None) -> Parcel | None:
+    """The lot someone clicked on, or None if the point isn't on a lot (a street, a river...)."""
+    found = [p for p in _query(point_params(lon, lat), session) if p.rings]
+    return found[0] if found else None

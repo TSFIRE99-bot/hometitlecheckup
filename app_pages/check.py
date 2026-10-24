@@ -3,22 +3,15 @@ from streamlit_folium import st_folium
 
 from titlecheck.assess import (ESTATE_SIZES, NO, UNSURE, YES, Answers, assess, owner_kind, record_notes,
                                why_it_matters)
+from titlecheck.assess import display_name as pretty
 from titlecheck.checklist import build_pdf
 from titlecheck.demo import DEMO, DEMO_NEIGHBORS
-from titlecheck.geo import FT_PER_M, SQ_FT_PER_ACRE, analyze, lot_sq_ft
+from titlecheck.geo import FT_PER_M, SQ_FT_PER_ACRE, analyze, center_lonlat, lot_sq_ft
 from titlecheck.lookup import AddressLookupError, Parcel, find_nearby, find_parcels
 from titlecheck.parcel_map import build_map
 from titlecheck.resources import link
 
 CHOICES = [YES, NO, UNSURE]
-
-
-def pretty(name: str) -> str:
-    """County style 'PARKER JAMES L' -> 'James L Parker' (people only)."""
-    if owner_kind(name) != "person":
-        return name.title()
-    parts = name.title().split()
-    return " ".join(parts[1:] + parts[:1]) if len(parts) > 1 else name.title()
 
 
 def md(text: str) -> str:
@@ -143,10 +136,10 @@ if parcel.rings:
         fmap = build_map(parcel, nearby or [], neighbors, shape, demo=demo)
         demo = parcel.parcel_id == "DEMO"
         st.caption("Blue is this home. Orange lots touch it (L = left, R = right, B = behind, as seen from the "
-                   f"street). Purple is across the street. {'Gray' if demo else 'White'} lines are the other "
+                   f"street). Purple is across the street. {'Gray' if demo else 'Yellow'} lines are the other "
                    "property lines. Use the ruler to measure, and click any lot to see its public record."
-                   + ("" if demo else " Switch between the satellite photo and the street map in the top-right "
-                      "corner.") + (" The demo block is made up, so it has no satellite photo." if demo else ""))
+                   + (" The demo block is made up, so it has no real map under it. Open the **Property map** page "
+                      "to explore a real neighborhood." if demo else ""))
         clicked = st_folium(fmap, height=500, use_container_width=True, key=f"map_{parcel.parcel_id}",
                             returned_objects=["last_active_drawing"])
         pick = ((clicked or {}).get("last_active_drawing") or {}).get("properties") or {}
@@ -156,6 +149,11 @@ if parcel.rings:
             web = (f" [Auditor's page]({chosen.auditor_link})" if not chosen.parcel_id.startswith("DEMO") else "")
             st.markdown(f"**{pick.get('label')}: {chosen.address}**  \nOwner(s): {o}  \n"
                         f"Lot size: {lot_acres(chosen)}{web}")
+        if not demo and st.button("Open in the full Property map", icon=":material/map:"):
+            lon, lat = center_lonlat(parcel.rings)
+            st.session_state.ex_selected = parcel
+            st.session_state.ex_center, st.session_state.ex_zoom = (lat, lon), 19
+            st.switch_page("app_pages/explore.py")
         if neighbors:
             st.markdown("**Neighbors**")
             st.dataframe([{"Where": n.position, "Address": by_id[n.key].address,

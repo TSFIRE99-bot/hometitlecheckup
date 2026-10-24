@@ -24,7 +24,9 @@ The rules require all of these:
       Altair, pytest, Franklin County ArcGIS REST data)
 - [ ] A live demo of the app working
 
-Suggested order: why you care (15 s), the problem with one number (15 s), live demo (90 s): the demo home, the
+Suggested order: why you care (15 s), the problem with one number (15 s), live demo (90 s): open the Property map, zoom into your own
+neighborhood (or a public building like the Statehouse), click a home and show Left / Right / Behind, then the demo
+home on "Check my home", the
 property map (switch to satellite, point out Left / Right / Behind, click a neighbor, measure the lot with the ruler),
 the questions and the result, then "Who would inherit?" (add a child who died with 2 children, then drag the
 generations slider), privacy and safety choices (15 s), what's next (15 s). Explain one thing you understand deeply,

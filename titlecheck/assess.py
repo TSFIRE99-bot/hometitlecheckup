@@ -78,6 +78,14 @@ def owner_kind(name: str) -> str:
     return "person"
 
 
+def display_name(name: str) -> str:
+    """County style 'PARKER JAMES L' -> 'James L Parker' (people only)."""
+    if owner_kind(name) != "person":
+        return name.title()
+    parts = name.title().split()
+    return " ".join(parts[1:] + parts[:1]) if len(parts) > 1 else name.title()
+
+
 def record_notes(owners: list[str], years_since_transfer: int | None) -> list[str]:
     """Facts from the County record worth pointing out, before any questions are answered."""
     notes = []

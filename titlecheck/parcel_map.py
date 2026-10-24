@@ -1,13 +1,14 @@
-"""The interactive property map: the home's lot, its neighbors, and every property line around it (Leaflet, via folium).
+"""The interactive property maps (Leaflet, via folium): real satellite photos and street maps, with the County's
+property lines drawn on top.
 
-Privacy: neighbors show only what the County shows on its own public map (address, owner, lot size). No neighbor ever
-gets a title status, a last-sale date or any other hint about their family, so the map can't be used to hunt for
+Privacy: neighbors show only what the County shows on its own public map (address, owner, lot size). No lot ever
+gets a title status, a last-sale date or any other hint about the family, so the maps can't be used to hunt for
 tangled titles.
 """
 from __future__ import annotations
 
 import folium
-from folium.plugins import Fullscreen, MeasureControl
+from folium.plugins import Fullscreen, LocateControl, MeasureControl
 
 from titlecheck.geo import LotShape, Neighbor, center_lonlat
 from titlecheck.lookup import Parcel
@@ -16,14 +17,33 @@ HOME_COLOR = "#1a73e8"
 NEIGHBOR_COLOR = "#e37400"
 ACROSS_COLOR = "#9334e6"
 LINE_COLOR = "#5f6368"          # other property lines on the plain demo background
-IMAGERY_LINE_COLOR = "#ffffff"  # ...and on the satellite photo, where gray disappears
+VIEW_LINE_COLOR = "#ffd54f"     # other property lines on real maps: a yellow that shows on photos and street maps
 BADGE = {"Left": "L", "Right": "R", "Behind": "B", "Next door": "N", "Across the street": "A"}
 
-SATELLITE = ("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}")
+ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/{}/MapServer/tile/{{z}}/{{y}}/{{x}}"
 SATELLITE_CREDIT = "Imagery &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community"
-STREET_NAMES = ("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/"
-                "{z}/{y}/{x}")
-STREET_NAMES_CREDIT = "Streets &copy; Esri"
+
+# where the Property map opens: the Ohio Statehouse, downtown Columbus (a public building, not anyone's home)
+START = (39.9612, -82.9988)
+LINES_FROM_ZOOM = 17            # property lines appear from this zoom in (closer than that there are too many)
+
+
+def add_base_layers(m: folium.Map) -> None:
+    """Satellite photo (default) and street map, with street and place names on top of the photo."""
+    folium.TileLayer(ESRI.format("World_Imagery"), attr=SATELLITE_CREDIT, name="Satellite", max_zoom=22,
+                     max_native_zoom=19).add_to(m)
+    folium.TileLayer("OpenStreetMap", name="Street map (buildings, landmarks)", max_zoom=22, max_native_zoom=19,
+                     show=False).add_to(m)
+    folium.TileLayer(ESRI.format("Reference/World_Transportation"), attr="Streets &copy; Esri", name="Street names",
+                     overlay=True, max_zoom=22, max_native_zoom=19).add_to(m)
+    folium.TileLayer(ESRI.format("Reference/World_Boundaries_and_Places"), attr="Places &copy; Esri",
+                     name="Place names and landmarks", overlay=True, max_zoom=22, max_native_zoom=19).add_to(m)
+
+
+def add_tools(m: folium.Map) -> None:
+    Fullscreen(position="topleft").add_to(m)
+    MeasureControl(position="topleft", primary_length_unit="feet", secondary_length_unit="meters",
+                   primary_area_unit="sqfeet", secondary_area_unit="acres").add_to(m)
 
 
 def _feature(p: Parcel, role: str, label: str) -> dict:
@@ -34,15 +54,15 @@ def _feature(p: Parcel, role: str, label: str) -> dict:
                            "label": label}}
 
 
-def _style(role: str, imagery: bool):
-    # on the satellite photo: lighter fills so the roofs and yards show through, thicker lines so they stand out
-    color, weight, fill = {"home": (HOME_COLOR, 4, 0.35), "neighbor": (NEIGHBOR_COLOR, 3, 0.18),
-                           "across": (ACROSS_COLOR, 2, 0.12)}.get(role, (LINE_COLOR, 1, 0.03))
-    if imagery:
-        weight, fill = weight + 1, fill / 2
-        if role == "other":
-            color, weight = IMAGERY_LINE_COLOR, 1.5
-    return lambda _: {"color": color, "weight": weight, "fillColor": color, "fillOpacity": fill}
+STYLES = {  # role -> (line color, line width, fill opacity)
+    "home": (HOME_COLOR, 4, 0.25), "neighbor": (NEIGHBOR_COLOR, 3, 0.12), "across": (ACROSS_COLOR, 2.5, 0.08),
+    "other": (VIEW_LINE_COLOR, 1.5, 0.02), "demo-other": (LINE_COLOR, 1, 0.03),
+}
+
+
+def _style(feature: dict) -> dict:
+    color, weight, fill = STYLES[feature["properties"]["role"]]
+    return {"color": color, "weight": weight, "fillColor": color, "fillOpacity": fill}
 
 
 def _badge(text: str, color: str) -> folium.DivIcon:
@@ -52,53 +72,67 @@ def _badge(text: str, color: str) -> folium.DivIcon:
                                f"box-shadow:0 1px 4px rgba(0,0,0,.4)'>{text}</div>")
 
 
+def lots_layer(lots: list[Parcel], home: Parcel | None, neighbors: list[Neighbor], shape: LotShape | None,
+               demo: bool = False) -> folium.FeatureGroup:
+    """All the property lines, with the chosen home in blue and its neighbors labeled."""
+    group = folium.FeatureGroup(name="Property lines")
+    place = {n.key: n for n in neighbors}
+    features = []
+    for p in lots:
+        if home is not None and p.parcel_id == home.parcel_id:
+            continue
+        n = place.get(p.parcel_id)
+        if n is None:
+            role, label = ("demo-other" if demo else "other"), "Lot"
+        else:
+            role = "across" if n.position == "Across the street" else "neighbor"
+            label = n.position if n.position in ("Across the street", "Next door") else f"Neighbor: {n.position}"
+        features.append(_feature(p, role, label))
+    if home is not None:
+        label = "This home" + (f" ({shape.acres:.2f} acres)" if shape is not None else "")
+        features.append(_feature(home, "home", label))
+    if features:
+        folium.GeoJson({"type": "FeatureCollection", "features": features}, style_function=_style,
+                       highlight_function=lambda _: {"weight": 5, "fillOpacity": 0.3},
+                       tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""])).add_to(group)
+    by_id = {p.parcel_id: p for p in lots}
+    for n in neighbors:
+        if n.key in by_id:
+            lon, lat = center_lonlat(by_id[n.key].rings)
+            color = ACROSS_COLOR if n.position == "Across the street" else NEIGHBOR_COLOR
+            folium.Marker([lat, lon], icon=_badge(BADGE[n.position], color),
+                          tooltip=f"{n.position}: {by_id[n.key].address}").add_to(group)
+    if home is not None:
+        lon, lat = center_lonlat(home.rings)
+        folium.Marker([lat, lon], icon=_badge("&#8962;", HOME_COLOR), tooltip="This home").add_to(group)
+    return group
+
+
+def explore_map(center: tuple[float, float], zoom: int) -> folium.Map:
+    """The full Property map: real map layers only. The property lines are added (and swapped as you move around)
+    by the page, so the map itself doesn't reload."""
+    m = folium.Map(location=list(center), zoom_start=zoom, max_zoom=22, tiles=None, control_scale=True)
+    add_base_layers(m)
+    add_tools(m)
+    LocateControl(position="topleft", strings={"title": "Show where I am"}).add_to(m)
+    folium.LayerControl(collapsed=True).add_to(m)
+    return m
+
+
 def build_map(home: Parcel, nearby: list[Parcel], neighbors: list[Neighbor], shape: LotShape | None,
               demo: bool = False) -> folium.Map:
+    """The small map on the checkup page: one home and its block."""
     lon, lat = center_lonlat(home.rings)
     m = folium.Map(location=[lat, lon], zoom_start=19, max_zoom=22, tiles=None, control_scale=True)
     if demo:
         # made-up block: plain background, no real street or rooftop under it
         m.get_root().header.add_child(folium.Element("<style>.leaflet-container{background:#eef3ea}</style>"))
     else:
-        # satellite photo underneath the property lines; the street map waits in the layer menu (show=False)
-        folium.TileLayer(SATELLITE, attr=SATELLITE_CREDIT, name="Satellite", max_zoom=22,
-                         max_native_zoom=19).add_to(m)
-        folium.TileLayer("OpenStreetMap", name="Street map", max_zoom=22, max_native_zoom=19, show=False).add_to(m)
-        folium.TileLayer(STREET_NAMES, attr=STREET_NAMES_CREDIT, name="Street names", overlay=True, show=True,
-                         max_zoom=22, max_native_zoom=19).add_to(m)
-    imagery = not demo
-
-    place = {n.key: n for n in neighbors}
-    lines = folium.FeatureGroup(name="Property lines", show=True)
-    for p in nearby:
-        n = place.get(p.parcel_id)
-        if n is None:
-            role, label = "other", "Nearby lot"
-        else:
-            role = "across" if n.position == "Across the street" else "neighbor"
-            label = n.position if n.position in ("Across the street", "Next door") else f"Neighbor: {n.position}"
-        folium.GeoJson(_feature(p, role, label), style_function=_style(role, imagery),
-                       highlight_function=lambda _: {"weight": 5, "fillOpacity": 0.4},
-                       tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""])).add_to(lines)
-        if n is not None:
-            c_lon, c_lat = center_lonlat(p.rings)
-            folium.Marker([c_lat, c_lon], icon=_badge(BADGE[n.position], ACROSS_COLOR if role == "across"
-                                                     else NEIGHBOR_COLOR),
-                          tooltip=f"{label}: {p.address}").add_to(lines)
-    lines.add_to(m)
-
-    home_label = "This home"
-    if shape is not None:
-        home_label += f" ({shape.acres:.2f} acres)"
-    folium.GeoJson(_feature(home, "home", home_label), style_function=_style("home", imagery),
-                   tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""]), name="This home").add_to(m)
-    folium.Marker([lat, lon], icon=_badge("&#8962;", HOME_COLOR), tooltip=home_label).add_to(m)
-
-    Fullscreen(position="topleft").add_to(m)
-    MeasureControl(position="topleft", primary_length_unit="feet", secondary_length_unit="meters",
-                   primary_area_unit="sqfeet", secondary_area_unit="acres").add_to(m)
+        add_base_layers(m)
+    lots_layer(nearby, home, neighbors, shape, demo).add_to(m)
+    add_tools(m)
     if not demo:
-        folium.LayerControl(collapsed=False).add_to(m)
+        folium.LayerControl(collapsed=True).add_to(m)
     m.fit_bounds([[min(y for r in home.rings for _, y in r), min(x for r in home.rings for x, _ in r)],
                   [max(y for r in home.rings for _, y in r), max(x for r in home.rings for x, _ in r)]],
                  padding=(120, 120))

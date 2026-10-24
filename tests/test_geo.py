@@ -95,3 +95,10 @@ def test_distance_and_box():
     w, s, e, n = bounding_box(a, 70)
     lon, lat = center_lonlat(a)
     assert w < lon < e and s < lat < n
+
+
+def test_lots_that_only_meet_at_a_corner_are_not_neighbors():
+    home = lot(-8, 6, 8, 46)
+    got = positions(home, {"west": lot(-24, 6, -8, 46), "back": lot(-8, 46, 8, 86),
+                           "back-corner": lot(8, 46, 24, 86)})
+    assert got == {"west": "Left", "back": "Behind"}

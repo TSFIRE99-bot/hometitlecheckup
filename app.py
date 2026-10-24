@@ -25,6 +25,7 @@ if st.sidebar.toggle("Larger text", key="big_text", help="Makes all the words on
 
 pages = [
     st.Page("app_pages/check.py", title="Check my home", icon=":material/home:", default=True),
+    st.Page("app_pages/explore.py", title="Property map", icon=":material/map:"),
     st.Page("app_pages/inherit.py", title="Who would inherit?", icon=":material/family_restroom:"),
     st.Page("app_pages/learn.py", title="What is a tangled title?", icon=":material/help:"),
     st.Page("app_pages/about.py", title="About and sources", icon=":material/info:"),

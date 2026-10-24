@@ -212,9 +212,10 @@ def analyze(subject_lonlat: list[Ring], others_lonlat: dict[str, list[Ring]]) ->
         oc = centroid(rings)
         toward = _unit((oc[0] - c[0], oc[1] - c[1]))
         if key in touching:
-            # which way the shared property line faces says where the neighbor is; corners use the center instead
-            direction = _unit(shared_dir[key]) if shared[key] >= CORNER_M else toward
-            position = _position(direction, front)
+            if shared[key] < CORNER_M:                # only the corners meet: not really a neighbor
+                continue
+            # which way the shared property line faces says where the neighbor is
+            position = _position(_unit(shared_dir[key]), front)
             if position == "Across the street":     # touches the front: a lot that wraps around, call it next door
                 position = "Next door"
             neighbors.append(Neighbor(key, position, round(shared[key], 1), 0.0))
