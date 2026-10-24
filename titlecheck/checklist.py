@@ -21,31 +21,53 @@ def plain(text: str) -> str:
     return text.encode("latin-1", "replace").decode("latin-1")
 
 
-def build_pdf(result: Assessment, address: str | None, notes: list[str], details: list[str] | None = None) -> bytes:
+def _step_facts(step, places: dict[str, str] | None) -> str:
+    """'Time: About 30 minutes  |  Cost: Free form  |  Where: Franklin County Law Library'."""
+    facts = [("Time", step.time), ("Cost", step.cost), ("Where", (places or {}).get(step.where, ""))]
+    return "  |  ".join(f"{k}: {v}" for k, v in facts if v)
+
+
+def _header(pdf: FPDF, title: str, address: str | None, prepared_for: str = "") -> None:
+    pdf.set_fill_color(19, 49, 92)
+    pdf.rect(0, 0, 216, 6, style="F")
+    pdf.set_font("Helvetica", "B", 18)
+    pdf.cell(0, 10, plain(title), new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("Helvetica", "", 11)
+    if prepared_for:
+        pdf.cell(0, 6, plain(f"Prepared for {prepared_for}"), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 7, plain(f"Home: {address or 'not looked up'}    Date: {date.today():%B %d, %Y}"),
+             new_x="LMARGIN", new_y="NEXT")
+
+
+def build_pdf(result: Assessment, address: str | None, notes: list[str], details: list[str] | None = None,
+              prepared_for: str = "", summary: str = "", places: dict[str, str] | None = None) -> bytes:
     pdf = FPDF(format="Letter")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    pdf.set_font("Helvetica", "B", 18)
-    pdf.cell(0, 10, "Home Title Checkup: my action plan", new_x="LMARGIN", new_y="NEXT")
-    pdf.set_font("Helvetica", "", 11)
-    pdf.cell(0, 7, plain(f"Home: {address or 'not looked up'}    Date: {date.today():%B %d, %Y}"),
-             new_x="LMARGIN", new_y="NEXT")
+    _header(pdf, "Home Title Checkup: my action plan", address, prepared_for)
     for line in details or []:
         pdf.cell(0, 6, plain(line), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
     pdf.multi_cell(0, 8, plain(f"Result: {result.label}. {result.headline}"), new_x="LMARGIN", new_y="NEXT")
+    if summary:
+        pdf.set_font("Helvetica", "I", 11)
+        pdf.multi_cell(0, 6, plain(summary), new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 11)
     for line in result.reasons + notes:
         pdf.multi_cell(0, 6, plain(f"- {line}"), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
-    pdf.cell(0, 8, "Steps", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 8, "My roadmap: check off each step", new_x="LMARGIN", new_y="NEXT")
     for i, step in enumerate(result.steps, 1):
         pdf.set_font("Helvetica", "B", 12)
         pdf.multi_cell(0, 7, plain(f"[  ]  {i}. {step.title}"), new_x="LMARGIN", new_y="NEXT")
         pdf.set_font("Helvetica", "", 11)
         pdf.multi_cell(0, 6, plain(step.detail), new_x="LMARGIN", new_y="NEXT")
+        facts = _step_facts(step, places)
+        if facts:
+            pdf.set_font("Helvetica", "I", 10)
+            pdf.multi_cell(0, 5, plain(facts), new_x="LMARGIN", new_y="NEXT")
         pdf.ln(2)
     pdf.ln(2)
     pdf.set_font("Helvetica", "I", 9)
@@ -55,22 +77,29 @@ def build_pdf(result: Assessment, address: str | None, notes: list[str], details
     return bytes(pdf.output())
 
 
-def build_homestead_pdf(plan: HomesteadPlan, address: str | None) -> bytes:
+def build_homestead_pdf(plan: HomesteadPlan, address: str | None, prepared_for: str = "") -> bytes:
     """One-page Homestead Benefits checklist, to take to the County Auditor."""
     pdf = FPDF(format="Letter")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    pdf.set_font("Helvetica", "B", 18)
-    pdf.cell(0, 10, "Home Title Checkup: homestead benefits checklist", new_x="LMARGIN", new_y="NEXT")
-    pdf.set_font("Helvetica", "", 11)
-    pdf.cell(0, 7, plain(f"Home: {address or 'not looked up'}    Date: {date.today():%B %d, %Y}"),
-             new_x="LMARGIN", new_y="NEXT")
+    _header(pdf, "Home Title Checkup: homestead benefits checklist", address, prepared_for)
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
     pdf.multi_cell(0, 8, plain(plan.headline), new_x="LMARGIN", new_y="NEXT")
+    if plan.savings:
+        pdf.set_font("Helvetica", "", 11)
+        pdf.multi_cell(0, 6, plain(f"Estimated savings: about ${plan.savings.yearly:,} a year. {plan.savings.source}"),
+                       new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 11)
     for line in plan.notes:
         pdf.multi_cell(0, 6, plain(f"- {line}"), new_x="LMARGIN", new_y="NEXT")
+    if plan.timeline:
+        pdf.ln(2)
+        pdf.set_font("Helvetica", "B", 12)
+        pdf.cell(0, 7, "When it happens", new_x="LMARGIN", new_y="NEXT")
+        pdf.set_font("Helvetica", "", 11)
+        for when, what in plan.timeline:
+            pdf.multi_cell(0, 6, plain(f"{when}: {what}"), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
     for i, step in enumerate(plan.steps, 1):
         pdf.set_font("Helvetica", "B", 12)

@@ -9,7 +9,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from titlecheck.assess import ESTATE_SIZES, NO, UNSURE, YES, Answers, owner_kind, pretty
-from titlecheck.homestead import QUALIFIERS, HomesteadAnswers
+from titlecheck.homestead import INCOME_TESTED, QUALIFIERS, HomesteadAnswers
+from titlecheck.resources import HOMESTEAD
+from web.personal import FAMILY, ROLES
 
 CHOICES = [YES, NO, UNSURE]
 
@@ -75,13 +77,30 @@ def title_questions(owners: list[str], data) -> tuple[list[Question], Answers]:
     return f.questions, a
 
 
-def homestead_questions(data) -> tuple[list[Question], HomesteadAnswers]:
+def homestead_questions(data, who: str = "an owner") -> tuple[list[Question], HomesteadAnswers]:
+    """`who` is how the owners are named in the questions, like 'James or Louise' (or 'you')."""
     f = Form(data)
-    h = HomesteadAnswers(main_home=f.ask("q_hs_main", "Does an owner **live in this home as their main home**?",
-                                         "Where they lived on January 1, are registered to vote, and file taxes."))
+    you = who == "you"
+    h = HomesteadAnswers(main_home=f.ask(
+        "q_hs_main", f"{'Do **you**' if you else f'Does **{who}**'} live in this home as {'your' if you else 'their'} "
+                     "**main home**?",
+        "Where they lived on January 1, are registered to vote, and file taxes."))
     if h.main_home != NO:
         h.gets_it_now = f.ask("q_hs_now", "Does the home **get the homestead exemption now**?",
                               "It shows on the tax bill and the Auditor's website as a 'Homestead' credit.")
-        h.qualifiers = f.pick_many("q_hs_who", "Do any of these fit an owner who lives here? Pick all that apply, "
-                                   "or none.", QUALIFIERS)
+        h.qualifiers = f.pick_many("q_hs_who", f"Do any of these describe **{who}**? Pick all that fit, or none.",
+                                   QUALIFIERS)
+        if INCOME_TESTED & set(h.qualifiers):
+            h.income_ok = f.ask(
+                "q_hs_income", f"Was {'your' if you else f'{who}’s'} total income in {HOMESTEAD['income_year']} "
+                               f"about **{HOMESTEAD['income_limit']} or less**? Count a husband's or wife's income too.",
+                "This is the Ohio adjusted gross income on the state tax return. If the exemption was already "
+                "granted for 2013 at this home, the income limit doesn't apply.")
     return f.questions, h
+
+
+def role_question(data) -> tuple[Question, str]:
+    value = data.get("role")
+    value = value if value in ROLES else None
+    return Question("role", "Whose home is this?", "So we can explain the result in a way that fits you.",
+                    list(ROLES), value), value or FAMILY

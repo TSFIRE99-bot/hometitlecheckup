@@ -5,8 +5,11 @@ Nothing typed is saved. Each click sends the whole form, and the page is rebuilt
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from itertools import groupby
 
+import folium
 from flask import Blueprint, Response, render_template, request
+from markupsafe import escape
 
 from titlecheck.assess import UNSURE, assess, pretty, record_notes, why_it_matters
 from titlecheck.checklist import build_homestead_pdf, build_pdf
@@ -16,10 +19,13 @@ from titlecheck.heirs import Child, Family, generations, who_inherits
 from titlecheck.homestead import EXPLAINER, homestead_plan
 from titlecheck.lookup import AUDITOR_PARCEL_LINK, AddressLookupError, Parcel, find_nearby, find_parcels
 from titlecheck.parcel_map import build_map
-from titlecheck.resources import FACTS, LINKS, link
-from web.checkup import homestead_questions, title_questions
+from titlecheck.places import BY_KEY, PLACES
+from titlecheck.resources import FACTS, GLOSSARY, LINKS, link
+from web.checkup import homestead_questions, role_question, title_questions
+from web.personal import clean_name, greeting, owners_phrase, summary
 
 bp = Blueprint("pages", __name__)
+PLACE_NAMES = {p.key: p.name for p in PLACES}
 
 # colors for the inheritance chart, one per heir, and the generations chart
 SLICE_COLORS = ["#1a73e8", "#e37400", "#1e8e3e", "#9334e6", "#c5221f", "#12b5cb", "#f9ab00", "#5f6368",
@@ -66,12 +72,18 @@ def _map_section(p: Parcel) -> dict:
 def _plan(record: dict, form) -> dict:
     """Steps 2 and 3, plus the optional homestead check, from the record and the answers so far."""
     owners = record["owners"]
+    role_q, role = role_question(form)
+    name = clean_name(form.get("you"))
     questions, answers = title_questions(owners, form)
     result = assess(owners, answers)
-    hs_questions, hs_answers = homestead_questions(form)
+    hs_questions, hs_answers = homestead_questions(form, owners_phrase(owners, "or", role))
+    homestead = homestead_plan(hs_answers, result.status, record["pid"], owners_phrase(owners, "and", role))
     years = int(record["years"]) if record["years"].isdigit() else None
     return {"questions": questions, "result": result, "notes": record_notes(owners, years),
-            "hs_questions": hs_questions, "homestead": homestead_plan(hs_answers, result.status),
+            "role_q": role_q, "role": role, "you": name, "greeting": greeting(name),
+            "summary": summary(result.status, role, owners, answers.owners_alive),
+            "hs_questions": hs_questions, "homestead": homestead, "places": BY_KEY,
+            "roadmap_key": f"{record['pid']}|{record['addr']}|{result.status}",
             "hs_open": any(k.startswith("q_hs_") for k in form)}
 
 
@@ -149,7 +161,8 @@ def plan_pdf():
     details = [f"County parcel ID: {record['pid']}"] if record["pid"] not in ("DEMO", "MANUAL") else []
     if record["lot"]:
         details.append(f"Lot size: {record['lot']}")
-    return _pdf_response(build_pdf(plan["result"], record["addr"], plan["notes"], details),
+    return _pdf_response(build_pdf(plan["result"], record["addr"], plan["notes"], details,
+                                   prepared_for=plan["you"], summary=plan["summary"], places=PLACE_NAMES),
                          "home-title-action-plan.pdf")
 
 
@@ -158,7 +171,30 @@ def homestead_pdf():
     record, plan = _pdf_inputs()
     if record is None:
         return Response("Look up a home first.", status=400)
-    return _pdf_response(build_homestead_pdf(plan["homestead"], record["addr"]), "homestead-checklist.pdf")
+    return _pdf_response(build_homestead_pdf(plan["homestead"], record["addr"], prepared_for=plan["you"]),
+                         "homestead-checklist.pdf")
+
+
+# ------------------------------------------------------------------ free help near you
+def _help_map() -> str:
+    lat = sum(p.point[0] for p in PLACES) / len(PLACES)
+    lon = sum(p.point[1] for p in PLACES) / len(PLACES)
+    m = folium.Map(location=[lat, lon], zoom_start=14, tiles="OpenStreetMap", control_scale=True)
+    for building, places in groupby(sorted(PLACES, key=lambda p: p.point), key=lambda p: p.point):
+        places = list(places)
+        html = "".join(f"<p style='margin:0 0 6px'><b>{escape(p.name)}</b><br>{escape(p.address)}<br>"
+                       f"{escape(p.phone)}</p>" for p in places)
+        folium.Marker(list(building), tooltip=" · ".join(p.name for p in places),
+                      popup=folium.Popup(html, max_width=280),
+                      icon=folium.Icon(color="darkblue" if len(places) > 1 else "green", icon="info-sign")).add_to(m)
+    m.fit_bounds([[min(p.point[0] for p in PLACES), min(p.point[1] for p in PLACES)],
+                  [max(p.point[0] for p in PLACES), max(p.point[1] for p in PLACES)]], padding=(60, 60))
+    return m.get_root().render()
+
+
+@bp.get("/help")
+def help_near_you():
+    return render_template("help.html", places=PLACES, map_html=_help_map(), links=LINKS)
 
 
 # ------------------------------------------------------------------ who would inherit?
@@ -221,4 +257,4 @@ def about():
 
 @bp.app_context_processor
 def common():
-    return {"this_year": datetime.now(timezone.utc).year, "unsure": UNSURE}
+    return {"this_year": datetime.now(timezone.utc).year, "unsure": UNSURE, "glossary": GLOSSARY, "facts": FACTS}

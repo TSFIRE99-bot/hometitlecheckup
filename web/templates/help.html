@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% import "_icons.html" as ic %}
+{% block title %}Free help near you · Home Title Checkup{% endblock %}
+{% block content %}
+<section class="page-head">
+  <p class="eyebrow">Free and official, in Columbus</p>
+  <h1>Free help near you</h1>
+  <p class="lead">You don't have to do this alone, and you shouldn't have to pay a stranger to do it. These are the
+    free and official places in Franklin County that handle each step. Most are in one building downtown, at
+    <strong>373 S. High St.</strong></p>
+</section>
+
+<div class="help-layout">
+  <iframe class="map help-map" title="Map of free help in Franklin County" srcdoc="{{ map_html }}"></iframe>
+  <div class="tip card">
+    <p class="personal-title">{{ ic.icon("info") }} Before you go</p>
+    <ul>
+      <li><strong>Start with Legal Aid</strong> if someone has died and nothing was filed. It's free if you qualify.</li>
+      <li><strong>Call first.</strong> Hours change, and a 2-minute call can save a trip downtown.</li>
+      <li><strong>Bring your printable plan</strong> from this app. It has the home's address and parcel number.</li>
+      <li><strong>Be careful of anyone who offers to buy the home or "fix the title" for a fee.</strong> These offices
+        are free or low cost.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="places">
+{% for p in places %}
+  <article class="card place" id="{{ p.key }}">
+    <h2 class="place-name">{{ ic.icon("pin") }} {{ p.name }}</h2>
+    <p>{{ p.what }}</p>
+    <dl class="facts small">
+      <div><dt>Address</dt><dd>{{ p.address }}</dd></div>
+      <div><dt>Phone</dt><dd>{{ p.phone }}</dd></div>
+      <div><dt>Hours</dt><dd>{{ p.hours }}</dd></div>
+      {% if p.bring %}<div><dt>Bring</dt><dd>{{ p.bring }}</dd></div>{% endif %}
+    </dl>
+    <div class="row">
+      <a class="button ghost small" href="{{ p.directions }}" target="_blank" rel="noopener">{{ ic.icon("map") }} Directions</a>
+      <a class="button ghost small" href="{{ p.web }}" target="_blank" rel="noopener">{{ ic.icon("external") }} Website</a>
+    </div>
+  </article>
+{% endfor %}
+</div>
+
+<section class="card">
+  <h2 class="card-title">{{ ic.icon("book") }} Help you can use from home</h2>
+  <ul>
+    <li><a href="{{ links.ohio_legal_help_probate[1] }}" target="_blank" rel="noopener">Ohio Legal Help</a>: plain-English
+      guides and forms for probate and property, from Ohio's legal aid groups.</li>
+    <li><a href="{{ links.tod_forms[1] }}" target="_blank" rel="noopener">Transfer on Death forms</a> from the Franklin
+      County Law Library, free to download.</li>
+    <li><a href="{{ links.recorder_search[1] }}" target="_blank" rel="noopener">Recorder's records search</a>: see
+      whether a Transfer on Death affidavit is already recorded.</li>
+    <li><a href="{{ links.homestead[1] }}" target="_blank" rel="noopener">Homestead exemption</a>: apply online with the
+      County Auditor.</li>
+  </ul>
+</section>
+{% endblock %}

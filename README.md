@@ -30,8 +30,30 @@ is alive. Most families have never heard of it.
 2. **Answer a few questions.** Is everyone on the deed living? Was a Transfer on Death affidavit recorded? Has
    probate been opened?
 3. **Get a result and a plan.** One of five statuses (Looks protected, On the way, Not protected yet, Likely tangled,
-   Need more information), the reasons, numbered steps with official Franklin County links, and a printable PDF
-   checklist. Every plan ends with free legal help.
+   Need more information), a plain-English summary written for the person reading it, the reasons, a roadmap of
+   steps with official Franklin County links, and a printable PDF checklist. Every plan ends with free legal help.
+
+New in version 3:
+
+- **Personal results.** An optional first name and "Whose home is this?" (my own, a family member's, someone I'm
+  helping) change how the result is written: "Maria, here's your plan", "James and Louise still own the home, and
+  that's good...", or "Right now the home is safely in your name...". The homestead questions use the owners' names
+  too. The name is used only for that page and the PDF, and is never saved.
+- **My roadmap.** The action plan is a checklist timeline. Each step shows roughly how long it takes, what it costs
+  (for example the Recorder's $34 fee), and which office helps, with a link to it. Families can tick steps off, and a
+  progress bar fills up. Check marks are remembered in that browser only (nothing goes to a server).
+- **Free help near you** (`/help`). A map and cards for the free and official places that handle each step: Legal
+  Aid of Southeast and Central Ohio, the County Recorder, Auditor and Probate Court (all at 373 S. High St.) and the
+  County Law Library, with phone numbers, hours, what to bring, and directions. It also warns families about anyone
+  charging to "fix the title".
+- **A real savings estimate in the Homestead Benefits Check.** A Franklin County parcel number starts with its tax
+  district, so the app looks up the Auditor's own 2025 estimate for that district (from $370 to $838 a year; $457 in
+  the City of Columbus) and shows it as "James and Louise could save about $457 a year". It asks the income question
+  only when it matters (and explains the 2013 exception), doubles the estimate for the disabled veteran exemption, and
+  shows when the savings arrive: apply by December 31, see it on next year's tax bill.
+- **A new look**, built for older homeowners and phones: Atkinson Hyperlegible (a typeface designed by the Braille
+  Institute for low-vision readers), large tap-friendly answer buttons, a progress stepper, a "Words to know"
+  glossary, and a skip link and keyboard focus outlines for accessibility.
 
 Along the way:
 
@@ -109,6 +131,9 @@ every decision path, the PDFs, and every web page (using Flask's test client, wi
 | `web/routes.py` | The pages: the 3-step checkup with map and neighbors, "Who would inherit?", the explainer, About, the PDF downloads |
 | `web/checkup.py` | Turns the submitted form into the questions on screen and the answers the rules use |
 | `web/markup.py` | Turns the rules' **bold** and [links](#) into safe HTML |
+| `web/personal.py` | The personal wording: names, "whose home is this", and the plain-English summary |
+| `titlecheck/places.py` | The free help offices: what they do, address, phone, hours, map point |
+| `titlecheck/tax_districts.py` | The Auditor's estimated homestead savings for all 144 Franklin County tax districts |
 | `web/templates/` | The HTML for each page |
 | `public/style.css`, `public/app.js` | Styles, and the script that updates the result as you answer (the site works without it too) |
 | `titlecheck/lookup.py` | Cleans up the typed address, queries the County's parcel records, fetches the lots nearby |
@@ -159,6 +184,11 @@ plus children from another relationship, the spouse gets $20,000 or $60,000 off 
   exemption with no income limit (DTE 105I); due December 31, late applications accepted
 - Every result says the Auditor decides and that a clear title is not a guarantee of approval. The dollar figures
   live in `HOMESTEAD` in `titlecheck/resources.py` and change every year.
+- Savings: the first three digits of the parcel number pick the tax district in `titlecheck/tax_districts.py`
+  (copied from the Auditor's "2025 Homestead Exemption Estimated Reduction Schedule"). The disabled veteran exemption
+  takes off twice as much value ($58,000 instead of $29,000), so its estimate is doubled. Homes without a County
+  parcel number (the demo, names typed by hand) get the county-wide middle value. Owners whose income is over the limit
+  aren't shown savings, unless they're a disabled veteran.
 
 ## Privacy and safety by design
 
@@ -217,7 +247,10 @@ plus children from another relationship, the spouse gets $20,000 or $60,000 off 
 
 ## Team
 
-_Your names, school(s), grade(s)_
+- Tejas Menneni, New Albany High School, 12th grade
+- Satvik Surapaneni, Olentangy High School, 12th grade
+- Sutton Sykes, New Albany High School, 12th grade
+- Naman Soni, Olentangy High School, 12th grade
 
 ## Use of AI tools
 
@@ -228,5 +261,7 @@ page in `titlecheck/heirs.py` and `app_pages/inherit.py`, the larger-text switch
 by Claude, at our request. The Homestead Benefits Check (`titlecheck/homestead.py`, its section on the checkup
 screen, the homestead PDF and `tests/test_homestead.py`) was also generated by Claude, from our feature description.
 The move from Streamlit to a Flask website hosted on Vercel (`app.py`, `web/`, `public/`, `tests/test_web.py`) was
-generated by Claude too, at our request; the rules in `titlecheck/` stayed the same.
+generated by Claude too, at our request; the rules in `titlecheck/` stayed the same. Version 3 (personal results,
+the roadmap, the "Free help near you" page, the tax-district savings estimate, the redesign and their tests) was also
+generated by Claude, at our request.
 _Describe here what you changed, built and tested yourselves, and how you checked the results._

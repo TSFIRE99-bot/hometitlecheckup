@@ -40,6 +40,14 @@ CONTACTS = {
     "recorder": ("Franklin County Recorder", "373 S. High St., 18th floor, Columbus, OH 43215", "(614) 525-3930"),
     "probate": ("Franklin County Probate Court (procedure questions, not legal advice)", "", "(614) 525-3894"),
     "lasco": ("Legal Aid of Southeast and Central Ohio", "lasco.org/apply", "(614) 221-7201"),
+    "lasco_intake": ("Legal Aid intake line", "weekdays 9:30 a.m. to 1:30 p.m.", "(888) 246-4420"),
+}
+
+# Franklin County Recorder fee schedule (ORC 317.32), checked October 2026
+FEES = {
+    "recording": "$34 for the first two pages, plus $8 for each extra page",
+    "recording_short": "$34 recording fee (2 pages)",
+    "court": "Court filing fees (ask the clerk)",
 }
 
 FACTS = {
@@ -57,6 +65,24 @@ HOMESTEAD = {
     "income_year": "2025",
     "deadline": "December 31",       # of the year you want the tax break for; late applications are accepted
 }
+
+
+# Plain-English meanings for the words the app uses, shown as "Words to know"
+GLOSSARY = [
+    ("Deed", "The paper, recorded with the County, that says who owns a home."),
+    ("Title", "Legal ownership of a home. A 'clear title' means the County record matches who really owns it."),
+    ("Tangled title (heirs' property)", "When an owner has died and the home was never moved into the living family's "
+                                        "names. The family lives there, but can't prove they own it."),
+    ("Transfer on Death affidavit", "A short Ohio form that names who gets the home when the owner dies, so no "
+                                    "court is needed. It must be recorded while the owner is alive."),
+    ("Probate", "The court process that settles a person's property after they die and moves it to the heirs."),
+    ("Survivorship", "Words on a deed that mean the living owner automatically keeps the home when the other owner "
+                     "dies."),
+    ("Heir", "A family member who inherits property under Ohio law when there's no will or Transfer on Death form."),
+    ("Notary", "A person who watches you sign and confirms it's really you. Many banks offer this for free."),
+    ("Homestead exemption", "An Ohio property tax break for owners who are 65 or older, disabled, or a qualifying "
+                            "surviving spouse, on the home they live in."),
+]
 
 
 def link(key: str) -> str:

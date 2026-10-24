@@ -1,6 +1,8 @@
-from titlecheck.assess import AT_RISK, IN_PROGRESS, NO, PROTECTED, TANGLED, UNSURE, YES
+from titlecheck.assess import AT_RISK, IN_PROGRESS, NO, PROTECTED, TANGLED, UNSURE, YES  # noqa: F401
 from titlecheck.checklist import build_homestead_pdf
-from titlecheck.homestead import DISABLED, SENIOR, SPOUSE, VETERAN, HomesteadAnswers, homestead_plan
+from titlecheck.homestead import (DISABLED, SENIOR, SPOUSE, TYPICAL_SAVINGS, VETERAN, HomesteadAnswers, estimate,
+                                  homestead_plan)
+from titlecheck.tax_districts import DISTRICTS
 
 
 def titles(plan):
@@ -77,6 +79,44 @@ def test_every_plan_says_the_auditor_decides_and_a_clear_title_is_not_a_guarante
 
 
 def test_homestead_pdf_builds():
-    p = homestead_plan(HomesteadAnswers(main_home=YES, gets_it_now=NO, qualifiers=[SENIOR, VETERAN]), PROTECTED)
-    pdf = build_homestead_pdf(p, "1234 SAMPLE ST")
+    p = homestead_plan(HomesteadAnswers(main_home=YES, gets_it_now=NO, qualifiers=[SENIOR, VETERAN]), PROTECTED,
+                       "010-055568", "James and Louise")
+    pdf = build_homestead_pdf(p, "1234 SAMPLE ST", prepared_for="Maria")
     assert pdf[:4] == b"%PDF" and len(pdf) > 1000
+
+
+def test_savings_come_from_the_homes_tax_district():
+    s = estimate("010-055568")
+    assert (s.district, s.yearly) == ("010", 457) and "City of Columbus" in s.source
+    assert estimate("010-055568", veteran=True).yearly == 914       # $58,000 off instead of $29,000
+    assert estimate("DEMO").district is None and estimate("DEMO").yearly == TYPICAL_SAVINGS
+
+
+def test_district_table_looks_right():
+    assert len(DISTRICTS) == 144 and all(len(k) == 3 and k.isdigit() for k in DISTRICTS)
+    assert all(300 < v < 900 for _, v in DISTRICTS.values())
+
+
+def test_qualifying_owner_gets_a_personal_savings_headline_and_timeline():
+    p = homestead_plan(HomesteadAnswers(main_home=YES, gets_it_now=NO, qualifiers=[SENIOR], income_ok=YES),
+                       AT_RISK, "010-123456", "James and Louise", year=2026)
+    assert p.headline == "James and Louise could save about $457 a year"
+    assert p.timeline[0][0] == "By December 31, 2026" and "Early 2027" == p.timeline[1][0]
+
+
+def test_income_over_the_limit_skips_the_exemption_but_keeps_the_credit():
+    p = homestead_plan(HomesteadAnswers(main_home=YES, gets_it_now=NO, qualifiers=[SENIOR], income_ok=NO), PROTECTED)
+    assert "Apply for the homestead exemption" not in titles(p) and p.savings is None
+    assert "Apply for the owner occupancy credit" in titles(p)
+    assert any("2013" in n for n in p.notes)
+
+
+def test_veteran_has_no_income_limit():
+    p = homestead_plan(HomesteadAnswers(main_home=YES, gets_it_now=NO, qualifiers=[VETERAN], income_ok=NO),
+                       PROTECTED, "010-1")
+    assert p.savings.yearly == 914 and p.savings.veteran
+
+
+def test_owner_checking_their_own_home_is_spoken_to_directly():
+    p = homestead_plan(HomesteadAnswers(main_home=YES, gets_it_now=NO, qualifiers=[SENIOR]), PROTECTED, who="you")
+    assert p.headline.startswith("You could save about $")

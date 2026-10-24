@@ -24,7 +24,7 @@ def demo_record(**answers):
     return data
 
 
-@pytest.mark.parametrize("path", ["/", "/inherit", "/learn", "/about"])
+@pytest.mark.parametrize("path", ["/", "/inherit", "/learn", "/about", "/help"])
 def test_every_page_loads(client, path):
     r = client.get(path)
     assert r.status_code == 200 and b"Home Title Checkup" in r.data
@@ -61,12 +61,57 @@ def test_homestead_section_follows_the_title_status(client):
     data = demo_record(alive_0=NO, alive_1=NO, q_tod=NO, q_probate=NO, q_hs_main=YES)
     html = client.post("/", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
     assert "Clear the title first, then apply" in html
-    assert '<details class="panel" id="homestead" open' in html
+    assert 'id="homestead" open' in html
     assert "automatically get you the exemption" in html
 
 
+def test_result_speaks_to_the_person_checking(client):
+    data = demo_record(alive_0=YES, alive_1=YES, q_tod=NO, you="Maria", role="A family member's home")
+    html = client.post("/", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "Maria, here&#39;s your plan" in html
+    assert "James and Louise still own the home" in html
+
+
+def test_owner_hears_about_their_own_home(client):
+    data = demo_record(alive_0=YES, alive_1=YES, q_tod=NO, role="My own home")
+    html = client.post("/", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "Here&#39;s your plan" in html and "safely in your name" in html
+
+
+def test_typed_first_name_is_cleaned(client):
+    data = demo_record(you="<b>Maria</b>")
+    html = client.post("/", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "<b>Maria" not in html
+
+
+def test_roadmap_shows_time_cost_and_where_to_go(client):
+    html = client.post("/", data=demo_record(alive_0=YES, alive_1=YES, q_tod=NO),
+                       headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert 'data-roadmap="DEMO|' in html and 'data-step="0"' in html
+    assert "$34 recording fee" in html and 'href="/help#recorder"' in html
+
+
+def test_homestead_questions_use_the_owners_names(client):
+    data = demo_record(q_hs_main=YES, q_hs_who=["65 or older (or turning 65 this year)"])
+    html = client.post("/", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "James or Louise" in html and 'name="q_hs_income"' in html
+
+
+def test_homestead_savings_show_for_a_qualifying_owner(client):
+    data = demo_record(alive_0=YES, alive_1=YES, q_tod=YES, q_hs_main=YES, q_hs_now=NO, q_hs_income=YES,
+                       q_hs_who=["65 or older (or turning 65 this year)"])
+    html = client.post("/", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "James and Louise could save about $" in html and "estimated savings a year" in html
+
+
+def test_help_page_lists_the_free_offices(client):
+    html = client.get("/help").get_data(as_text=True)
+    assert "Legal Aid of Southeast and Central Ohio" in html and "(888) 246-4420" in html
+    assert "373 S. High St., 18th floor" in html and 'id="probate"' in html and "<iframe" in html
+
+
 def test_plan_pdf_downloads(client):
-    r = client.post("/plan.pdf", data=demo_record(alive_0=YES, alive_1=YES, q_tod=NO))
+    r = client.post("/plan.pdf", data=demo_record(alive_0=YES, alive_1=YES, q_tod=NO, you="Maria"))
     assert r.mimetype == "application/pdf" and r.data[:4] == b"%PDF"
     assert "attachment" in r.headers["Content-Disposition"]
 

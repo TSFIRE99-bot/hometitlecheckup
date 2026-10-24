@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from titlecheck.resources import CONTACTS, FACTS, link
+from titlecheck.resources import CONTACTS, FACTS, FEES, link
 
 YES, NO, UNSURE = "Yes", "No", "Not sure"
 
@@ -48,6 +48,9 @@ class Answers:
 class Step:
     title: str
     detail: str
+    time: str = ""          # roughly how long it takes, in plain words
+    cost: str = ""          # what it costs, if anything
+    where: str = ""         # key of the office in titlecheck/places.py that helps with it, if any
 
 
 @dataclass
@@ -109,14 +112,17 @@ def _tod_steps() -> list[Step]:
     return [
         Step("Fill out a Transfer on Death Designation Affidavit",
              f"It names who gets the home when the owner dies, with no probate. Free forms: {link('tod_forms')}. "
-             "If the owner is married, the spouse signs too."),
+             "If the owner is married, the spouse signs too.",
+             time="About 30 minutes", cost="Free form", where="law_library"),
         Step("Sign it in front of a notary",
              "Ohio law requires it to be signed in front of someone who can give oaths, like a notary. "
-             "Banks and the County Auditor's office often have one."),
+             "Banks and the County Auditor's office often have one.",
+             time="About 15 minutes", cost="Often free at your bank or credit union"),
         Step("Record it with the County Recorder before the owner dies",
              f"{CONTACTS['recorder'][0]}, {CONTACTS['recorder'][1]}, {CONTACTS['recorder'][2]}. "
-             "There is a small recording fee; check the Recorder's fee calculator. It only works if it is recorded "
-             "while the owner is alive. The owner can change or cancel it later."),
+             f"The recording fee is {FEES['recording']}. It only works if it is recorded while the owner is alive. "
+             "The owner can change or cancel it later.",
+             time="One visit, or by mail", cost=FEES["recording_short"], where="recorder"),
     ]
 
 
@@ -125,9 +131,10 @@ def _confirm_tod_steps() -> list[Step]:
         Step("File the confirmation affidavit with a death certificate",
              f"The person named on the Transfer on Death affidavit files an affidavit confirming the transfer, "
              f"plus a certified death certificate, with the County Recorder ({link('orc_confirm')}). "
-             f"The forms are with the other TOD forms: {link('tod_forms')}."),
+             f"The forms are with the other TOD forms: {link('tod_forms')}.",
+             time="One visit", cost=FEES["recording_short"], where="recorder"),
         Step("Update the Auditor's records", "Bring a copy to the County Auditor so tax bills and the "
-             "homestead tax break go to the new owner."),
+             "homestead tax break go to the new owner.", time="One visit", cost="Free", where="auditor"),
     ]
 
 
@@ -135,7 +142,8 @@ def _survivorship_steps() -> list[Step]:
     return [Step("File the survivorship affidavit with a death certificate",
                  "When a deed says 'with right of survivorship', the living owner keeps the home. "
                  "They file an affidavit and a certified death certificate with the County Auditor and Recorder so "
-                 "the record shows them as the owner.")]
+                 "the record shows them as the owner.",
+                 time="One visit", cost=FEES["recording_short"], where="recorder")]
 
 
 def _probate_steps(a: Answers) -> list[Step]:
@@ -146,30 +154,36 @@ def _probate_steps(a: Answers) -> list[Step]:
         steps.append(Step("You may qualify for a simpler 'Release from Administration'",
                           "Franklin County Probate Court has a shorter process for small estates: up to $35,000 with "
                           "no surviving spouse, or up to $100,000 when a surviving spouse inherits everything. "
-                          f"Details: {link('probate_small')}."))
+                          f"Details: {link('probate_small')}.",
+                          time="Usually faster than full probate", cost=FEES["court"], where="probate"))
     elif a.only_real_estate == YES:
         steps.append(Step("Ask about the 'Real Estate Transfer Only' option",
                           "If the person died more than six months ago, owned only real estate, and no creditors "
-                          f"have filed claims, the Probate Court has a real-estate-only option. {link('probate_small')}"))
+                          f"have filed claims, the Probate Court has a real-estate-only option. {link('probate_small')}",
+                          time="Usually faster than full probate", cost=FEES["court"], where="probate"))
     else:
         steps.append(Step("Open a probate case to transfer the home",
                           "The Probate Court names someone to handle the estate, then transfers the home to the "
-                          f"heirs. It often takes six months to a year. {link('probate_guide')}"))
+                          f"heirs. It often takes six months to a year. {link('probate_guide')}",
+                          time="Often 6 to 12 months", cost=FEES["court"], where="probate"))
     steps.append(Step("Gather the papers the court asks for",
                       "Photo ID, a certified death certificate, the original will if there is one, proof the funeral "
-                      "was paid, and the deed or tax bill for the home."))
+                      "was paid, and the deed or tax bill for the home.",
+                      time="A few days", cost="Small fee for each certified death certificate"))
     steps.append(Step("Keep paying the property taxes",
                       "Taxes are still due while the title is being fixed. Unpaid taxes can lead to foreclosure, "
-                      "even on an inherited home."))
+                      "even on an inherited home.", time="Twice a year", where="auditor"))
     return steps
 
 
 def _legal_help() -> Step:
     name, web, phone = CONTACTS["lasco"]
     return Step("Get free legal help",
-                f"{name} helps low-income families for free: {link('lasco')} or {phone}. "
+                f"{name} helps low-income families for free: {link('lasco')}, or call the intake line at "
+                f"{CONTACTS['lasco_intake'][2]} ({CONTACTS['lasco_intake'][1]}). "
                 f"Probate Court clerks can explain the steps at {CONTACTS['probate'][2]}, but can't give legal advice. "
-                f"Plain-English guide: {link('ohio_legal_help_probate')}.")
+                f"Plain-English guide: {link('ohio_legal_help_probate')}.",
+                time="One phone call to start", cost="Free if you qualify", where="lasco")
 
 
 # ---------------------------------------------------------------- the decision
@@ -195,9 +209,11 @@ def assess(owners: list[str], answers: Answers) -> Assessment:
                               ["The County lists an estate as the owner, and you said probate has been opened."],
                               [Step("Follow the case to the end",
                                     "When the court approves it, the home is transferred to the heirs and the County "
-                                    "record changes. Ask the court or your lawyer what is still needed."),
+                                    "record changes. Ask the court or your lawyer what is still needed.",
+                                    where="probate"),
                                Step("Keep paying the property taxes",
-                                    "Taxes are still due while the case is open."), _legal_help()])
+                                    "Taxes are still due while the case is open.", time="Twice a year",
+                                    where="auditor"), _legal_help()])
         return Assessment(TANGLED, "The home is still in an estate's name",
                           ["The County lists an estate as the owner, and no probate case has been opened."],
                           _probate_steps(answers) + [_legal_help()])
@@ -209,7 +225,8 @@ def assess(owners: list[str], answers: Answers) -> Assessment:
     if UNSURE in alive and NO not in alive:
         return Assessment(CHECK, "First, find out whether everyone on the deed is living",
                           ["The answer decides everything else."],
-                          [Step("Check with family", "Ask relatives whether each person on the deed is living."),
+                          [Step("Check with family", "Ask relatives whether each person on the deed is living.",
+                                time="A phone call", cost="Free"),
                            _legal_help()])
 
     deceased = [p for p, s in zip(people, alive) if s == NO]
@@ -221,9 +238,11 @@ def assess(owners: list[str], answers: Answers) -> Assessment:
             return Assessment(PROTECTED, "The home has a plan for what happens next",
                               ["Everyone on the deed is living, and a Transfer on Death affidavit is recorded."],
                               [Step("Keep it up to date",
-                                    "If a named person dies or family plans change, record a new affidavit."),
+                                    "If a named person dies or family plans change, record a new affidavit.",
+                                    cost=FEES["recording_short"], where="recorder"),
                                Step("Tell the people named",
-                                    "They'll need to file a confirmation affidavit and a death certificate later.")])
+                                    "They'll need to file a confirmation affidavit and a death certificate later.",
+                                    time="One conversation", cost="Free")])
         reasons = ["Everyone on the deed is living, but nothing is recorded that says who gets the home next."]
         if answers.tod_recorded == UNSURE:
             reasons.append(f"You can check for a recorded affidavit at the {link('recorder_search')}.")
@@ -253,8 +272,10 @@ def assess(owners: list[str], answers: Answers) -> Assessment:
     if answers.probate_opened == YES:
         reasons.append("A probate case has been opened.")
         return Assessment(IN_PROGRESS, "A probate case is handling the transfer", reasons,
-                          [Step("Follow the case to the end", "Ask the court or your lawyer what is still needed."),
-                           Step("Keep paying the property taxes", "Taxes are still due while the case is open."),
+                          [Step("Follow the case to the end", "Ask the court or your lawyer what is still needed.",
+                                where="probate"),
+                           Step("Keep paying the property taxes", "Taxes are still due while the case is open.",
+                                time="Twice a year", where="auditor"),
                            _legal_help()])
     if UNSURE in (answers.tod_recorded, answers.survivorship if living else NO):
         reasons.append("We couldn't confirm whether a Transfer on Death affidavit or survivorship deed exists.")
@@ -262,7 +283,8 @@ def assess(owners: list[str], answers: Answers) -> Assessment:
                           [Step("Look up the recorded documents",
                                 f"Search the address or owner at the {link('recorder_search')} for a 'Transfer on "
                                 "Death Designation Affidavit' or a deed that says 'survivorship'. The Recorder's "
-                                f"office can help: {CONTACTS['recorder'][2]}."),
+                                f"office can help: {CONTACTS['recorder'][2]}.",
+                                time="About 15 minutes online", cost="Free to search", where="recorder"),
                            _legal_help()])
     reasons.append("Nothing was recorded to pass the home on, and no probate case is open.")
     return Assessment(TANGLED, "The home is probably still legally in the name of someone who died", reasons,
