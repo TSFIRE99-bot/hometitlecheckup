@@ -35,8 +35,9 @@ is alive. Most families have never heard of it.
 
 Along the way:
 
-- **Interactive property map.** The home's lot is drawn on a street or satellite map with every property line on the
-  block. The lots that touch it are labeled **Left**, **Right** and **Behind** (as seen from the street), and the
+- **Interactive property map.** The home's lot and every property line on the block are drawn on top of a satellite
+  photo (with street names), so you can see where the lines fall on the actual roofs and yards. A street map is one
+  click away. The lots that touch it are labeled **Left**, **Right** and **Behind** (as seen from the street), and the
   homes **across the street** are marked too. Click any lot to see its public record, and use the ruler to measure
   distances and areas. The app also works out the lot size and the length along the street.
 - **Who would inherit?** Build the family (spouse, children, a child who has died and their children) and see how
@@ -188,7 +189,7 @@ plus children from another relationship, the spouse gets $20,000 or $60,000 off 
 | [streamlit-folium](https://github.com/randyzwitch/streamlit-folium) | Putting the map in the app, and getting clicks back | MIT |
 | [Altair](https://altair-viz.github.io), [pandas](https://pandas.pydata.org) (come with Streamlit) | The charts | BSD-3 |
 | [pytest](https://pytest.org) | Automated tests | MIT |
-| Map tiles: [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors; satellite imagery from [Esri World Imagery](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9) | Map background | ODbL / Esri terms (credited on the map) |
+| Map tiles: [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors; satellite imagery from [Esri World Imagery](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9) and street names from Esri World Transportation | Map background | ODbL / Esri terms (credited on the map) |
 | Franklin County Auditor parcel data | Owners and lot lines | Public records |
 
 ## Sources

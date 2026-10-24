@@ -141,10 +141,13 @@ if parcel.rings:
         if nearby is None:
             st.warning("The County's map service didn't answer, so only your lot is shown. Try again in a minute.")
         by_id = {p.parcel_id: p for p in nearby or []}
-        fmap = build_map(parcel, nearby or [], neighbors, shape, demo=parcel.parcel_id == "DEMO")
+        fmap = build_map(parcel, nearby or [], neighbors, shape, demo=demo)
+        demo = parcel.parcel_id == "DEMO"
         st.caption("Blue is this home. Orange lots touch it (L = left, R = right, B = behind, as seen from the "
-                   "street). Purple is across the street. Gray lines are the other property lines. Use the ruler "
-                   "to measure, and click any lot to see its public record.")
+                   f"street). Purple is across the street. {'Gray' if demo else 'White'} lines are the other "
+                   "property lines. Use the ruler to measure, and click any lot to see its public record."
+                   + ("" if demo else " Switch between the satellite photo and the street map in the top-right "
+                      "corner.") + (" The demo block is made up, so it has no satellite photo." if demo else ""))
         clicked = st_folium(fmap, height=500, use_container_width=True, key=f"map_{parcel.parcel_id}",
                             returned_objects=["last_active_drawing"])
         pick = ((clicked or {}).get("last_active_drawing") or {}).get("properties") or {}
