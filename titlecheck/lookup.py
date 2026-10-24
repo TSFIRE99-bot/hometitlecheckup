@@ -1,7 +1,8 @@
 """Look up one Franklin County, Ohio property in the County Auditor's public parcel records.
 
 Data source: Franklin County Auditor, ArcGIS REST service "ParcelFeatures/Parcel_Features", layer 0 (Tax Parcel).
-Only one address is looked up at a time and nothing is saved.
+Only one address is looked up at a time and nothing is saved. Lot outlines come back as longitude / latitude
+(outSR=4326) so they can be drawn on a web map.
 """
 from __future__ import annotations
 
@@ -11,6 +12,8 @@ from datetime import datetime, timezone
 
 import requests
 
+from titlecheck.geo import bounding_box
+
 PARCEL_URL = ("https://gis.franklincountyohio.gov/hosting/rest/services/"
               "ParcelFeatures/Parcel_Features/MapServer/0/query")
 AUDITOR_PARCEL_LINK = "https://audr-apps.franklincountyohio.gov/Redir/Link/Parcel/{parcel}-00"
@@ -18,6 +21,8 @@ FIELDS = ["PARCELID", "SITEADDRESS", "ZIPCD", "OWNERNME1", "OWNERNME2", "OWNERNM
           "SALEDATE", "CLASSDSCRP"]
 TIMEOUT = 15
 MAX_MATCHES = 10
+MAX_NEARBY = 200
+NEARBY_PAD_M = 70        # how far around the home to fetch other lots (about one block)
 
 STREET_WORDS = {
     "STREET": "ST", "AVENUE": "AVE", "AV": "AVE", "ROAD": "RD", "DRIVE": "DR", "BOULEVARD": "BLVD",
@@ -43,6 +48,7 @@ class Parcel:
     last_transfer: datetime | None
     property_class: str
     raw: dict = field(default_factory=dict, repr=False)
+    rings: list = field(default_factory=list, repr=False)   # lot outline: [[(lon, lat), ...], ...]
 
     @property
     def auditor_link(self) -> str:
@@ -93,8 +99,21 @@ def _where(street: str, zip_code: str | None) -> str:
 
 
 def build_params(street: str, zip_code: str | None) -> dict:
-    return {"where": _where(street, zip_code), "outFields": ",".join(FIELDS), "returnGeometry": "false",
-            "orderByFields": "SITEADDRESS", "resultRecordCount": str(MAX_MATCHES), "f": "json"}
+    return {"where": _where(street, zip_code), "outFields": ",".join(FIELDS), "returnGeometry": "true",
+            "outSR": "4326", "orderByFields": "SITEADDRESS", "resultRecordCount": str(MAX_MATCHES), "f": "json"}
+
+
+def nearby_params(box: tuple[float, float, float, float]) -> dict:
+    """Every lot that overlaps a box (west, south, east, north) in longitude / latitude."""
+    return {"geometry": ",".join(f"{v:.7f}" for v in box), "geometryType": "esriGeometryEnvelope", "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects", "where": "1=1", "outFields": ",".join(FIELDS),
+            "returnGeometry": "true", "outSR": "4326", "resultRecordCount": str(MAX_NEARBY), "f": "json"}
+
+
+def _rings(geometry: dict | None) -> list:
+    if not geometry:
+        return []
+    return [[(float(x), float(y)) for x, y, *_ in ring] for ring in geometry.get("rings", []) if len(ring) >= 3]
 
 
 def parse_features(payload: dict) -> list[Parcel]:
@@ -108,31 +127,43 @@ def parse_features(payload: dict) -> list[Parcel]:
         last = datetime.fromtimestamp(sale / 1000, tz=timezone.utc) if isinstance(sale, (int, float)) and sale > 0 else None
         parcels.append(Parcel(parcel_id=a.get("PARCELID", ""), address=a.get("SITEADDRESS") or "",
                               zip_code=a.get("ZIPCD") or "", owners=owners, last_transfer=last,
-                              property_class=a.get("CLASSDSCRP") or "", raw=a))
+                              property_class=a.get("CLASSDSCRP") or "", raw=a, rings=_rings(feat.get("geometry"))))
     return parcels
+
+
+def _query(params: dict, session) -> list[Parcel]:
+    http = session or requests
+    try:
+        r = http.get(PARCEL_URL, params=params, timeout=TIMEOUT)
+        r.raise_for_status()
+        payload = r.json()
+    except requests.Timeout as e:
+        raise AddressLookupError("The County's property records took too long to answer. Please try again.") from e
+    except (requests.ConnectionError, requests.HTTPError) as e:
+        raise AddressLookupError("Couldn't reach the County's property records right now. "
+                                 "You can still answer the questions using the Auditor's website.") from e
+    except ValueError as e:  # response was not JSON
+        raise AddressLookupError("The County's property records sent back something unexpected. Please try again.") from e
+    return parse_features(payload)
 
 
 def find_parcels(text: str, session: requests.Session | None = None) -> list[Parcel]:
     """Look up an address. Tries the exact street first, then without the street type (ST, AVE...)."""
     street, zip_code = normalize_address(text)
-    http = session or requests
     tries = [street]
     words = street.split()
     if words[-1] in STREET_TYPES and len(words) > 2:
         tries.append(" ".join(words[:-1]))
     for attempt in tries:
-        try:
-            r = http.get(PARCEL_URL, params=build_params(attempt, zip_code), timeout=TIMEOUT)
-            r.raise_for_status()
-            payload = r.json()
-        except requests.Timeout as e:
-            raise AddressLookupError("The County's property records took too long to answer. Please try again.") from e
-        except (requests.ConnectionError, requests.HTTPError) as e:
-            raise AddressLookupError("Couldn't reach the County's property records right now. "
-                               "You can still answer the questions using the Auditor's website.") from e
-        except ValueError as e:  # response was not JSON
-            raise AddressLookupError("The County's property records sent back something unexpected. Please try again.") from e
-        found = parse_features(payload)
+        found = _query(build_params(attempt, zip_code), session)
         if found:
             return found
     return []
+
+
+def find_nearby(parcel: Parcel, session: requests.Session | None = None) -> list[Parcel]:
+    """The lots around a home (about one block), not counting the home itself. Needs the home's outline."""
+    if not parcel.rings:
+        return []
+    found = _query(nearby_params(bounding_box(parcel.rings, NEARBY_PAD_M)), session)
+    return [p for p in found if p.parcel_id != parcel.parcel_id and p.rings]

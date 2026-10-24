@@ -3,6 +3,8 @@
 Deadline: **Monday, October 26, 2026, 12:00 PM ET.** Aim to submit Sunday.
 
 ## Before you submit
+- [ ] Test the map with 3 or 4 real Franklin County addresses (a normal street, a corner lot, a condo). Check that
+      Left / Right / Behind match what you see on the satellite view.
 - [ ] Both team members are eligible: enrolled in middle or high school on October 26, 2026, and at least half the
       team lives or goes to school in Ohio's 3rd district.
 - [ ] Every link and phone number in `titlecheck/resources.py` still works (open each one).
@@ -18,11 +20,15 @@ The rules require all of these:
 - [ ] App name
 - [ ] Purpose in one clear sentence
 - [ ] Target audience
-- [ ] Tools and coding languages used (Python, Streamlit, requests, fpdf2, pytest, Franklin County ArcGIS REST data)
+- [ ] Tools and coding languages used (Python, Streamlit, requests, fpdf2, folium / Leaflet, streamlit-folium,
+      Altair, pytest, Franklin County ArcGIS REST data)
 - [ ] A live demo of the app working
 
-Suggested order: why you care (15 s), the problem with one number (15 s), live demo with the demo home and one real
-public address (75 s), privacy and safety choices (15 s), what's next (15 s).
+Suggested order: why you care (15 s), the problem with one number (15 s), live demo (90 s): the demo home, the
+property map (switch to satellite, point out Left / Right / Behind, click a neighbor, measure the lot with the ruler),
+the questions and the result, then "Who would inherit?" (add a child who died with 2 children, then drag the
+generations slider), privacy and safety choices (15 s), what's next (15 s). Explain one thing you understand deeply,
+like how the app decides which neighbor is on the left.
 
 ## Written questions (answer in your own words)
 1. App title

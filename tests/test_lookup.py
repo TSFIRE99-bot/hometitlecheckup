@@ -4,7 +4,8 @@ from pathlib import Path
 import pytest
 import requests
 
-from titlecheck.lookup import AddressLookupError, build_params, find_parcels, normalize_address, parse_features
+from titlecheck.lookup import (AddressLookupError, build_params, find_nearby, find_parcels, nearby_params,
+                               normalize_address, parse_features)
 
 FIXTURE = json.loads((Path(__file__).parent / "fixtures" / "parcel_response.json").read_text())
 
@@ -64,7 +65,7 @@ class FakeSession:
         self.calls = []
 
     def get(self, url, params, timeout):
-        self.calls.append(params["where"])
+        self.calls.append(params.get("where"))
         return FakeResponse(self.payloads.pop(0))
 
 
@@ -81,3 +82,21 @@ def test_find_reports_timeout():
             raise requests.Timeout()
     with pytest.raises(AddressLookupError, match="too long"):
         find_parcels("1 Main St", session=Slow())
+
+
+def test_parse_lot_outline():
+    [p] = parse_features(FIXTURE)
+    assert len(p.rings) == 1 and p.rings[0][0] == (-83.0, 40.0)
+    assert build_params("1 MAIN ST", None)["outSR"] == "4326"
+
+
+def test_find_nearby_skips_the_home_itself():
+    [home] = parse_features(FIXTURE)
+    neighbor = {"attributes": {**FIXTURE["features"][0]["attributes"], "PARCELID": "010-000001"},
+                "geometry": {"rings": [[[-82.9998, 40.0], [-82.9998, 40.0003], [-82.9996, 40.0003],
+                                        [-82.9996, 40.0], [-82.9998, 40.0]]]}}
+    s = FakeSession([{"features": [FIXTURE["features"][0], neighbor]}])
+    found = find_nearby(home, session=s)
+    assert [p.parcel_id for p in found] == ["010-000001"]
+    params = nearby_params((-83.1, 39.9, -83.0, 40.0))
+    assert params["geometryType"] == "esriGeometryEnvelope" and params["inSR"] == "4326"

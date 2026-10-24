@@ -33,8 +33,19 @@ is alive. Most families have never heard of it.
    Need more information), the reasons, numbered steps with official Franklin County links, and a printable PDF
    checklist. Every plan ends with free legal help.
 
-There's also a "What is a tangled title?" explainer page and a "Try a demo home" button that uses a made-up home,
-so anyone can test the app without looking up a real family.
+Along the way:
+
+- **Interactive property map.** The home's lot is drawn on a street or satellite map with every property line on the
+  block. The lots that touch it are labeled **Left**, **Right** and **Behind** (as seen from the street), and the
+  homes **across the street** are marked too. Click any lot to see its public record, and use the ruler to measure
+  distances and areas. The app also works out the lot size and the length along the street.
+- **Who would inherit?** Build the family (spouse, children, a child who has died and their children) and see how
+  Ohio law would split the home if nothing is filed (ORC 2105.06), shown as a chart, with the number of people who
+  would have to sign to sell or refinance. A generations simulator shows how one owner becomes dozens.
+- **Larger text** switch in the sidebar, for older homeowners and phone screens.
+
+There's also a "What is a tangled title?" explainer page and a "Try a demo home" button that uses a made-up home on
+a made-up block, so anyone can test the app (map included) without looking up a real family.
 
 ## Run it on your computer
 
@@ -80,10 +91,15 @@ every decision path, and the PDF.
 | File | What it does |
 |---|---|
 | `app.py` | Page setup, styles, navigation |
-| `app_pages/check.py` | The 3-step checkup screen |
+| `app_pages/check.py` | The 3-step checkup screen, with the property map and neighbors |
+| `app_pages/inherit.py` | "Who would inherit?" family builder and generations simulator |
 | `app_pages/learn.py` | "What is a tangled title?" explainer |
 | `app_pages/about.py` | Purpose, privacy, limits, sources |
-| `titlecheck/lookup.py` | Cleans up the typed address and queries the County's parcel records |
+| `titlecheck/lookup.py` | Cleans up the typed address, queries the County's parcel records, fetches the lots nearby |
+| `titlecheck/geo.py` | Lot geometry in plain Python: area, frontage, which neighbor is left / right / behind / across |
+| `titlecheck/parcel_map.py` | Draws the interactive map (folium / Leaflet) |
+| `titlecheck/heirs.py` | Ohio's inheritance order (ORC 2105.06) as code |
+| `titlecheck/demo.py` | The made-up demo home and block |
 | `titlecheck/assess.py` | The decision rules: answers to status and action plan |
 | `titlecheck/checklist.py` | Builds the printable PDF |
 | `titlecheck/resources.py` | Official links, phone numbers and facts in one place |
@@ -91,7 +107,22 @@ every decision path, and the PDF.
 
 **Data source.** Franklin County Auditor, ArcGIS REST service `ParcelFeatures/Parcel_Features/MapServer/0`
 (Tax Parcel layer). Fields used: `PARCELID`, `SITEADDRESS`, `ZIPCD`, `OWNERNME1` to `OWNERNME3`, `SALEDATE`,
-`CLASSDSCRP`. The app sends one query per address and only letters, numbers and spaces reach the query.
+`CLASSDSCRP`, plus each lot's outline (`outSR=4326`, longitude / latitude). The app sends one query for the address,
+and one more for the lots within about 70 m of it (an envelope query). Only letters, numbers and spaces from the typed
+address reach the query.
+
+**How the neighbors are placed** (`titlecheck/geo.py`). Lot outlines are turned into meters around the home. The app
+walks around the home's lot edge one meter at a time and, just outside each point, checks whose lot is there. Edges
+with no lot beside them face the street, so that side is the front (on a corner lot, the narrower street side).
+A neighbor sharing the back edge is *behind*; one sharing a side edge is *left* or *right* for someone standing in
+the street facing the house; lots past the front edge, within 60 m, are *across the street*. Lot area uses the
+shoelace formula. All of this is tested with lots drawn at different angles, with small gaps between County lines,
+and on a corner lot.
+
+**Who inherits** (`titlecheck/heirs.py`): no spouse, children split equally, and a child who died is replaced by
+their own children (per stirpes, ORC 2105.13); spouse plus children who are all the spouse's, spouse takes all; spouse
+plus children from another relationship, the spouse gets $20,000 or $60,000 off the top and then 1/2 or 1/3
+(ORC 2105.06(C), (D)); then parents, then brothers and sisters.
 
 **Decision rules** (`titlecheck/assess.py`), based on Ohio law and Franklin County Probate Court's published options:
 - Everyone on the deed living, Transfer on Death affidavit recorded: **Looks protected**
@@ -107,12 +138,18 @@ every decision path, and the PDF.
 
 - One address at a time. The app never builds lists or maps of homes that might have tangled titles, because people
   who prey on heirs' property could misuse them.
+- The property map shows neighbors only what the County's own public map shows (address, owner, lot size). It never
+  shows a neighbor's title status, last sale date, or anything else about their family.
+- The demo home sits on a made-up block with no street or satellite tiles under it, so it never points at a real
+  house.
 - Nothing typed is saved. Owner names shown are already public on the County Auditor's website.
 - General information, not legal advice, and every plan points to free legal help.
 
 ## Limits
 
 - Franklin County only.
+- Left / right / behind are estimated from lot shapes. Odd-shaped lots, flag lots and lots that face two streets can
+  be labeled wrong.
 - County records can lag behind recent filings, and the app can't see whether a Transfer on Death affidavit was
   recorded; it asks, and shows how to check at the Recorder.
 - Fees, forms and phone numbers change. Check `titlecheck/resources.py` against the official sites before each release.
@@ -123,6 +160,20 @@ every decision path, and the PDF.
 - Spanish and Somali translations, reviewed by native speakers.
 - Search the Recorder's records automatically for an existing Transfer on Death affidavit.
 - Work with Legal Aid or a community group so the action plan can be sent straight to an advocate.
+
+## Open-source tools and data used
+
+| Tool | What for | License |
+|---|---|---|
+| [Streamlit](https://streamlit.io) | The web app | Apache 2.0 |
+| [requests](https://requests.readthedocs.io) | Asking the County's server | Apache 2.0 |
+| [fpdf2](https://py-pdf.github.io/fpdf2/) | The printable PDF | LGPL 3.0 |
+| [folium](https://python-visualization.github.io/folium/) and [Leaflet](https://leafletjs.com) | The interactive map | MIT / BSD-2 |
+| [streamlit-folium](https://github.com/randyzwitch/streamlit-folium) | Putting the map in the app, and getting clicks back | MIT |
+| [Altair](https://altair-viz.github.io), [pandas](https://pandas.pydata.org) (come with Streamlit) | The charts | BSD-3 |
+| [pytest](https://pytest.org) | Automated tests | MIT |
+| Map tiles: [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors; satellite imagery from [Esri World Imagery](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9) | Map background | ODbL / Esri terms (credited on the map) |
+| Franklin County Auditor parcel data | Owners and lot lines | Public records |
 
 ## Sources
 
@@ -144,4 +195,7 @@ _Your names, school(s), grade(s)_
 
 The first version of this code (the app, decision rules, tests and this README) was generated by Claude, an AI
 assistant from Anthropic, from our project plan, and checked against official Ohio and Franklin County sources.
+Version 2 (the interactive property map, the neighbor detection in `titlecheck/geo.py`, the "Who would inherit?"
+page in `titlecheck/heirs.py` and `app_pages/inherit.py`, the larger-text switch, and their tests) was also generated
+by Claude, at our request.
 _Describe here what you changed, built and tested yourselves, and how you checked the results._
