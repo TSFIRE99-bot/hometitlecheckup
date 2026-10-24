@@ -3,9 +3,10 @@ from streamlit_folium import st_folium
 
 from titlecheck.assess import (ESTATE_SIZES, NO, UNSURE, YES, Answers, assess, owner_kind, record_notes,
                                why_it_matters)
-from titlecheck.checklist import build_pdf
+from titlecheck.checklist import build_homestead_pdf, build_pdf
 from titlecheck.demo import DEMO, DEMO_NEIGHBORS
 from titlecheck.geo import FT_PER_M, SQ_FT_PER_ACRE, analyze, lot_sq_ft
+from titlecheck.homestead import EXPLAINER, QUALIFIERS, HomesteadAnswers, homestead_plan
 from titlecheck.lookup import AddressLookupError, Parcel, find_nearby, find_parcels
 from titlecheck.parcel_map import build_map
 from titlecheck.resources import link
@@ -208,6 +209,26 @@ if shape is not None:
     pdf_details.append(f"Lot size: {shape.acres:.2f} acres ({shape.area_sq_ft:,.0f} sq ft)")
 st.download_button("Download a printable checklist (PDF)", build_pdf(result, parcel.address, notes, pdf_details),
                    file_name="home-title-action-plan.pdf", mime="application/pdf", icon=":material/print:")
+
+# ------------------------------------------------------------------ optional: homestead benefits
+with st.expander("Optional: Homestead Benefits Check (lower your property taxes)", icon=":material/savings:"):
+    st.markdown(md(EXPLAINER))
+    h = HomesteadAnswers(main_home=ask("Does an owner **live in this home as their main home**?", "q_hs_main",
+                                       "Where they lived on January 1, are registered to vote, and file taxes."))
+    if h.main_home != NO:
+        h.gets_it_now = ask("Does the home **get the homestead exemption now**?", "q_hs_now",
+                            "It shows on the tax bill and the Auditor's website as a 'Homestead' credit.")
+        h.qualifiers = st.multiselect("Do any of these fit an owner who lives here? Pick all that apply, or leave "
+                                      "it empty.", QUALIFIERS, key="q_hs_who")
+    hp = homestead_plan(h, result.status)
+    st.markdown(md(f"**{hp.headline}**"))
+    for n in hp.notes:
+        st.markdown(md(f"- {n}"))
+    for i, step in enumerate(hp.steps, 1):
+        st.markdown(md(f"**{i}. {step.title}**  \n{step.detail}"))
+    st.info(md("\n".join(f"- {c}" for c in hp.caveats)), icon=":material/info:")
+    st.download_button("Download the homestead checklist (PDF)", build_homestead_pdf(hp, parcel.address),
+                       file_name="homestead-checklist.pdf", mime="application/pdf", icon=":material/print:")
 
 with st.expander("Why a clear title matters", icon=":material/lightbulb:"):
     for line in why_it_matters():

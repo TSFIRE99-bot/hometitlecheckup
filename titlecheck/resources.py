@@ -21,9 +21,22 @@ LINKS = {
              "https://www.greaterohio.org/blog/2024/8/27/heirs-properties-in-ohio"),
     "lisc": ("LISC: heirs' property relief in Ohio",
              "https://lisc.org/our-stories/story/lisc-brings-heirs-property-relief-to-under-resourced-communities-in-cincinnati-and-cleveland"),
+    "homestead": ("Franklin County Auditor: Homestead Exemption", "https://auditor.franklincountyohio.gov/Real-Estate/Homestead"),
+    "homestead_faq": ("Franklin County Auditor: Homestead FAQ",
+                      "https://auditor.franklincountyohio.gov/Real-Estate/Homestead/Homestead-FAQ"),
+    "dte_105a": ("Homestead application for seniors, disabled persons and surviving spouses (DTE 105A)",
+                 "https://audr-forms.franklincountyohio.gov/243193937779980"),
+    "dte_105i": ("Homestead application for disabled veterans (DTE 105I)",
+                 "https://audr-forms.franklincountyohio.gov/243296080772966"),
+    "owner_occupancy": ("Franklin County Auditor: Owner Occupancy Credit",
+                        "https://auditor.franklincountyohio.gov/Real-Estate/Tax-Reduction-Programs/Owner-Occupied-Credit"),
+    "dte_105c": ("Owner Occupancy Credit application (DTE 105C)",
+                 "https://audr-forms.franklincountyohio.gov/243296119610960"),
 }
 
 CONTACTS = {
+    "auditor": ("Franklin County Auditor, Homestead section", "373 S. High St., 21st floor, Columbus, OH 43215",
+                "(614) 525-3240"),
     "recorder": ("Franklin County Recorder", "373 S. High St., 18th floor, Columbus, OH 43215", "(614) 525-3930"),
     "probate": ("Franklin County Probate Court (procedure questions, not legal advice)", "", "(614) 525-3894"),
     "lasco": ("Legal Aid of Southeast and Central Ohio", "lasco.org/apply", "(614) 221-7201"),
@@ -34,6 +47,15 @@ FACTS = {
     "ohio_value": "Those homes hold about $313 million in family wealth that clear titles could unlock (LISC, 2024).",
     "blocked": ("Without a clear title, families can't get home-repair financing, claim the homestead tax break, "
                 "get disaster aid, or borrow against the home (LISC, 2024)."),
+}
+
+# Homestead figures from the Franklin County Auditor's Homestead pages (checked October 2026). They change every year.
+HOMESTEAD = {
+    "exempt_value": "$29,000",       # senior / disabled / surviving spouse: this much of the home's value isn't taxed
+    "veteran_value": "$58,000",      # 100% disabled veterans, no income limit
+    "income_limit": "$41,000",       # Ohio modified adjusted gross income, for new 2026 applications
+    "income_year": "2025",
+    "deadline": "December 31",       # of the year you want the tax break for; late applications are accepted
 }
 
 
