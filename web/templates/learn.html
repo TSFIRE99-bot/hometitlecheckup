@@ -15,13 +15,13 @@
   <div class="flow-box red"><span class="flow-num">11</span>{{ t("owners") }}<br><small>{{ t("2 children + 9 grandchildren") }}</small></div>
 </div>
 {% endset %}
-<div class="content-grid">
 {% for s in page.sections %}{{ content.section_card(s, flow if loop.first else "") }}{% endfor %}
-</div>
-<p class="center"><a href="/" class="button primary">{{ t("Check my home") }} {{ ic.icon("arrow") }}</a></p>
 
-<section class="card" id="words">
-  <h2 class="card-title">{{ ic.icon("book") }} {{ t("Words to know") }}</h2>
-  <dl class="glossary">{% for term, meaning in glossary %}<div><dt>{{ t(term) }}</dt><dd>{{ t(meaning) }}</dd></div>{% endfor %}</dl>
+<section class="split" id="words">
+  <div class="split-head"><h2>{{ t("Words to know") }}</h2></div>
+  <div class="split-body">
+    <dl class="glossary">{% for term, meaning in glossary %}<div><dt>{{ t(term) }}</dt><dd>{{ t(meaning) }}</dd></div>{% endfor %}</dl>
+  </div>
 </section>
+<p class="center"><a href="/" class="button primary">{{ t("Check my home") }}</a></p>
 {% endblock %}

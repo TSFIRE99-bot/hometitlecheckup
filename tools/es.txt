@@ -470,3 +470,7 @@ a97d236e|Un dueño se convierte en cuatro, y después en once
 de509d5d|cada uno es dueño de 1/4
 4719d4b4|2 de ellos mueren
 fabfffe6|2 hijos + 9 nietos
+ece16298|Mi plan paso a paso: marque cada paso
+87e93f21|¿No conoce palabras como escritura o sucesión (probate)? [Vea qué significan](/learn#words).
+b62257be|Su plan paso a paso
+1cd5c4f8|Reciba su plan paso a paso

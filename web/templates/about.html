@@ -1,16 +1,15 @@
 {% extends "base.html" %}
-{% import "_icons.html" as ic %}
 {% import "_content.html" as content %}
 {# The words on this page live in content/about.md, so they can be edited without touching this file. #}
 {% block title %}{{ t("About") }} · HomeKeep{% endblock %}
 {% block content %}
 {{ content.page_head(page) }}
-<div class="content-grid">
 {% for s in page.sections %}{{ content.section_card(s) }}{% endfor %}
-</div>
 
-<section class="card">
-  <h2 class="card-title">{{ ic.icon("book") }} {{ t("Sources") }}</h2>
-  <ul class="sources">{% for name, url in links %}<li><a href="{{ url }}" target="_blank" rel="noopener">{{ t(name) }}</a></li>{% endfor %}</ul>
+<section class="split">
+  <div class="split-head"><h2>{{ t("Sources") }}</h2></div>
+  <div class="split-body">
+    <ul class="sources">{% for name, url in links %}<li><a href="{{ url }}" target="_blank" rel="noopener">{{ t(name) }}</a></li>{% endfor %}</ul>
+  </div>
 </section>
 {% endblock %}

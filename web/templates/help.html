@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "_icons.html" as ic %}
 {% block title %}{{ t("Free help near you") }} · HomeKeep{% endblock %}
 {% block content %}
 <section class="page-head">
@@ -10,8 +9,8 @@
 
 <div class="help-layout">
   <iframe class="map help-map" title="{{ t("Map of free help in Franklin County") }}" srcdoc="{{ map_html }}"></iframe>
-  <div class="tip card">
-    <p class="personal-title">{{ ic.icon("info") }} {{ t("Before you go") }}</p>
+  <div class="tip">
+    <h2>{{ t("Before you go") }}</h2>
     <ul>
       <li>{{ t("**Start with Legal Aid** if someone has died and nothing was filed. It's free if you qualify.")|md }}</li>
       <li>{{ t("**Call first.** Hours change, and a 2-minute call can save a trip downtown.")|md }}</li>
@@ -21,32 +20,36 @@
   </div>
 </div>
 
-<div class="places">
+<ul class="places">
 {% for p in places %}
-  <article class="card place" id="{{ p.key }}">
-    <h2 class="place-name">{{ ic.icon("pin") }} {{ p.name }}</h2>
-    <p>{{ t(p.what) }}</p>
+  <li class="place" id="{{ p.key }}">
+    <div>
+      <h2 class="place-name">{{ p.name }}</h2>
+      <p>{{ t(p.what) }}</p>
+      <div class="row">
+        <a class="button small" href="{{ p.directions }}" target="_blank" rel="noopener">{{ t("Directions") }}</a>
+        <a class="button small" href="{{ p.web }}" target="_blank" rel="noopener">{{ t("Website") }}</a>
+      </div>
+    </div>
     <dl class="facts small">
       <div><dt>{{ t("Address") }}</dt><dd>{{ p.address }}</dd></div>
       <div><dt>{{ t("Phone") }}</dt><dd>{{ p.phone }}</dd></div>
       <div><dt>{{ t("Hours") }}</dt><dd>{{ t(p.hours) }}</dd></div>
       {% if p.bring %}<div><dt>{{ t("Bring") }}</dt><dd>{{ t(p.bring) }}</dd></div>{% endif %}
     </dl>
-    <div class="row">
-      <a class="button ghost small" href="{{ p.directions }}" target="_blank" rel="noopener">{{ ic.icon("map") }} {{ t("Directions") }}</a>
-      <a class="button ghost small" href="{{ p.web }}" target="_blank" rel="noopener">{{ ic.icon("external") }} {{ t("Website") }}</a>
-    </div>
-  </article>
+  </li>
 {% endfor %}
-</div>
+</ul>
 
-<section class="card">
-  <h2 class="card-title">{{ ic.icon("book") }} {{ t("Help you can use from home") }}</h2>
-  <ul>
-    <li>{{ t("[Ohio Legal Help]({url}): plain-English guides and forms for probate and property, from Ohio's legal aid groups.", url=links.ohio_legal_help_probate[1])|md }}</li>
-    <li>{{ t("[Transfer on Death forms]({url}) from the Franklin County Law Library, free to download.", url=links.tod_forms[1])|md }}</li>
-    <li>{{ t("[Recorder's records search]({url}): see whether a Transfer on Death affidavit is already recorded.", url=links.recorder_search[1])|md }}</li>
-    <li>{{ t("[Homestead exemption]({url}): apply online with the County Auditor.", url=links.homestead[1])|md }}</li>
-  </ul>
+<section class="split">
+  <div class="split-head"><h2>{{ t("Help you can use from home") }}</h2></div>
+  <div class="split-body">
+    <ul>
+      <li>{{ t("[Ohio Legal Help]({url}): plain-English guides and forms for probate and property, from Ohio's legal aid groups.", url=links.ohio_legal_help_probate[1])|md }}</li>
+      <li>{{ t("[Transfer on Death forms]({url}) from the Franklin County Law Library, free to download.", url=links.tod_forms[1])|md }}</li>
+      <li>{{ t("[Recorder's records search]({url}): see whether a Transfer on Death affidavit is already recorded.", url=links.recorder_search[1])|md }}</li>
+      <li>{{ t("[Homestead exemption]({url}): apply online with the County Auditor.", url=links.homestead[1])|md }}</li>
+    </ul>
+  </div>
 </section>
 {% endblock %}

@@ -217,8 +217,8 @@ T: dict[str, str] = {
         "HomeKeep: qorshahayga",
     "Result: {label}. {headline}":
         "Natiijo: {label}. {headline}",
-    "My roadmap: check off each step":
-        "Qorshaha tallaabooyinkayga: calaamadee tallaabo kasta",
+    "My step-by-step plan: check off each step":
+        "Qorshahayga tallaabo-tallaabo: calaamadee tallaabo kasta",
     "General information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices or a lawyer before filing anything.":
         "Macluumaad guud oo ku saabsan sharciga Ohio, ma aha talo sharci. Sharciyada, foomamka iyo lacagaha way isbeddelaan; la xaqiiji xafiisyada Degmada ama qareen ka hor intaadan wax gudbin.",
     "HomeKeep: homestead benefits checklist":
@@ -643,12 +643,12 @@ T: dict[str, str] = {
         "Jiilka {n}",
     "A few questions":
         "Su'aalo yar",
-    "Make it personal":
-        "Ka dhig mid shakhsi ah",
-    "optional":
-        "ikhtiyaari",
+    "New to words like deed or probate? [See what they mean](/learn#words).":
+        "Ma ku cusub tahay erayada sida warqadda lahaanshaha (deed) ama dhaxalka (probate)? [Arag macnahooda](/learn#words).",
     "Your first name":
         "Magacaaga koowaad",
+    "optional":
+        "ikhtiyaari",
     "e.g. Maria":
         "tusaale: Maryan",
     "Used only to write your plan. It's never saved.":
@@ -657,8 +657,8 @@ T: dict[str, str] = {
         "Milkiilahan su'aalo looma baahna.",
     "Update my result":
         "Cusboonaysii natiijadayda",
-    "Your roadmap":
-        "Qorshaha tallaabooyinkaaga",
+    "Your step-by-step plan":
+        "Qorshahaaga tallaabo-tallaabo",
     "{done} of {total} steps done":
         "{done} ka mid ah {total} tallaabo ayaa dhammaaday",
     "Mark step {n} done":
@@ -837,8 +837,8 @@ T: dict[str, str] = {
         "Ka jawaab su'aalo yar",
     "Yes or no, like: is everyone on the deed living? No paperwork needed.":
         "Haa ama maya, tusaale ahaan: qof kasta oo warqadda lahaanshaha ku qoran ma nool yahay? Waraaq looma baahna.",
-    "Get your roadmap":
-        "Hel qorshaha tallaabooyinkaaga",
+    "Get your step-by-step plan":
+        "Hel qorshahaaga tallaabo-tallaabo",
     "Plain-English steps with time, cost and where to go, a printable checklist, and free help nearby.":
         "Tallaabooyin luqad fudud ah oo leh waqti, qiimo iyo meesha la aado, liis la daabici karo, iyo caawimaad bilaash ah oo kuu dhow.",
     "Progress":
@@ -891,16 +891,16 @@ T: dict[str, str] = {
         "**Keen qorshahaaga la daabici karo** ee app-kan. Wuxuu leeyahay cinwaanka guriga iyo lambarka dhulka.",
     "**Be careful of anyone who offers to buy the home or fix the title for a fee.** These offices are free or low cost.":
         "**Ka digtoonow qof kasta oo kuu soo bandhiga inuu guriga iibsado ama lahaanshaha hagaajiyo lacag.** Xafiisyadani waa bilaash ama qiimo jaban.",
+    "Directions":
+        "Tilmaamaha jidka",
+    "Website":
+        "Website",
     "Phone":
         "Telefoon",
     "Hours":
         "Saacadaha",
     "Bring":
         "Keen",
-    "Directions":
-        "Tilmaamaha jidka",
-    "Website":
-        "Website",
     "Help you can use from home":
         "Caawimaad aad guriga ka isticmaali karto",
     "[Ohio Legal Help]({url}): plain-English guides and forms for probate and property, from Ohio's legal aid groups.":

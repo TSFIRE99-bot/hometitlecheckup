@@ -106,7 +106,7 @@ d6ecf94d|Home: {address}    Date: {date}
 6f8002eb|not looked up
 6a289a14|HomeKeep: my action plan
 12171c7e|Result: {label}. {headline}
-1197ba6e|My roadmap: check off each step
+ece16298|My step-by-step plan: check off each step
 17bbc905|General information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices or a lawyer before filing anything.
 b09586ff|HomeKeep: homestead benefits checklist
 9ea501cf|Estimated savings: about ${amount} a year.
@@ -319,14 +319,14 @@ a46e498b|No Franklin County property matched that address. Check the spelling, o
 c54492c8|Original owner
 6cb2b956|Generation {n}
 147f3f72|A few questions
-6d92a741|Make it personal
-d57c24f3|optional
+87e93f21|New to words like deed or probate? [See what they mean](/learn#words).
 14249f09|Your first name
+d57c24f3|optional
 2ec66938|e.g. Maria
 8a0fedf7|Used only to write your plan. It's never saved.
 f44620b5|No questions needed for this owner.
 e4a769ae|Update my result
-4a555707|Your roadmap
+b62257be|Your step-by-step plan
 e4b15b1b|{done} of {total} steps done
 f8b4d84e|Mark step {n} done
 e6979af9|Check off steps as you go. Your progress is remembered on this device only.
@@ -416,7 +416,7 @@ a17a8b5e|Find the home
 138ce66a|We look up the County's public record: who is on the deed and when it last changed hands.
 709181f8|Answer a few questions
 543a2ad5|Yes or no, like: is everyone on the deed living? No paperwork needed.
-a50ee3b2|Get your roadmap
+1cd5c4f8|Get your step-by-step plan
 e3b30d35|Plain-English steps with time, cost and where to go, a printable checklist, and free help nearby.
 46b5f8c5|Progress
 92093df1|Answer questions
@@ -443,11 +443,11 @@ f9b0b017|**Start with Legal Aid** if someone has died and nothing was filed. It'
 f1355aec|**Call first.** Hours change, and a 2-minute call can save a trip downtown.
 97eb6850|**Bring your printable plan** from this app. It has the home's address and parcel number.
 45d4b331|**Be careful of anyone who offers to buy the home or fix the title for a fee.** These offices are free or low cost.
+987b3c77|Directions
+15bbb9d0|Website
 bcc254b5|Phone
 6a7e7316|Hours
 7409b762|Bring
-987b3c77|Directions
-15bbb9d0|Website
 ee9e62ae|Help you can use from home
 ff17c6e7|[Ohio Legal Help]({url}): plain-English guides and forms for probate and property, from Ohio's legal aid groups.
 6baedaa1|[Transfer on Death forms]({url}) from the Franklin County Law Library, free to download.

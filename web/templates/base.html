@@ -35,18 +35,18 @@
            {% if code == lang %}aria-current="true"{% endif %}>{{ name }}</a>
         {% endfor %}
       </div>
-      <button type="button" id="big-text" class="chip-button" aria-pressed="false">{{ ic.icon("text") }} {{ t("Larger text") }}</button>
+      <button type="button" id="big-text" class="chip-button" aria-pressed="false">{{ t("Larger text") }}</button>
     </div>
   </div>
 </header>
 <main id="main">
-{% if lang != "en" %}<p class="translation-note">{{ ic.icon("info") }} {{ t("This page was translated with the help of AI. Office names, addresses and forms are in English. If anything is unclear, Legal Aid can help.") }}</p>{% endif %}
+{% if lang != "en" %}<p class="translation-note">{{ t("This page was translated with the help of AI. Office names, addresses and forms are in English. If anything is unclear, Legal Aid can help.") }}</p>{% endif %}
 {% block content %}{% endblock %}
 </main>
 <footer class="foot">
   <div class="foot-inner">
     <div>
-      <p class="foot-brand">{{ ic.icon("home") }} HomeKeep</p>
+      <p class="foot-brand">HomeKeep</p>
       <p>{{ t("Free, private and plain-English. Built by Central Ohio high school students.") }}</p>
     </div>
     <div>

@@ -10,26 +10,30 @@
 {% endif %}
 {%- endmacro %}
 
-<section class="card">
-  <h2 class="card-title"><span class="num">2</span> {{ t("A few questions") }}</h2>
-  <div class="personal">
-    <p class="personal-title">{{ ic.icon("user") }} {{ t("Make it personal") }} <span class="tag">{{ t("optional") }}</span></p>
-    <div class="personal-grid">
-      <label class="field">{{ t("Your first name") }}
+<section class="split">
+  <div class="split-head">
+    <p class="step-num">2</p>
+    <h2>{{ t("A few questions") }}</h2>
+    <p class="glossary-hint">{{ t("New to words like deed or probate? [See what they mean](/learn#words).")|md }}</p>
+  </div>
+  <div class="split-body">
+    <div class="personal">
+      <label class="field">{{ t("Your first name") }} <span class="tag">{{ t("optional") }}</span>
         <input type="text" name="you" value="{{ you }}" maxlength="30" autocomplete="given-name" placeholder="{{ t("e.g. Maria") }}">
       </label>
       {% with q = role_q %}{% include "_question.html" %}{% endwith %}
+      <p class="fine">{{ t("Used only to write your plan. It's never saved.") }}</p>
     </div>
-    <p class="fine">{{ t("Used only to write your plan. It's never saved.") }}</p>
+    {% for q in questions %}{% include "_question.html" %}{% else %}
+    <p class="help">{{ t("No questions needed for this owner.") }}</p>
+    {% endfor %}
+    <noscript><button type="submit" class="button">{{ t("Update my result") }}</button></noscript>
   </div>
-  {% for q in questions %}{% include "_question.html" %}{% else %}
-  <p class="help">{{ t("No questions needed for this owner.") }}</p>
-  {% endfor %}
-  <noscript><button type="submit" class="button">{{ t("Update my result") }}</button></noscript>
 </section>
 
-<section class="card result">
-  <h2 class="card-title"><span class="num">3</span> {{ greeting }}</h2>
+<section class="result">
+  <p class="step-num">3</p>
+  <h2>{{ greeting }}</h2>
   <div class="status status-{{ result.color }}">
     <span class="status-icon">{{ ic.icon(ic.STATUS_ICON[result.color]) }}</span>
     <div>
@@ -42,7 +46,7 @@
 
   <div class="roadmap" data-roadmap="{{ roadmap_key }}">
     <div class="roadmap-head">
-      <h3>{{ ic.icon("map") }} {{ t("Your roadmap") }}</h3>
+      <h3>{{ t("Your step-by-step plan") }}</h3>
       <p class="roadmap-progress">{{ t("{done} of {total} steps done", done='<span data-done>0</span>'|safe, total=result.steps|length)|safe }}</p>
     </div>
     <div class="bar-track" aria-hidden="true"><div class="bar-fill" data-fill></div></div>
@@ -58,17 +62,17 @@
       </li>
     {% endfor %}
     </ol>
-    <p class="fine">{{ ic.icon("info") }} {{ t("Check off steps as you go. Your progress is remembered on this device only.") }}</p>
+    <p class="fine">{{ t("Check off steps as you go. Your progress is remembered on this device only.") }}</p>
   </div>
   <div class="row">
     <button type="submit" class="button primary" formaction="/plan.pdf">{{ ic.icon("printer") }} {{ t("Download my printable plan (PDF)") }}</button>
-    <a class="button ghost" href="/help">{{ ic.icon("pin") }} {{ t("Find free help near you") }}</a>
+    <a class="button" href="/help">{{ t("Find free help near you") }}</a>
   </div>
 </section>
 
-<details class="card panel homestead" id="homestead" {% if hs_open %}open{% endif %}>
-  <summary>{{ ic.icon("dollar") }} {{ t("Optional: Homestead Benefits Check") }} <span class="summary-sub">{{ t("Could this home pay less property tax?") }}</span></summary>
-  <p>{{ explainer|md }}</p>
+<details class="disclosure homestead" id="homestead" {% if hs_open %}open{% endif %}>
+  <summary>{{ t("Optional: Homestead Benefits Check") }} <span class="summary-sub">{{ t("Could this home pay less property tax?") }}</span></summary>
+  <p class="lead">{{ explainer|md }}</p>
   {% for q in hs_questions %}{% include "_question.html" %}{% endfor %}
 
   <div class="hs-result">
@@ -87,23 +91,23 @@
 
   {% if homestead.timeline %}
   <ol class="when">
-    {% for when, what in homestead.timeline %}<li><span class="when-date">{{ ic.icon("calendar") }} {{ when }}</span><span>{{ what }}</span></li>{% endfor %}
+    {% for when, what in homestead.timeline %}<li><span class="when-date">{{ when }}</span><span>{{ what }}</span></li>{% endfor %}
   </ol>
   {% endif %}
 
   <ol class="hs-steps">
   {% for step in homestead.steps %}<li><strong>{{ step.title }}</strong><br>{{ step.detail|md }}{{ step_facts(step) }}</li>{% endfor %}
   </ol>
-  <div class="info">{{ ic.icon("info") }}<ul>{% for c in homestead.caveats %}<li>{{ c|md }}</li>{% endfor %}</ul></div>
+  <div class="note"><ul>{% for c in homestead.caveats %}<li>{{ c|md }}</li>{% endfor %}</ul></div>
   <button type="submit" class="button primary" formaction="/homestead.pdf">{{ ic.icon("printer") }} {{ t("Download the homestead checklist (PDF)") }}</button>
 </details>
 
-<details class="card panel">
-  <summary>{{ ic.icon("book") }} {{ t("Words to know") }}</summary>
+<details class="disclosure">
+  <summary>{{ t("Words to know") }}</summary>
   <dl class="glossary">{% for term, meaning in glossary %}<div><dt>{{ t(term) }}</dt><dd>{{ t(meaning) }}</dd></div>{% endfor %}</dl>
 </details>
 
-<details class="card panel">
-  <summary>{{ ic.icon("heart") }} {{ t("Why a clear title matters") }}</summary>
+<details class="disclosure">
+  <summary>{{ t("Why a clear title matters") }}</summary>
   <ul>{% for line in why %}<li>{{ line|md }}</li>{% endfor %}</ul>
 </details>

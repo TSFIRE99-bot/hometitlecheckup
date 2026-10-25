@@ -59,7 +59,7 @@ def build_pdf(result: Assessment, address: str | None, notes: list[str], details
         pdf.multi_cell(0, 6, plain(f"- {line}"), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
-    pdf.cell(0, 8, plain(t("My roadmap: check off each step")), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 8, plain(t("My step-by-step plan: check off each step")), new_x="LMARGIN", new_y="NEXT")
     for i, step in enumerate(result.steps, 1):
         pdf.set_font("Helvetica", "B", 12)
         pdf.multi_cell(0, 7, plain(f"[  ]  {i}. {step.title}"), new_x="LMARGIN", new_y="NEXT")

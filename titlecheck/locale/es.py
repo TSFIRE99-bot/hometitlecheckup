@@ -217,8 +217,8 @@ T: dict[str, str] = {
         "HomeKeep: mi plan de acción",
     "Result: {label}. {headline}":
         "Resultado: {label}. {headline}",
-    "My roadmap: check off each step":
-        "Mi plan de pasos: marque cada paso",
+    "My step-by-step plan: check off each step":
+        "Mi plan paso a paso: marque cada paso",
     "General information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices or a lawyer before filing anything.":
         "Información general sobre la ley de Ohio, no es consejo legal. Las leyes, los formularios y los costos cambian; confirme con las oficinas del Condado o con un abogado antes de presentar cualquier cosa.",
     "HomeKeep: homestead benefits checklist":
@@ -643,12 +643,12 @@ T: dict[str, str] = {
         "Generación {n}",
     "A few questions":
         "Unas preguntas",
-    "Make it personal":
-        "Hágalo personal",
-    "optional":
-        "opcional",
+    "New to words like deed or probate? [See what they mean](/learn#words).":
+        "¿No conoce palabras como escritura o sucesión (probate)? [Vea qué significan](/learn#words).",
     "Your first name":
         "Su nombre",
+    "optional":
+        "opcional",
     "e.g. Maria":
         "por ejemplo, María",
     "Used only to write your plan. It's never saved.":
@@ -657,8 +657,8 @@ T: dict[str, str] = {
         "No se necesitan preguntas para este dueño.",
     "Update my result":
         "Actualizar mi resultado",
-    "Your roadmap":
-        "Su plan de pasos",
+    "Your step-by-step plan":
+        "Su plan paso a paso",
     "{done} of {total} steps done":
         "{done} de {total} pasos hechos",
     "Mark step {n} done":
@@ -837,8 +837,8 @@ T: dict[str, str] = {
         "Contestar unas preguntas",
     "Yes or no, like: is everyone on the deed living? No paperwork needed.":
         "Sí o no, por ejemplo: ¿todas las personas en la escritura están vivas? No necesita papeles.",
-    "Get your roadmap":
-        "Recibir su plan de pasos",
+    "Get your step-by-step plan":
+        "Reciba su plan paso a paso",
     "Plain-English steps with time, cost and where to go, a printable checklist, and free help nearby.":
         "Pasos en lenguaje sencillo con tiempo, costo y adónde ir, una lista para imprimir y ayuda gratis cerca.",
     "Progress":
@@ -891,16 +891,16 @@ T: dict[str, str] = {
         "**Lleve su plan para imprimir** de esta aplicación. Tiene la dirección y el número de parcela de la casa.",
     "**Be careful of anyone who offers to buy the home or fix the title for a fee.** These offices are free or low cost.":
         "**Tenga cuidado con cualquiera que le ofrezca comprar la casa o arreglar el título a cambio de dinero.** Estas oficinas son gratis o de bajo costo.",
+    "Directions":
+        "Cómo llegar",
+    "Website":
+        "Sitio web",
     "Phone":
         "Teléfono",
     "Hours":
         "Horario",
     "Bring":
         "Qué llevar",
-    "Directions":
-        "Cómo llegar",
-    "Website":
-        "Sitio web",
     "Help you can use from home":
         "Ayuda que puede usar desde casa",
     "[Ohio Legal Help]({url}): plain-English guides and forms for probate and property, from Ohio's legal aid groups.":
