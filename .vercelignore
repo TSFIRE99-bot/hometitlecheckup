@@ -1,4 +1,4 @@
-tests/
 docs/
 .venv/
 .pytest_cache/
+tools/

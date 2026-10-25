@@ -79,6 +79,29 @@ Along the way:
 There's also a "What is a tangled title?" explainer page and a "Try a demo home" button that uses a made-up home on
 a made-up block, so anyone can test the app (map included) without looking up a real family.
 
+## Languages: English, Español, Soomaali
+
+Every page, question, result, map label and PDF is available in English, Spanish and Somali. The buttons at the top
+switch language (the choice is saved in a cookie; it isn't personal data). Switching on a results page keeps the
+answers. Office names, addresses and form names stay in English so families can match them to signs and websites, and
+translated pages say they were translated with AI help.
+
+How it works: every sentence in the code is written in English inside `t("...")` (`titlecheck/i18n.py`). The Spanish
+and Somali live in `tools/es.txt` and `tools/so.txt`, one `id|translation` line per sentence. To change one, edit that
+line and run:
+
+```
+perl tools/i18n.pl build es so
+```
+
+It rebuilds `titlecheck/locale/es.py` and `so.py` and stops if a translation lost a `{placeholder}`, a `**` or a link.
+After adding new English text, run `perl tools/i18n.pl extract` to list every sentence and its id in `tools/keys.txt`.
+`tests/test_i18n.py` fails if any sentence on any page is missing a translation. The About and Learn text has its own
+translated files: `content/about.es.md`, `content/about.so.md`, `content/learn.es.md`, `content/learn.so.md`.
+
+The translations were written by Claude (AI) and have not been reviewed by native speakers yet. Before relying on
+them, have a native Spanish speaker and a native Somali speaker read them.
+
 ## Edit the About and Learn pages
 
 The words on those two pages live in plain text files, so you can change them without touching any code:
