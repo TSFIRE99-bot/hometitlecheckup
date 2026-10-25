@@ -6,7 +6,7 @@ printable action plan to fix a "tangled title", or to prevent one.
 
 ![HomeKeep result screen](docs/screenshot.png)
 
-**Live app:** https://myhomekeep.vercel.app
+**Live app:** https://www.myhomekeep.org
 **Demo video:** _add your YouTube link here_
 
 ## The problem
