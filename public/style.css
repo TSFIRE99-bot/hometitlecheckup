@@ -44,7 +44,9 @@ li { margin: var(--s1) 0; }
 .brand { display: inline-flex; align-items: center; gap: var(--s2); color: #fff; text-decoration: none; font-size: var(--t-md); margin-right: auto; }
 .brand b { color: var(--gold); }
 .brand-mark { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: var(--r); background: rgba(255,255,255,.12); }
-.top nav { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s5); }
+.top nav { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s5); order: 3; width: 100%; }
+.brand { order: 1; }
+.top-tools { order: 2; }
 .top nav a { color: #d6dfee; text-decoration: none; font-size: .9rem; padding: var(--s1) 0; border-bottom: 2px solid transparent; }
 .top nav a:hover { color: #fff; }
 .top nav a[aria-current="page"] { color: #fff; border-bottom-color: var(--gold); font-weight: 700; }
@@ -296,11 +298,10 @@ input[type="range"] { width: 100%; accent-color: var(--navy); }
 @media (max-width: 640px) {
   :root { font-size: 17px; --t-3xl: 2rem; --t-2xl: 1.6rem; }
   main { padding: var(--s5) 16px var(--s7); }
+  .top { position: static; }          /* on a phone the header scrolls away instead of covering the page */
   .top-inner { padding: var(--s2) 16px; gap: var(--s2) var(--s4); }
-  .brand { width: 100%; }
   .top nav { gap: 0 var(--s4); }
   .top nav a { font-size: .82rem; }
-  .top-tools { width: 100%; justify-content: space-between; }
   .stats, .how-steps { grid-template-columns: 1fr; }
   .stat, .stat + .stat { border-left: 0; padding: var(--s4) 0; }
   .stat + .stat { border-top: 1px solid var(--line); }
