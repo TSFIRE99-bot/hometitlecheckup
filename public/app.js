@@ -72,6 +72,12 @@ document.querySelectorAll("form[data-live]").forEach(function (form) {
     if (e.target.hasAttribute("data-step")) return;
     refresh();
   });
+  // pressing Enter in a text box updates in place; the PDF buttons (which have their own formaction) still download
+  form.addEventListener("submit", function (e) {
+    if (e.submitter && e.submitter.hasAttribute("formaction")) return;
+    e.preventDefault();
+    refresh();
+  });
   // range sliders: show the number while dragging
   form.addEventListener("input", function (e) {
     if (e.target.type === "range" && e.target.previousElementSibling) e.target.previousElementSibling.textContent = e.target.value;

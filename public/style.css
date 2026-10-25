@@ -235,6 +235,26 @@ iframe.map { width: 100%; height: 480px; border: 0; border-radius: 14px; box-sha
 .team-list span { color: var(--muted); font-size: .9rem; }
 .law { color: var(--muted); font-size: .9rem; }
 
+/* editable content pages (content/*.md) */
+.page-head .lead p:first-child { margin-top: 0; }
+.content-card ul, .content-card ol { padding-left: 1.3rem; }
+.content-card li { margin: .35rem 0; }
+.content-card h3 { margin-top: 1rem; }
+
+/* equity calculator */
+.equity { display: grid; grid-template-columns: 1fr 1.3fr; gap: 1rem 1.4rem; align-items: center; background: var(--gold-soft); border-radius: 14px; padding: 1rem 1.1rem; margin: 1rem 0; }
+.money { display: flex; align-items: center; border: 1.5px solid #cfd7e4; border-radius: 10px; background: #fff; margin-top: .3rem; }
+.money:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(36, 87, 197, .18); }
+.money span { padding: 0 .2rem 0 .8rem; font-weight: 700; color: var(--navy); font-size: 1.2rem; }
+.money input[type="text"] { border: 0; box-shadow: none; font-size: 1.25rem; font-weight: 700; color: var(--navy); padding-left: .2rem; }
+.equity-input .help { margin: .35rem 0 0; }
+.equity-stat { display: flex; flex-direction: column; gap: .2rem; background: #fff; border-radius: 12px; padding: .9rem 1.1rem; border-left: 6px solid var(--green); }
+.equity-stat.locked { border-left-color: var(--red); }
+.equity-num { font-size: 2.2rem; font-weight: 700; color: var(--navy); line-height: 1.05; }
+.equity-stat.locked .equity-num { color: var(--red); }
+.equity-text { font-size: .95rem; }
+td.worth { font-weight: 700; color: var(--navy); white-space: nowrap; }
+
 /* inheritance charts */
 .child { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem; padding: .7rem 0; border-bottom: 1px solid var(--line); }
 .child input[type="text"] { width: 12rem; }
@@ -266,7 +286,7 @@ input[type="range"] { width: 100%; accent-color: var(--navy); }
   .hero { grid-template-columns: 1fr; padding: 1.4rem 1.2rem; }
   .hero-art { display: none; }
   .hero h1 { font-size: 2rem; }
-  .stats, .how-steps, .two-col, .help-layout, .foot-inner, .personal-grid { grid-template-columns: 1fr; }
+  .stats, .how-steps, .two-col, .help-layout, .foot-inner, .personal-grid, .equity { grid-template-columns: 1fr; }
   .hs-result { grid-template-columns: 1fr; }
   .savings { max-width: none; }
 }

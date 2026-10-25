@@ -4,6 +4,7 @@ Nothing typed is saved. Each click sends the whole form, and the page is rebuilt
 """
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 from itertools import groupby
 
@@ -15,13 +16,14 @@ from titlecheck.assess import UNSURE, assess, pretty, record_notes, why_it_matte
 from titlecheck.checklist import build_homestead_pdf, build_pdf
 from titlecheck.demo import DEMO, DEMO_NEIGHBORS
 from titlecheck.geo import FT_PER_M, analyze
-from titlecheck.heirs import Child, Family, generations, who_inherits
+from titlecheck.heirs import Child, Family, frozen_equity, generations, share_values, who_inherits
 from titlecheck.homestead import EXPLAINER, homestead_plan
 from titlecheck.lookup import AUDITOR_PARCEL_LINK, AddressLookupError, Parcel, find_nearby, find_parcels
 from titlecheck.parcel_map import build_map
 from titlecheck.places import BY_KEY, PLACES
 from titlecheck.resources import FACTS, GLOSSARY, LINKS, link
 from web.checkup import homestead_questions, role_question, title_questions
+from web.content import load as load_content
 from web.personal import clean_name, greeting, owners_phrase, summary
 
 bp = Blueprint("pages", __name__)
@@ -31,6 +33,8 @@ PLACE_NAMES = {p.key: p.name for p in PLACES}
 SLICE_COLORS = ["#1a73e8", "#e37400", "#1e8e3e", "#9334e6", "#c5221f", "#12b5cb", "#f9ab00", "#5f6368",
                 "#e52592", "#7cb342"]
 MAX_CHILDREN = 10
+EXAMPLE_HOME_VALUE = 200_000     # shown until the family types their own home's value
+MAX_HOME_VALUE = 10_000_000
 
 
 # ------------------------------------------------------------------ check my home
@@ -205,6 +209,14 @@ def _int(value, low: int, high: int, default: int) -> int:
         return default
 
 
+def _dollars(text: str | None) -> int:
+    """'$185,000' -> 185000. Starts with an example value; a cleared box means no dollar amounts."""
+    if text is None:
+        return EXAMPLE_HOME_VALUE
+    digits = re.sub(r"\D", "", text.split(".")[0])
+    return min(int(digits), MAX_HOME_VALUE) if digits else 0
+
+
 @bp.route("/inherit", methods=["GET", "POST"])
 def inherit():
     form = request.form
@@ -224,11 +236,12 @@ def inherit():
     parents = _int(form.get("parents"), 0, 2, 0) if ask_parents else 0
     siblings = _int(form.get("siblings"), 0, 15, 0) if ask_parents else 0
     result = who_inherits(Family(spouse, children, parents, siblings))
+    value = _dollars(form.get("value"))
 
     slices, start = [], 0.0
-    for i, h in enumerate(result.heirs):
+    for i, (h, worth) in enumerate(zip(result.heirs, share_values(result, value))):
         pct = float(h.share) * 100
-        slices.append({"name": h.name, "fraction": str(h.share), "percent": f"{pct:.1f}%",
+        slices.append({"name": h.name, "fraction": str(h.share), "percent": f"{pct:.1f}%", "worth": worth,
                        "color": SLICE_COLORS[i % len(SLICE_COLORS)], "start": start, "end": start + pct})
         start += pct
     kids, gens = _int(form.get("kids"), 1, 5, 3), _int(form.get("gens"), 1, 5, 3)
@@ -238,7 +251,9 @@ def inherit():
             for g, o in rows]
     page = {"spouse": spouse, "count": count, "children": children, "ask_parents": ask_parents, "parents": parents,
             "siblings": siblings, "result": result, "slices": slices, "kids": kids, "gens": gens, "bars": bars,
-            "last": top, "max_children": MAX_CHILDREN, "tod_link": link("tod_forms")}
+            "last": top, "max_children": MAX_CHILDREN, "tod_link": link("tod_forms"),
+            "value": value, "frozen": frozen_equity(result, value), "piece": round(value / top) if value else 0,
+            "is_example": form.get("value") is None}
     if request.headers.get("X-Partial"):
         return render_template("_inherit.html", **page)
     return render_template("inherit.html", **page)
@@ -247,12 +262,12 @@ def inherit():
 # ------------------------------------------------------------------ the two reading pages
 @bp.get("/learn")
 def learn():
-    return render_template("learn.html", facts=FACTS, tod_link=link("tod_forms"))
+    return render_template("learn.html", page=load_content("learn"))
 
 
 @bp.get("/about")
 def about():
-    return render_template("about.html", links=LINKS.values())
+    return render_template("about.html", page=load_content("about"), links=LINKS.values())
 
 
 @bp.app_context_processor

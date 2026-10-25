@@ -109,6 +109,19 @@ def who_inherits(family: Family) -> Inheritance:
                            "This one needs a lawyer to sort out.", "ORC 2105.06(H)-(J)")
 
 
+def share_values(result: Inheritance, home_value: int) -> list[int]:
+    """What each heir's share of the home is worth in dollars, rounded, in the same order as result.heirs.
+
+    The spouse's dollar amount 'off the top' comes out of the whole estate, not just the home, so it isn't counted here.
+    """
+    return [round(home_value * h.share) for h in result.heirs]
+
+
+def frozen_equity(result: Inheritance, home_value: int) -> int:
+    """Dollars that can't be sold, refinanced or borrowed against until every heir signs (all of it, if 2+ heirs)."""
+    return home_value if result.signers > 1 else 0
+
+
 def generations(children_each: int, count: int) -> list[tuple[int, int]]:
     """If nothing is ever filed: (generation, number of owners) when each owner leaves `children_each` heirs."""
     return [(g, max(1, children_each) ** g) for g in range(count + 1)]

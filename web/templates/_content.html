@@ -1,0 +1,15 @@
+{# One page of editable text from content/*.md: title, introduction, then each "##" section as a card. #}
+{% import "_icons.html" as ic %}
+{% macro page_head(page) -%}
+<section class="page-head">
+  <h1>{{ page.title }}</h1>
+  <div class="lead">{{ page.intro }}</div>
+</section>
+{%- endmacro %}
+{% macro section_card(s, before="") -%}
+<section class="card content-card">
+  <h2 class="card-title">{% if s.icon in ic.ICONS %}{{ ic.icon(s.icon) }} {% endif %}{{ s.title }}</h2>
+  {{ before }}
+  {{ s.html }}
+</section>
+{%- endmacro %}

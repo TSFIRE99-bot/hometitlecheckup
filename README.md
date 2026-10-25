@@ -65,6 +65,9 @@ Along the way:
 - **Who would inherit?** Build the family (spouse, children, a child who has died and their children) and see how
   Ohio law would split the home if nothing is filed (ORC 2105.06), shown as a chart, with the number of people who
   would have to sign to sell or refinance. A generations simulator shows how one owner becomes dozens.
+  **Equity locked up calculator:** type the home's value (it starts with a $200,000 example) to see what each heir's
+  share is worth in dollars, how much family wealth is locked until every heir signs, and what each owner's piece is
+  worth after several generations.
 - **Homestead Benefits Check** (optional, after the action plan). Explains Ohio's homestead exemption and owner
   occupancy credit, asks whether an owner lives in the home as their main home, whether the home gets the exemption
   now, and whether an owner is 65+, disabled, a surviving spouse or a 100% disabled veteran. It then shows which
@@ -75,6 +78,16 @@ Along the way:
 
 There's also a "What is a tangled title?" explainer page and a "Try a demo home" button that uses a made-up home on
 a made-up block, so anyone can test the app (map included) without looking up a real family.
+
+## Edit the About and Learn pages
+
+The words on those two pages live in plain text files, so you can change them without touching any code:
+
+- `content/about.md`: the About page, including **Built by** and **Use of AI tools**
+- `content/learn.md`: the "What is a tangled title?" page
+
+On GitHub, open the file, click the pencil icon, edit, and click **Commit changes**. Vercel updates the live site
+about a minute later. Each `## Heading` is its own section; the notes at the top of each file explain the rest.
 
 ## Run it on your computer
 
@@ -131,6 +144,8 @@ every decision path, the PDFs, and every web page (using Flask's test client, wi
 | `web/routes.py` | The pages: the 3-step checkup with map and neighbors, "Who would inherit?", the explainer, About, the PDF downloads |
 | `web/checkup.py` | Turns the submitted form into the questions on screen and the answers the rules use |
 | `web/markup.py` | Turns the rules' **bold** and [links](#) into safe HTML |
+| `web/content.py` | Reads the editable page text in `content/*.md` into sections |
+| `content/about.md`, `content/learn.md` | The words on the About and Learn pages (edit these) |
 | `web/personal.py` | The personal wording: names, "whose home is this", and the plain-English summary |
 | `titlecheck/places.py` | The free help offices: what they do, address, phone, hours, map point |
 | `titlecheck/tax_districts.py` | The Auditor's estimated homestead savings for all 144 Franklin County tax districts |

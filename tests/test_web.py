@@ -170,3 +170,33 @@ def test_inherit_child_who_died_is_replaced_by_their_children(client):
     data = {"count": "2", "name_0": "Ann", "living_0": "on", "name_1": "Ben", "gk_1": "2"}
     html = client.post("/inherit", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
     assert "3 people would own the home" in html and "Ben&#39;s child 1" in html
+
+
+def test_equity_calculator_shows_each_share_in_dollars(client):
+    data = {"count": "3", "name_0": "Ann", "living_0": "on", "name_1": "Ben", "living_1": "on", "name_2": "Cy",
+            "living_2": "on", "value": "$300,000"}
+    html = client.post("/inherit", data=data, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "$300,000</span>" in html and "locked" in html and "until all 3 heirs agree" in html
+    assert html.count("$100,000") == 3
+
+
+def test_equity_calculator_starts_with_an_example_and_can_be_cleared(client):
+    html = client.get("/inherit").get_data(as_text=True)
+    assert 'value="200,000"' in html and "We started with an example" in html
+    html = client.post("/inherit", data={"count": "2", "name_0": "A", "living_0": "on", "name_1": "B",
+                                         "living_1": "on", "value": ""}, headers={"X-Partial": "1"}).get_data(as_text=True)
+    assert "<th>Worth</th>" not in html and "locked" not in html
+
+
+@pytest.mark.parametrize("path", ["/", "/inherit", "/learn", "/about", "/help"])
+def test_no_contest_or_columbus_tagline_on_the_site(client, path):
+    html = client.get(path).get_data(as_text=True)
+    assert "Congressional App Challenge" not in html and "For families in Columbus" not in html
+
+
+def test_about_and_learn_text_comes_from_the_content_files(client):
+    about = client.get("/about").get_data(as_text=True)
+    assert "Use of AI tools" in about and "Tejas Menneni" in about and "Naman Soni" in about
+    assert "EDIT ME" not in about and "TEAM:" not in about          # notes in the file never show
+    learn = client.get("/learn").get_data(as_text=True)
+    assert "What is a tangled title?" in learn and "class=\"flow\"" in learn and 'href="/inherit"' in learn

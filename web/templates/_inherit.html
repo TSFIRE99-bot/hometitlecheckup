@@ -50,17 +50,41 @@
     </div>
   </div>
   <p>{{ result.explanation }} <span class="law">({{ result.law }})</span></p>
+
+  <div class="equity">
+    <div class="equity-input">
+      <label class="field" for="value">What is the home worth?</label>
+      <div class="money"><span>$</span><input id="value" type="text" name="value" inputmode="numeric" autocomplete="off"
+             value="{{ '{:,}'.format(value) if value else '' }}" placeholder="200,000"></div>
+      <p class="help">{% if is_example %}We started with an example. {% endif %}Use the "market value" on the tax bill
+        or the Auditor's website.</p>
+    </div>
+    {% if value %}
+    <div class="equity-stat{{ ' locked' if n > 1 }}">
+      {% if n > 1 %}
+      <span class="equity-num">${{ "{:,}".format(frozen) }}</span>
+      <span class="equity-text">of family wealth is <strong>locked</strong> until all {{ n }} heirs agree and sign.
+        Until then it can't be sold, refinanced or borrowed against for repairs.</span>
+      {% else %}
+      <span class="equity-num">${{ "{:,}".format(value) }}</span>
+      <span class="equity-text">One heir can use all of the home's equity.</span>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
   <div class="donut-row">
     <div class="donut" role="img" aria-label="How the home would be split"
          style="background: conic-gradient({% for s in slices %}{{ s.color }} {{ '%.2f'|format(s.start) }}% {{ '%.2f'|format(s.end) }}%{{ ', ' if not loop.last }}{% endfor %});"><span class="donut-center">{{ n }}<small>owner{{ 's' if n != 1 }}</small></span></div>
     <table>
-      <thead><tr><th>Heir</th><th>Share</th><th>Percent</th></tr></thead>
-      <tbody>{% for s in slices %}<tr><td><span class="swatch" style="background: {{ s.color }}"></span>{{ s.name }}</td><td>{{ s.fraction }}</td><td>{{ s.percent }}</td></tr>{% endfor %}</tbody>
+      <thead><tr><th>Heir</th><th>Share</th><th>Percent</th>{% if value %}<th>Worth</th>{% endif %}</tr></thead>
+      <tbody>{% for s in slices %}<tr><td><span class="swatch" style="background: {{ s.color }}"></span>{{ s.name }}</td><td>{{ s.fraction }}</td><td>{{ s.percent }}</td>{% if value %}<td class="worth">${{ "{:,}".format(s.worth) }}</td>{% endif %}</tr>{% endfor %}</tbody>
     </table>
   </div>
   {% if result.spouse_first_amount %}
   <p class="help">The spouse's ${{ "{:,}".format(result.spouse_first_amount) }} comes off the top of the whole estate
-    first, so the real split of the home depends on what else was left. Ask Legal Aid.</p>
+    first, so the real split of the home depends on what else was left. The dollar amounts above are a rough guide.
+    Ask Legal Aid.</p>
   {% endif %}
   {% endif %}
 </section>
@@ -83,8 +107,9 @@
     {% endfor %}
   </div>
   <p>After <strong>{{ gens }}</strong> generation{{ 's' if gens > 1 }}, <strong>{{ "{:,}".format(last) }} people</strong>
-    each own about <strong>{{ '%.2f'|format(100 / last) }}%</strong> of the home. Every one of them has to be found and
-    has to sign before the home can be sold, refinanced or repaired with a loan.</p>
+    each own about <strong>{{ '%.2f'|format(100 / last) }}%</strong> of the home{% if value %}, worth about
+    <strong>${{ "{:,}".format(piece) }}</strong> each{% endif %}. Every one of them has to be found and has to sign
+    before the home can be sold, refinanced or repaired with a loan.</p>
 </section>
 
 <div class="callout">

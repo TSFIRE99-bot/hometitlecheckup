@@ -1,60 +1,24 @@
 {% extends "base.html" %}
 {% import "_icons.html" as ic %}
+{% import "_content.html" as content %}
+{# The words on this page live in content/learn.md, so they can be edited without touching this file. #}
 {% block title %}What is a tangled title? · Home Title Checkup{% endblock %}
 {% block content %}
-<section class="page-head">
-  <p class="eyebrow">Learn the basics in 3 minutes</p>
-  <h1>What is a tangled title?</h1>
-  <p class="lead"><strong>"Grandma's house is still in Grandpa's name."</strong></p>
-  <p>When someone who owns a home dies, the home doesn't move to the family on its own. Someone has to file paperwork
-    with the County or go through probate court. If nobody does, the family keeps living there, but legally the home
-    still belongs to the person who died. That's called a <strong>tangled title</strong> (or <em>heirs' property</em>).</p>
-</section>
+{{ content.page_head(page) }}
 
-<section class="card">
-  <h2 class="card-title">With every generation it gets harder to fix</h2>
-  <div class="flow" role="img" aria-label="One owner becomes four, then eleven">
-    <div class="flow-box blue"><span class="flow-num">1</span>Grandpa<br><small>name on the deed</small></div>
-    <div class="flow-arrow">{{ ic.icon("arrow") }}<small>dies, nothing filed</small></div>
-    <div class="flow-box orange"><span class="flow-num">4</span>children<br><small>each owns 1/4</small></div>
-    <div class="flow-arrow">{{ ic.icon("arrow") }}<small>2 of them die</small></div>
-    <div class="flow-box red"><span class="flow-num">11</span>owners<br><small>2 children + 9 grandchildren</small></div>
-  </div>
-  <p>Every one of those owners has to be found, and has to sign, before the home can be sold, refinanced, or repaired
-    with a loan. <a href="/inherit">Try it with your own family {{ ic.icon("arrow") }}</a></p>
-</section>
-
-<div class="two-col">
-  <section class="card">
-    <h2 class="card-title">{{ ic.icon("alert") }} What it costs a family</h2>
-    <ul>
-      <li>{{ facts.blocked }}</li>
-      <li>Selling or refinancing usually needs every heir to agree and sign, and some heirs may be hard to find.</li>
-      <li>Unpaid property taxes can still lead to foreclosure while the title is tangled.</li>
-    </ul>
-  </section>
-  <section class="card">
-    <h2 class="card-title">{{ ic.icon("users") }} How big is it?</h2>
-    <ul>
-      <li>{{ facts.ohio_count }}</li>
-      <li>{{ facts.ohio_value }}</li>
-      <li>Experts think it's concentrated in neighborhoods that faced long-term disinvestment, where families had less
-        access to lawyers and estate planning.</li>
-    </ul>
-  </section>
+{% set flow %}
+<div class="flow" role="img" aria-label="One owner becomes four, then eleven">
+  <div class="flow-box blue"><span class="flow-num">1</span>Grandpa<br><small>name on the deed</small></div>
+  <div class="flow-arrow">{{ ic.icon("arrow") }}<small>dies, nothing filed</small></div>
+  <div class="flow-box orange"><span class="flow-num">4</span>children<br><small>each owns 1/4</small></div>
+  <div class="flow-arrow">{{ ic.icon("arrow") }}<small>2 of them die</small></div>
+  <div class="flow-box red"><span class="flow-num">11</span>owners<br><small>2 children + 9 grandchildren</small></div>
 </div>
-
-<section class="callout">
-  <span class="callout-icon">{{ ic.icon("shield") }}</span>
-  <div>
-    <h2>The easy fix most people don't know about</h2>
-    <p>Ohio has a <strong>Transfer on Death Designation Affidavit</strong>: a short form the owner signs in front of a
-      notary and records with the County Recorder for $34. When the owner dies, the home goes straight to the people
-      named, with no probate. It has to be recorded <strong>while the owner is alive</strong>. Forms: {{ tod_link|md }}.</p>
-    <p>If the owner has already died, the family usually needs probate court. Small estates can use a shorter process.</p>
-    <a href="/" class="button primary">Check my home {{ ic.icon("arrow") }}</a>
-  </div>
-</section>
+{% endset %}
+<div class="content-grid">
+{% for s in page.sections %}{{ content.section_card(s, flow if loop.first else "") }}{% endfor %}
+</div>
+<p class="center"><a href="/" class="button primary">Check my home {{ ic.icon("arrow") }}</a></p>
 
 <section class="card" id="words">
   <h2 class="card-title">{{ ic.icon("book") }} Words to know</h2>

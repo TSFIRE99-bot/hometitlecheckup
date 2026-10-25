@@ -1,89 +1,13 @@
 {% extends "base.html" %}
 {% import "_icons.html" as ic %}
+{% import "_content.html" as content %}
+{# The words on this page live in content/about.md, so they can be edited without touching this file. #}
 {% block title %}About · Home Title Checkup{% endblock %}
 {% block content %}
-<section class="page-head">
-  <p class="eyebrow">Congressional App Challenge {{ this_year }}</p>
-  <h1>About Home Title Checkup</h1>
-  <p class="lead">A home is the biggest thing most families ever pass down. In Columbus, many families lose that
-    wealth not because of debt or a bad deal, but because one form was never filed. We built Home Title Checkup so any
-    family in Franklin County can find out, in plain English and for free, whether their home is protected, and what
-    to do next.</p>
-</section>
-
-<div class="two-col">
-  <section class="card">
-    <h2 class="card-title">{{ ic.icon("heart") }} Who it's for</h2>
-    <p>Homeowners in Franklin County, Ohio, especially older homeowners, and families who inherited a home. It's
-      written for people who have never talked to a lawyer, works on a phone, and has a larger-text button.</p>
-  </section>
-  <section class="card">
-    <h2 class="card-title">{{ ic.icon("users") }} Why it matters here</h2>
-    <p>Heirs' property is concentrated in neighborhoods that faced long-term disinvestment, where families had less
-      access to lawyers and estate planning (Greater Ohio Policy Center, 2024). A clear title is what lets a family
-      get repair loans, disaster aid, and the homestead tax break, and pass the home on.</p>
-  </section>
+{{ content.page_head(page) }}
+<div class="content-grid">
+{% for s in page.sections %}{{ content.section_card(s) }}{% endfor %}
 </div>
-
-<section class="card">
-  <h2 class="card-title">{{ ic.icon("map") }} How it works</h2>
-  <ol>
-    <li>You type an address. The app asks the Franklin County Auditor's public parcel records (an ArcGIS REST service)
-      who is on the deed and when the home last changed hands.</li>
-    <li>You answer a few yes / no questions, like whether everyone on the deed is living.</li>
-    <li>Rules based on Ohio law (Transfer on Death affidavits, survivorship deeds, and Franklin County Probate Court's
-      small-estate options) turn the answers into a status, a plain-English summary written for you, and a step-by-step
-      roadmap with time, cost and where to go for each step.</li>
-    <li>The optional Homestead Benefits Check estimates the property tax savings for the home's own tax district, using
-      the County Auditor's published figures, and shows how and when to apply.</li>
-    <li>"Free help near you" maps the free and official offices that handle each step.</li>
-  </ol>
-</section>
-
-<div class="two-col">
-  <section class="card">
-    <h2 class="card-title">{{ ic.icon("shield") }} Privacy and safety by design</h2>
-    <ul>
-      <li>One address at a time. The app never builds lists or maps of homes that might have tangled titles, because
-        people who prey on heirs' property could misuse them.</li>
-      <li>Neighbors on the map only show what the County's own public map shows, never a title status.</li>
-      <li>Nothing you type is saved. The server keeps no record between clicks. Roadmap check marks stay on your own
-        device.</li>
-    </ul>
-  </section>
-  <section class="card">
-    <h2 class="card-title">{{ ic.icon("info") }} Limits</h2>
-    <ul>
-      <li>General information, not legal advice. Every plan points to free legal help.</li>
-      <li>Franklin County only (for now). County records can lag behind recent filings.</li>
-      <li>The app can't see whether someone has died; it asks you. Savings are the Auditor's estimates.</li>
-    </ul>
-  </section>
-</div>
-
-<section class="card team">
-  <h2 class="card-title">{{ ic.icon("users") }} Built by</h2>
-  <ul class="team-list">
-    <li><strong>Tejas Menneni</strong><span>New Albany High School, 12th grade</span></li>
-    <li><strong>Satvik Surapaneni</strong><span>Olentangy High School, 12th grade</span></li>
-    <li><strong>Sutton Sykes</strong><span>New Albany High School, 12th grade</span></li>
-    <li><strong>Naman Soni</strong><span>Olentangy High School, 12th grade</span></li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2 class="card-title">{{ ic.icon("file") }} Built with</h2>
-  <p>Python, Flask, HTML / CSS / JavaScript, requests, fpdf2, folium and Leaflet (maps), and pytest, hosted on Vercel.
-    Map tiles from OpenStreetMap contributors and Esri World Imagery. Parcel data and homestead estimates from the
-    Franklin County Auditor. The text uses Atkinson Hyperlegible, a typeface designed by the Braille Institute to be
-    easier to read for people with low vision.</p>
-  <h3>Use of AI tools</h3>
-  <p>The code for this app (the rules, the County lookup, the map, the pages, the PDFs and the tests) was generated
-    by Claude, an AI assistant from Anthropic, from our project plan and our requests, and checked against official
-    Ohio and Franklin County sources.</p>
-  {# TEAM: before submitting, add a paragraph here, in your own words, about what you designed, researched, changed and
-     tested yourselves. The Congressional App Challenge requires full disclosure of AI use. #}
-</section>
 
 <section class="card">
   <h2 class="card-title">{{ ic.icon("book") }} Sources</h2>

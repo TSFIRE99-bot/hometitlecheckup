@@ -52,3 +52,12 @@ def test_no_children():
 
 def test_generations():
     assert generations(3, 3) == [(0, 1), (1, 3), (2, 9), (3, 27)]
+
+
+def test_share_values_and_frozen_equity():
+    from titlecheck.heirs import frozen_equity, share_values
+    r = who_inherits(Family(children=[Child("A"), Child("B"), Child("C", living=False, grandchildren=2)]))
+    assert share_values(r, 300_000) == [100_000, 100_000, 50_000, 50_000]
+    assert frozen_equity(r, 300_000) == 300_000
+    one = who_inherits(Family(spouse_living=True, children=[Child("A")]))
+    assert frozen_equity(one, 300_000) == 0
