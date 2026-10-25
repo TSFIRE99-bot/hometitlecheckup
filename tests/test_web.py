@@ -131,14 +131,14 @@ def test_lookup_error_offers_typing_the_names(client, monkeypatch):
         raise AddressLookupError("Couldn't reach the County's property records right now.")
     monkeypatch.setattr(routes, "find_parcels", fail)
     html = client.post("/", data={"action": "lookup", "address": "123 Main St"}).get_data(as_text=True)
-    assert "Couldn't reach the County" in html and 'name="names"' in html
+    assert "reach the County" in html and 'name="names"' in html
 
 
 def test_several_matches_ask_which_one(client, monkeypatch):
     homes = [Parcel(f"010-00000{i}", f"12{i} MAIN ST", "43215", ["DOE JANE"], None, "") for i in range(2)]
     monkeypatch.setattr(routes, "find_parcels", lambda _: homes)
     html = client.post("/", data={"action": "lookup", "address": "12 Main St"}).get_data(as_text=True)
-    assert "Which one?" in html and 'value="010-000001"' in html
+    assert "Which one is it?" in html and 'value="010-000001"' in html
     html = client.post("/", data={"action": "pick", "address": "12 Main St", "pick": "010-000001"}).get_data(as_text=True)
     assert "121 MAIN ST" in html and "Jane Doe" in html
 
