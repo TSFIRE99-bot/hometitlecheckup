@@ -66,10 +66,10 @@ disaster aid, and the homestead tax break, and pass the home on.
 
 ## Built with {file}
 
-Python, Flask, HTML / CSS / JavaScript,and pytest, hosted on Vercel. 
+Python, HTML / CSS / JavaScript, and pytest, hosted on Vercel. 
 Map tiles from OpenStreetMap contributors and Esri World Imagery. 
 Parcel data and homestead estimates from the Franklin County Auditor. 
-The text is from Atkinson Hyperlegible designed by the Braille Institute.
+The text is from Atkinson Hyperlegible.
 
 ## Use of AI tools {info}
 
