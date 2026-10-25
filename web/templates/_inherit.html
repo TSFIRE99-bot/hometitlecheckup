@@ -63,7 +63,7 @@
     <div class="equity-stat{{ ' locked' if n > 1 }}">
       {% if n > 1 %}
       <span class="equity-num">${{ "{:,}".format(frozen) }}</span>
-      <span class="equity-text">of family wealth is <strong>locked</strong> until all {{ n }} heirs agree and sign.
+      <span class="equity-text">of family wealth is <strong>locked</strong> until {{ "both" if n == 2 else "all " ~ n }} heirs agree and sign.
         Until then it can't be sold, refinanced or borrowed against for repairs.</span>
       {% else %}
       <span class="equity-num">${{ "{:,}".format(value) }}</span>
