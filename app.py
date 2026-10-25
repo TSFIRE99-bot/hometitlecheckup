@@ -1,4 +1,4 @@
-"""Home Title Checkup. Vercel finds the Flask `app` here. On your computer: `flask --app app run --debug`."""
+"""HomeKeep. Vercel finds the Flask `app` here. On your computer: `flask --app app run --debug`."""
 from web import create_app
 
 app = create_app()

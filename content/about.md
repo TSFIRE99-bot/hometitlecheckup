@@ -13,16 +13,16 @@
   - The list of sources at the bottom of the page is added automatically from titlecheck/resources.py.
 -->
 
-# About Home Title Checkup
+# About HomeKeep
 
 A home is the biggest thing most families ever pass down. In Columbus, many families lose that wealth not because of
-debt or a bad deal, but because one form was never filed. We built Home Title Checkup so any family in Franklin County
-can find out, in plain English and for free, whether their home is protected, and what to do next.
+debt or a bad deal, but because one form was never filed. We built HomeKeep so any family can find out, in plain
+English and for free, whether their home is protected, and what to do next.
 
 ## Who it's for {heart}
 
-Homeowners in Franklin County, Ohio, especially older homeowners, and families who inherited a home. It's written for
-people who have never talked to a lawyer, works on a phone, and has a larger-text button.
+Homeowners, especially older homeowners, and families who inherited a home. It's written for people who have never
+talked to a lawyer, works on a phone, and has a larger-text button.
 
 ## Why it matters here {users}
 

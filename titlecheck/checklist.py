@@ -44,7 +44,7 @@ def build_pdf(result: Assessment, address: str | None, notes: list[str], details
     pdf = FPDF(format="Letter")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    _header(pdf, "Home Title Checkup: my action plan", address, prepared_for)
+    _header(pdf, "HomeKeep: my action plan", address, prepared_for)
     for line in details or []:
         pdf.cell(0, 6, plain(line), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
@@ -82,7 +82,7 @@ def build_homestead_pdf(plan: HomesteadPlan, address: str | None, prepared_for: 
     pdf = FPDF(format="Letter")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    _header(pdf, "Home Title Checkup: homestead benefits checklist", address, prepared_for)
+    _header(pdf, "HomeKeep: homestead benefits checklist", address, prepared_for)
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
     pdf.multi_cell(0, 8, plain(plan.headline), new_x="LMARGIN", new_y="NEXT")

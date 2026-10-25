@@ -27,7 +27,7 @@ def demo_record(**answers):
 @pytest.mark.parametrize("path", ["/", "/inherit", "/learn", "/about", "/help"])
 def test_every_page_loads(client, path):
     r = client.get(path)
-    assert r.status_code == 200 and b"Home Title Checkup" in r.data
+    assert r.status_code == 200 and b"HomeKeep" in r.data and b"Home Title Checkup" not in r.data
 
 
 def test_stylesheet_and_script_are_served(client):

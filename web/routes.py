@@ -167,7 +167,7 @@ def plan_pdf():
         details.append(f"Lot size: {record['lot']}")
     return _pdf_response(build_pdf(plan["result"], record["addr"], plan["notes"], details,
                                    prepared_for=plan["you"], summary=plan["summary"], places=PLACE_NAMES),
-                         "home-title-action-plan.pdf")
+                         "homekeep-action-plan.pdf")
 
 
 @bp.post("/homestead.pdf")

@@ -1,4 +1,4 @@
-"""The Home Title Checkup website (Flask). The rules, lookup, map and PDFs live in titlecheck/; this is just the pages."""
+"""The HomeKeep website (Flask). The rules, lookup, map and PDFs live in titlecheck/; this is just the pages."""
 from __future__ import annotations
 
 from pathlib import Path

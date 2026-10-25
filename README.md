@@ -1,10 +1,10 @@
-# Home Title Checkup
+# HomeKeep
 
-**Is your family's home legally in the right name?** Home Title Checkup looks up a Franklin County, Ohio home in the
+**Is your family's home legally in the right name?** HomeKeep looks up a Franklin County, Ohio home in the
 County Auditor's public records, asks a few yes / no questions, and gives the family a plain-English status and a
 printable action plan to fix a "tangled title", or to prevent one.
 
-![Home Title Checkup result screen](docs/screenshot.png)
+![HomeKeep result screen](docs/screenshot.png)
 
 **Live app:** https://hometitlecheckup-h5fn.vercel.app
 **Demo video:** _add your YouTube link here_
