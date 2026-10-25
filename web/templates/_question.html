@@ -1,13 +1,13 @@
-{# one question: big tap-friendly choices (radio buttons), or checkboxes when q.multi #}
+{# one question: big tap-friendly choices (radio buttons), or checkboxes when q.multi. Values stay in English; labels are translated. #}
 <fieldset class="question">
   <legend>{{ q.label|md }}</legend>
   {% if q.help %}<p class="help">{{ q.help }}</p>{% endif %}
   <div class="choices{% if q.multi or q.choices|length > 3 or q.choices|map('length')|max > 20 %} stacked{% endif %}">
   {% for c in q.choices %}
     {% if q.multi %}
-    <label class="pill"><input type="checkbox" name="{{ q.key }}" value="{{ c }}" {% if c in q.values %}checked{% endif %}><span>{{ c }}</span></label>
+    <label class="pill"><input type="checkbox" name="{{ q.key }}" value="{{ c }}" {% if c in q.values %}checked{% endif %}><span>{{ t(c) }}</span></label>
     {% else %}
-    <label class="pill"><input type="radio" name="{{ q.key }}" value="{{ c }}" {% if q.value == c %}checked{% endif %}><span>{{ c }}</span></label>
+    <label class="pill"><input type="radio" name="{{ q.key }}" value="{{ c }}" {% if q.value == c %}checked{% endif %}><span>{{ t(c) }}</span></label>
     {% endif %}
   {% endfor %}
   </div>

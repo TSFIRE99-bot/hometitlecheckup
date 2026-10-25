@@ -1,14 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Who would inherit? · HomeKeep{% endblock %}
+{% block title %}{{ t("Who would inherit?") }} · HomeKeep{% endblock %}
 {% block content %}
 <section class="page-head">
-  <p class="eyebrow">Ohio inheritance, in pictures</p>
-  <h1>Who would inherit the home?</h1>
-  <p class="lead">When an Ohio homeowner dies <strong>without a will and without a Transfer on Death affidavit</strong>,
-    state law decides who owns the home next. Build the family below to see how the home would be split, and how many
-    people would have to sign to sell it, refinance it, or fix the title.</p>
-  <p class="help">A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change
-    the answer. General information, not legal advice. Nothing you type is saved.</p>
+  <p class="eyebrow">{{ t("Ohio inheritance, in pictures") }}</p>
+  <h1>{{ t("Who would inherit the home?") }}</h1>
+  <p class="lead">{{ t("When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would have to sign to sell it, refinance it, or fix the title.")|md }}</p>
+  <p class="help">{{ t("A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. Nothing you type is saved.") }}</p>
 </section>
 
 <form method="post" action="/inherit" id="family" data-live>

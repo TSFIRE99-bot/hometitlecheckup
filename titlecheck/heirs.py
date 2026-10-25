@@ -9,6 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from fractions import Fraction
 
+from titlecheck.i18n import t
+
 
 @dataclass
 class Child:
@@ -52,7 +54,7 @@ def _lines(family: Family) -> list[tuple[str, list[str]]]:
         if c.living:
             lines.append((c.name, [c.name]))
         elif c.grandchildren > 0:
-            lines.append((c.name, [f"{c.name}'s child {i + 1}" for i in range(c.grandchildren)]))
+            lines.append((c.name, [t("{name}'s child {n}", name=c.name, n=i + 1) for i in range(c.grandchildren)]))
     return lines
 
 
@@ -67,46 +69,51 @@ def _split(lines: list[tuple[str, list[str]]], total: Fraction) -> list[Heir]:
 
 def who_inherits(family: Family) -> Inheritance:
     lines = _lines(family)
+    spouse_name = t("Surviving spouse")
     if lines and family.spouse_living:
         line_children = [c for c in family.children if c.living or c.grandchildren > 0]
         spouse_is_parent = [c.with_spouse for c in line_children]
         if all(spouse_is_parent):
-            return Inheritance([Heir("Surviving spouse", Fraction(1))],
-                               "When every child is also the surviving spouse's child, the spouse inherits everything.",
-                               "ORC 2105.06(B)")
+            return Inheritance([Heir(spouse_name, Fraction(1))],
+                               t("When every child is also the surviving spouse's child, the spouse inherits "
+                                 "everything."), "ORC 2105.06(B)")
         if len(lines) == 1:
-            spouse = Fraction(1, 2)
-            first, why = 20_000, "one child, who is not the spouse's child"
-            law = "ORC 2105.06(C)"
+            spouse, first, law = Fraction(1, 2), 20_000, "ORC 2105.06(C)"
+            why = t("With a surviving spouse and one child who is not the spouse's child, the spouse first receives "
+                    "${first} of the estate, then {share} of the rest. The child gets the remaining share.",
+                    first=f"{first:,}", share=spouse)
         else:
-            spouse = Fraction(1, 3)
+            spouse, law = Fraction(1, 3), "ORC 2105.06(D)"
             first = 60_000 if any(spouse_is_parent) else 20_000
-            why = ("children who are not all the spouse's" if any(spouse_is_parent)
-                   else "children, none of them the spouse's")
-            law = "ORC 2105.06(D)"
-        return Inheritance([Heir("Surviving spouse", spouse)] + _split(lines, 1 - spouse),
-                           f"With a surviving spouse and {why}, the spouse first receives ${first:,} of the estate, "
-                           f"then {spouse} of the rest. The children's lines split the remaining share.", law, first)
+            if any(spouse_is_parent):
+                why = t("With a surviving spouse and children who are not all the spouse's, the spouse first receives "
+                        "${first} of the estate, then {share} of the rest. The children's lines split the remaining "
+                        "share.", first=f"{first:,}", share=spouse)
+            else:
+                why = t("With a surviving spouse and children who are none of them the spouse's, the spouse first "
+                        "receives ${first} of the estate, then {share} of the rest. The children's lines split the "
+                        "remaining share.", first=f"{first:,}", share=spouse)
+        return Inheritance([Heir(spouse_name, spouse)] + _split(lines, 1 - spouse), why, law, first)
     if lines:
         return Inheritance(_split(lines, Fraction(1)),
-                           "With no surviving spouse, the children inherit equally. If a child has died, that child's "
-                           "own children split their parent's share.", "ORC 2105.06(A), 2105.13")
+                           t("With no surviving spouse, the children inherit equally. If a child has died, that "
+                             "child's own children split their parent's share."), "ORC 2105.06(A), 2105.13")
     if family.spouse_living:
-        return Inheritance([Heir("Surviving spouse", Fraction(1))],
-                           "With no children or grandchildren, the surviving spouse inherits everything.",
+        return Inheritance([Heir(spouse_name, Fraction(1))],
+                           t("With no children or grandchildren, the surviving spouse inherits everything."),
                            "ORC 2105.06(E)")
     if family.parents_living:
         n = family.parents_living
-        return Inheritance([Heir(f"Parent {i + 1}" if n > 1 else "Parent", Fraction(1, n)) for i in range(n)],
-                           "With no spouse, children or grandchildren, the parents inherit equally.",
+        return Inheritance([Heir(t("Parent {n}", n=i + 1) if n > 1 else t("Parent"), Fraction(1, n)) for i in range(n)],
+                           t("With no spouse, children or grandchildren, the parents inherit equally."),
                            "ORC 2105.06(F)")
     if family.siblings:
         n = family.siblings
-        return Inheritance([Heir(f"Brother or sister {i + 1}", Fraction(1, n)) for i in range(n)],
-                           "With no spouse, children, grandchildren or parents, the brothers and sisters inherit "
-                           "equally (their children step in for any who have died).", "ORC 2105.06(G)")
-    return Inheritance([], "More distant relatives (grandparents, aunts, uncles, cousins) inherit next. "
-                           "This one needs a lawyer to sort out.", "ORC 2105.06(H)-(J)")
+        return Inheritance([Heir(t("Brother or sister {n}", n=i + 1), Fraction(1, n)) for i in range(n)],
+                           t("With no spouse, children, grandchildren or parents, the brothers and sisters inherit "
+                             "equally (their children step in for any who have died)."), "ORC 2105.06(G)")
+    return Inheritance([], t("More distant relatives (grandparents, aunts, uncles, cousins) inherit next. This one "
+                             "needs a lawyer to sort out."), "ORC 2105.06(H)-(J)")
 
 
 def share_values(result: Inheritance, home_value: int) -> list[int]:

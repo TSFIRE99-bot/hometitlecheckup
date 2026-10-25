@@ -3,27 +3,25 @@
 {% block content %}
 {% set lookup_form %}
 <form method="post" action="/" class="lookup">
-  <label for="address">Type the home's street address</label>
+  <label for="address">{{ t("Type the home's street address") }}</label>
   <div class="lookup-row">
     <span class="input-icon">{{ ic.icon("search") }}</span>
     <input id="address" name="address" type="text" value="{{ address }}" placeholder="123 Main St, Columbus, OH 43215"
            autocomplete="street-address">
   </div>
   <div class="row">
-    <button type="submit" name="action" value="lookup" class="button primary">{{ ic.icon("search") }} Check this home</button>
-    <button type="submit" name="action" value="demo" class="button ghost">{{ ic.icon("play") }} Try a demo home</button>
+    <button type="submit" name="action" value="lookup" class="button primary">{{ ic.icon("search") }} {{ t("Check this home") }}</button>
+    <button type="submit" name="action" value="demo" class="button ghost">{{ ic.icon("play") }} {{ t("Try a demo home") }}</button>
   </div>
-  <p class="fine">{{ ic.icon("shield") }} Free and private. Nothing you type is saved.</p>
+  <p class="fine">{{ ic.icon("shield") }} {{ t("Free and private. Nothing you type is saved.") }}</p>
 </form>
 {% endset %}
 
 {% if not record %}
 <section class="hero">
   <div class="hero-text">
-    <h1>Is your family's home legally in the right name?</h1>
-    <p class="lead">When a homeowner dies and the paperwork never gets filed, the family can lose the home, the
-      tax breaks, and the wealth it was supposed to pass on. Find out where your home stands in
-      <strong>2 minutes</strong>, and get the free steps to fix it or protect it.</p>
+    <h1>{{ t("Is your family's home legally in the right name?") }}</h1>
+    <p class="lead">{{ t("When a homeowner dies and the paperwork never gets filed, the family can lose the home, the tax breaks, and the wealth it was supposed to pass on. Find out where your home stands in **2 minutes**, and get the free steps to fix it or protect it.")|md }}</p>
     {{ lookup_form }}
   </div>
   <div class="hero-art" aria-hidden="true">
@@ -56,13 +54,13 @@
 <form method="post" action="/" class="card">
   <input type="hidden" name="address" value="{{ address }}">
   <input type="hidden" name="action" value="pick">
-  <h2 class="card-title">A few homes matched. Which one is it?</h2>
+  <h2 class="card-title">{{ t("A few homes matched. Which one is it?") }}</h2>
   <div class="choices stacked">
   {% for m in matches %}
   <label class="pill block"><input type="radio" name="pick" value="{{ m.pid }}" required><span>{{ m.label }}</span></label>
   {% endfor %}
   </div>
-  <button type="submit" class="button primary">Use this home {{ ic.icon("arrow") }}</button>
+  <button type="submit" class="button primary">{{ t("Use this home") }} {{ ic.icon("arrow") }}</button>
 </form>
 {% endif %}
 
@@ -70,76 +68,71 @@
 <form method="post" action="/" class="card">
   <input type="hidden" name="address" value="{{ address }}">
   <input type="hidden" name="action" value="manual">
-  <h2 class="card-title">No problem: type the names on the deed</h2>
-  <label for="names">They're on the property tax bill, or the Auditor's website. One name per line.</label>
+  <h2 class="card-title">{{ t("No problem: type the names on the deed") }}</h2>
+  <label for="names">{{ t("They're on the property tax bill, or the Auditor's website. One name per line.") }}</label>
   <textarea id="names" name="names" rows="3" placeholder="Louise Parker&#10;James Parker"></textarea>
-  <button type="submit" class="button primary">Continue {{ ic.icon("arrow") }}</button>
+  <button type="submit" class="button primary">{{ t("Continue") }} {{ ic.icon("arrow") }}</button>
 </form>
 {% endif %}
 
-<section class="stats" aria-label="Why this matters in Ohio">
-  <div class="stat"><span class="stat-num">9,000</span><span>Ohio homes are estimated to be heirs' property, stuck in the name of someone who died</span></div>
-  <div class="stat"><span class="stat-num">$313M</span><span>in family wealth those homes hold, waiting on a clear title</span></div>
-  <div class="stat"><span class="stat-num">1 form</span><span>recorded while the owner is alive can prevent it, for a $34 fee</span></div>
+<section class="stats" aria-label="{{ t("Why this matters in Ohio") }}">
+  <div class="stat"><span class="stat-num">9,000</span><span>{{ t("Ohio homes are estimated to be heirs' property, stuck in the name of someone who died") }}</span></div>
+  <div class="stat"><span class="stat-num">$313M</span><span>{{ t("in family wealth those homes hold, waiting on a clear title") }}</span></div>
+  <div class="stat"><span class="stat-num">{{ t("1 form") }}</span><span>{{ t("recorded while the owner is alive can prevent it, for a $34 fee") }}</span></div>
 </section>
-<p class="source">Sources: Greater Ohio Policy Center (2024), LISC (2024), Franklin County Recorder fee schedule.</p>
+<p class="source">{{ t("Sources: Greater Ohio Policy Center (2024), LISC (2024), Franklin County Recorder fee schedule.") }}</p>
 
 <section class="how">
-  <h2>How it works</h2>
+  <h2>{{ t("How it works") }}</h2>
   <ol class="how-steps">
-    <li><span class="how-icon">{{ ic.icon("search") }}</span><strong>Find the home</strong><span>We look up the
-      County's public record: who is on the deed and when it last changed hands.</span></li>
-    <li><span class="how-icon">{{ ic.icon("users") }}</span><strong>Answer a few questions</strong><span>Yes or no,
-      like "Is everyone on the deed living?" No paperwork needed.</span></li>
-    <li><span class="how-icon">{{ ic.icon("map") }}</span><strong>Get your roadmap</strong><span>Plain-English steps
-      with time, cost and where to go, a printable checklist, and free help nearby.</span></li>
+    <li><span class="how-icon">{{ ic.icon("search") }}</span><strong>{{ t("Find the home") }}</strong><span>{{ t("We look up the County's public record: who is on the deed and when it last changed hands.") }}</span></li>
+    <li><span class="how-icon">{{ ic.icon("users") }}</span><strong>{{ t("Answer a few questions") }}</strong><span>{{ t("Yes or no, like: is everyone on the deed living? No paperwork needed.") }}</span></li>
+    <li><span class="how-icon">{{ ic.icon("map") }}</span><strong>{{ t("Get your roadmap") }}</strong><span>{{ t("Plain-English steps with time, cost and where to go, a printable checklist, and free help nearby.") }}</span></li>
   </ol>
 </section>
 {% else %}
 
-<ol class="stepper" aria-label="Progress">
-  <li class="done"><span>{{ ic.icon("check") }}</span>Find the home</li>
-  <li class="{{ 'done' if result.status != 'check' else 'current' }}"><span>2</span>Answer questions</li>
-  <li class="{{ 'current' if result.status != 'check' else '' }}"><span>3</span>Your roadmap</li>
+<ol class="stepper" aria-label="{{ t("Progress") }}">
+  <li class="done"><span>{{ ic.icon("check") }}</span>{{ t("Find the home") }}</li>
+  <li class="{{ 'done' if result.status != 'check' else 'current' }}"><span>2</span>{{ t("Answer questions") }}</li>
+  <li class="{{ 'current' if result.status != 'check' else '' }}"><span>3</span>{{ t("Your roadmap") }}</li>
 </ol>
 
 <section class="card record">
   <div class="record-head">
     <span class="record-icon">{{ ic.icon("home") }}</span>
     <div>
-      <p class="eyebrow">What the County record says</p>
+      <p class="eyebrow">{{ t("What the County record says") }}</p>
       <h1 class="record-address">{{ record.addr }}</h1>
     </div>
   </div>
   <dl class="facts">
-    <div><dt>On the deed</dt><dd>{% for o in owners_shown %}{{ o }}{% if not loop.last %}<br>{% endif %}{% else %}No owner listed{% endfor %}</dd></div>
-    <div><dt>Last changed hands</dt><dd>{{ record.year or "Unknown" }}</dd></div>
-    {% if record.lot %}<div><dt>Lot size</dt><dd>{{ record.lot }}</dd></div>{% endif %}
+    <div><dt>{{ t("On the deed") }}</dt><dd>{% for o in owners_shown %}{{ o }}{% if not loop.last %}<br>{% endif %}{% else %}{{ t("No owner listed") }}{% endfor %}</dd></div>
+    <div><dt>{{ t("Last changed hands") }}</dt><dd>{{ record.year or t("Unknown") }}</dd></div>
+    {% if record.lot %}<div><dt>{{ t("Lot size") }}</dt><dd>{{ record.lot }}</dd></div>{% endif %}
   </dl>
   {% if notes %}<ul class="notes">{% for n in notes %}<li>{{ n|md }}</li>{% endfor %}</ul>{% endif %}
-  {% if auditor_link %}<p><a href="{{ auditor_link }}" target="_blank" rel="noopener">See it on the Auditor's website {{ ic.icon("external") }}</a></p>{% endif %}
+  {% if auditor_link %}<p><a href="{{ auditor_link }}" target="_blank" rel="noopener">{{ t("See it on the Auditor's website") }} {{ ic.icon("external") }}</a></p>{% endif %}
 </section>
 
 {% if map_html %}
 <details class="card panel" open>
-  <summary>{{ ic.icon("map") }} Property map: your lot lines and neighbors</summary>
+  <summary>{{ ic.icon("map") }} {{ t("Property map: your lot lines and neighbors") }}</summary>
   {% if warning %}<div class="alert">{{ ic.icon("info") }}<div>{{ warning }}</div></div>{% endif %}
-  <p class="help">Blue is this home. Orange lots touch it (L = left, R = right, B = behind, as seen from the street).
-    Purple is across the street. Tap any lot to see its public record, and use the ruler to measure.
-    {% if demo %}The demo block is made up, so it has no satellite photo.
-    {% else %}Switch between the satellite photo and the street map in the top-right corner.{% endif %}</p>
-  <iframe class="map" title="Property map" srcdoc="{{ map_html }}"></iframe>
+  <p class="help">{{ t("Blue is this home. Orange lots touch it (L = left, R = right, B = behind, as seen from the street). Purple is across the street. Tap any lot to see its public record, and use the ruler to measure.") }}
+    {% if demo %}{{ t("The demo block is made up, so it has no satellite photo.") }}
+    {% else %}{{ t("Switch between the satellite photo and the street map in the top-right corner.") }}{% endif %}</p>
+  <iframe class="map" title="{{ t("Property map") }}" srcdoc="{{ map_html }}"></iframe>
   {% if neighbors %}
   <div class="table-wrap"><table>
-    <thead><tr><th>Where</th><th>Address</th><th>Owner(s)</th><th>Shared line</th></tr></thead>
+    <thead><tr><th>{{ t("Where") }}</th><th>{{ t("Address") }}</th><th>{{ t("Owner(s)") }}</th><th>{{ t("Shared line") }}</th></tr></thead>
     <tbody>{% for n in neighbors %}<tr><td>{{ n.where }}</td><td>{{ n.address }}</td><td>{{ n.owners }}</td><td>{{ n.shared }}</td></tr>{% endfor %}</tbody>
   </table></div>
-  <p class="help">Neighbors only show what the County already shows on its public map. This app never shows a title
-    status for anyone else's home.</p>
+  <p class="help">{{ t("Neighbors only show what the County already shows on its public map. This app never shows a title status for anyone else's home.") }}</p>
   {% endif %}
 </details>
 {% elif no_map or record.pid == "MANUAL" %}
-<p class="help">No lot outline for this home, so there's no map. You can still finish the checkup.</p>
+<p class="help">{{ t("No lot outline for this home, so there's no map. You can still finish the checkup.") }}</p>
 {% endif %}
 
 <form method="post" action="/" id="answers" data-live>
@@ -152,6 +145,6 @@
   <div id="answers-body">{% include "_answers.html" %}</div>
 </form>
 
-<form method="get" action="/" class="center"><button type="submit" class="button ghost">{{ ic.icon("refresh") }} Check a different home</button></form>
+<form method="get" action="/" class="center"><button type="submit" class="button ghost">{{ ic.icon("refresh") }} {{ t("Check a different home") }}</button></form>
 {% endif %}
 {% endblock %}

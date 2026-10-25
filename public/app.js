@@ -18,6 +18,22 @@ function store(get, key, value) {
   });
 })();
 
+// Language buttons: on a page with answers, switch language and send the same answers again,
+// so the result comes back in the new language instead of starting over.
+document.querySelectorAll("a[data-lang]").forEach(function (a) {
+  a.addEventListener("click", function (e) {
+    var form = document.querySelector("form[data-live]");
+    if (!form) return;                                   // plain pages just follow the link
+    e.preventDefault();
+    fetch(a.href, { credentials: "same-origin" }).then(function () {
+      var again = document.createElement("input");
+      again.type = "hidden"; again.name = "action"; again.value = "relang";
+      form.appendChild(again);
+      form.submit();
+    }).catch(function () { window.location = a.href; });
+  });
+});
+
 // Roadmap: check off steps; progress is saved in this browser only, per home and result
 function initRoadmaps(scope) {
   scope.querySelectorAll("[data-roadmap]").forEach(function (map) {

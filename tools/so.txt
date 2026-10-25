@@ -1,0 +1,473 @@
+# Somali (Soomaali) translations for HomeKeep. One line per sentence: id|translation.
+# The ids come from tools/keys.txt (perl tools/i18n.pl extract). After editing, run: perl tools/i18n.pl build es so
+# Keep every {placeholder}, every ** and every [link](...) exactly as in the English.
+# Office names (Franklin County Recorder, Auditor, Probate Court...) stay in English so people can find them.
+# These were written with AI help: please have a native Somali speaker review them.
+93cba074|Haa
+bafd7322|Maya
+ae4ee459|Ma hubo
+89dd4a5a|Waxay u muuqataa mid ilaalsan
+5adab083|Waddada lahaansho cad ayay ku jirtaa
+2a601bb0|Weli ma ilaalsana
+3349029c|Waxay u badan tahay lahaansho isku dhex yaacsan
+617bd0b1|Waxaan u baahanahay macluumaad yar oo dheeraad ah
+c54b9fd6|Ka yar $35,000
+205e5d7b|$35,000 ilaa $100,000
+456af815|Ka badan $100,000
+e3b014d0|Degmadu (County) waxay milkiilaha u qortay **hanti qof dhintay (estate)**. Taasi badanaa waxay ka dhigan tahay in milkiiluhu dhintay oo guriga aan weli loo wareejin dhaxlayaasha.
+8cc708fe|Guriga waxa uu ku jiraa **aaminaad (trust)**. Aaminaaddu badanaa hantida way gudbisaa iyada oo aan loo marin maxkamadda dhaxalka (probate), haddii la magacaabay qof beddela maamulaha aaminaadda.
+bd23520e|Warqadda lahaanshaha (deed) milkiile cusub ma helin muddo ku dhow **{years} sano**. Taasi waa caadi, laakiin haddii dadka ku qoran ay dhinteen, sidan ayuu lahaansho isku dhex yaacsani ku bilaabmaa.
+6014f491|Diiwaanka waxaa ku qoran **{n} milkiile**. Qof kasta qaybtiisa waa in la xisaabiyaa.
+d367e012|Buuxi Warqadda Wareejinta Marka Geeriyoodo (Transfer on Death Designation Affidavit)
+f2117255|Waxay magacawdaa qofka guriga helaya marka milkiiluhu dhinto, iyada oo aan maxkamad dhaxal loo marin. Foomam bilaash ah: {forms}. Haddii milkiiluhu xaas leeyahay, xaaskuna wuu saxiixaa.
+8a63addf|Qiyaastii 30 daqiiqo
+4aee8633|Foom bilaash ah
+a6908032|Ku saxiix nootaayo hortiisa
+5ccdbe23|Sharciga Ohio wuxuu dhigayaa in lagu saxiixo qof dhaarin kara hortiisa, sida nootaayo. Bangiyada iyo xafiiska Auditor-ka Degmada badanaa mid ayay leeyihiin.
+28a5f383|Qiyaastii 15 daqiiqo
+c6ef0fe9|Badanaa waa bilaash bangigaaga ama ururkaaga lacagta (credit union)
+469ac10f|Ka diiwaangeli County Recorder-ka ka hor inta uusan milkiiluhu dhiman
+e97a3cae|{office}, {address}, {phone}. Lacagta diiwaangelintu waa {fee}. Waxay shaqaysaa oo keliya haddii la diiwaangeliyo inta milkiiluhu nool yahay. Milkiiluhu hadhow wuu beddeli karaa ama joojin karaa.
+4dc366d8|Hal booqasho, ama boosto
+143def84|Gudbi warqadda xaqiijinta oo ay la socoto shahaadada dhimashada
+10da2c16|Qofka lagu magacaabay Warqadda Wareejinta Marka Geeriyoodo wuxuu gudbiyaa warqad xaqiijinaysa wareejinta, iyo shahaadada dhimashada oo la xaqiijiyay, County Recorder-ka ({law}). Foomamku waxay la jiraan foomamka kale ee TOD: {forms}.
+a2d52977|Hal booqasho
+c0c75e40|Cusboonaysii diiwaanka Auditor-ka
+0d8e85f5|Nuqul u geey Auditor-ka Degmada si biilasha canshuurta iyo dhimista canshuurta guriga (homestead) ay ugu tagaan milkiilaha cusub.
+b24ce0cd|Bilaash
+afd3b696|Gudbi warqadda badbaadada (survivorship) oo ay la socoto shahaadada dhimashada
+81f122f1|Marka warqadda lahaanshuhu sheegto 'with right of survivorship' (xaq badbaado), milkiilaha nool ayaa guriga haysta. Wuxuu Auditor-ka iyo Recorder-ka Degmada u gudbiyaa warqad iyo shahaadada dhimashada oo la xaqiijiyay si diiwaanku u muujiyo inuu isagu milkiile yahay.
+e15f3eb9|Waxaa laga yaabaa inaad u qalanto 'Release from Administration' (hab fudud)
+57a6d79f|Maxkamadda Dhaxalka (Probate Court) ee Degmada Franklin waxay leedahay hab gaaban oo loogu talagalay hantida yar: ilaa $35,000 haddii aan lammaane nool jirin, ama ilaa $100,000 marka lammaanaha nool uu wax walba dhaxlo. Faahfaahin: {brochure}.
+bda96cc7|Badanaa ka dhakhso badan dhaxal buuxa
+ef257920|Weydii doorashada 'Real Estate Transfer Only' (wareejinta guriga oo keliya)
+c0a71f7e|Haddii qofku dhintay in ka badan lix bilood ka hor, uu lahaa guri oo keliya, oo aan cid lacag ku leh dacwad soo gudbin, Maxkamadda Dhaxalka waxay leedahay doorasho guriga oo keliya ah. {brochure}
+13f84da0|Fur kiis dhaxal (probate) si guriga loo wareejiyo
+58508a33|Maxkamadda Dhaxalku waxay magacawdaa qof maamula hantida, kadibna guriga u wareejisaa dhaxlayaasha. Badanaa waxay qaadataa lix bilood ilaa hal sano. {guide}
+429117a5|Badanaa 6 ilaa 12 bilood
+e6053f2e|Soo ururi waraaqaha maxkamaddu weydiiso
+40ae62f1|Aqoonsi sawir leh, shahaadada dhimashada oo la xaqiijiyay, dardaaranka asalka ah haddii uu jiro, caddayn in aaska la bixiyay, iyo warqadda lahaanshaha ama biilka canshuurta guriga.
+2d16d788|Dhowr maalmood
+4e776c24|Lacag yar oo shahaado kasta oo dhimasho ah
+8e87f7c9|Canshuurtu weli waa la bixinayaa inta lahaanshaha la hagaajinayo. Canshuur aan la bixin waxay keeni kartaa in guriga lala wareego (foreclosure), xataa guri la dhaxlay.
+2fbc1be0|Sii wad bixinta canshuurta hantida
+7f7a7a80|Labo jeer sannadkii
+984a1453|Kiiska raac ilaa dhammaadka
+5b3047c5|Hel caawimaad sharci oo bilaash ah
+ffaa8002|{name} waxay bilaash u caawisaa qoysaska dakhligoodu yar yahay: {apply}, ama wac khadka diiwaangelinta {intake} ({hours}). Shaqaalaha Maxkamadda Dhaxalka waxay kuu sharxi karaan tallaabooyinka {probate}, laakiin talo sharci kuma siin karaan. Hage fudud: {guide}.
+11b0dbf7|Hal wicitaan si aad u bilowdo
+dbfe8ad9|Bilaash haddii aad u qalanto
+6c87789f|Gurigan waxaa leh shirkad ama urur
+013c338a|Qalabkan waxaa loogu talagalay guryaha ay leeyihiin dad ama qoysas.
+1acb9a6b|Guriga waxa uu ku jiraa aaminaad (trust)
+aae87030|Aaminaadaha badanaa guriga way gudbiyaan iyada oo aan maxkamad dhaxal loo marin.
+f0fd7a8a|Hubi in la magacaabay qof beddela maamulaha aaminaadda
+56e4fde6|Dukumentiga aaminaaddu waa inuu sheegaa cidda la wareegaysa marka maamulaha hadda jira dhinto. Haddii aan cidna la magacaabin, ama aaminaadda aan la dhammaystirin, la hadal qareen.
+f21ac277|Kiis dhaxal ayaa maamulaya wareejinta
+038832d8|Degmadu waxay milkiilaha u qortay hanti qof dhintay, adiguna waxaad sheegtay in kiis dhaxal la furay.
+0902cea7|Marka maxkamaddu ansixiso, guriga waxaa loo wareejiyaa dhaxlayaasha, diiwaanka Degmaduna wuu isbeddelaa. Weydii maxkamadda ama qareenkaaga waxa weli harsan.
+5f6a2e72|Canshuurtu weli waa la bixinayaa inta kiisku furan yahay.
+ba6b8f57|Guriga weli waxa uu ku qoran yahay magaca hanti qof dhintay
+ce295adb|Degmadu waxay milkiilaha u qortay hanti qof dhintay, oo aan kiis dhaxal la furin.
+7b707720|Ma garan karin cidda gurigan leh
+91f328ae|Marka hore, ogow in qof kasta oo warqadda lahaanshaha ku qoran uu nool yahay
+1bb6f8b8|Jawaabtu ayaa go'aamisa wax kasta oo kale.
+f212d8bb|Weydii qoyskaaga
+9d688a26|Weydii qaraabadaada in qof kasta oo warqadda lahaanshaha ku qoran uu nool yahay.
+dce6e0e5|Hal wicitaan
+3e76cc4e|Gurigu wuxuu leeyahay qorshe waxa xiga
+eff5c430|Qof kasta oo warqadda lahaanshaha ku qoran waa nool yahay, oo Warqadda Wareejinta Marka Geeriyoodo ayaa la diiwaangeliyay.
+b1bff6b8|Ku hay mid casri ah
+79772c4a|Haddii qof la magacaabay dhinto ama qorshaha qoysku isbeddelo, diiwaangeli warqad cusub.
+77735d3f|U sheeg dadka la magacaabay
+1c7b6681|Hadhow waxay u baahan doonaan inay gudbiyaan warqad xaqiijin ah iyo shahaadada dhimashada.
+13538f93|Hal wada hadal
+e4f1b7b0|Qof kasta oo warqadda lahaanshaha ku qoran waa nool yahay, laakiin wax la diiwaangeliyay oo sheegaya cidda guriga xigta ma jiro.
+197a76d5|Waxaad ka eegi kartaa warqad la diiwaangeliyay {search}.
+30ead121|Hadda ilaali guriga, inta ay fudud tahay
+0775f716|Qofka warqadda lahaanshaha ku qoran wuu dhintay.
+119327b1|Dhammaan {n}-da qof ee warqadda lahaanshaha ku qoran way dhinteen.
+111f6778|1 ka mid ah {n}-da qof ee warqadda lahaanshaha ku qoran wuu dhintay.
+eac32e0c|{died} ka mid ah {n}-da qof ee warqadda lahaanshaha ku qoran way dhinteen.
+e18b0e5b|Warqadda lahaanshuhu guriga waxay siisaa milkiilayaasha nool (xaq badbaado).
+db8357f3|Milkiilaha nool wuxuu ku cadayn karaa lahaanshaha hal gudbin
+4d208ac3|Warqadda Wareejinta Marka Geeriyoodo ayaa la diiwaangeliyay ka hor dhimashada.
+862330ec|Qofka qoyska ee la magacaabay ayaa dhammaystiri kara wareejinta
+35a6ce59|Kiis dhaxal ayaa la furay.
+8d8eebc7|Weydii maxkamadda ama qareenkaaga waxa weli harsan.
+26d36c68|Ma xaqiijin karin in ay jirto Warqadda Wareejinta Marka Geeriyoodo ama warqad lahaansho oo leh xaq badbaado.
+33ee91ac|Hubi warqadda lahaanshaha la diiwaangeliyay ka hor intaadan wax kale samayn
+4138efa9|Raadi dukumentiyada la diiwaangeliyay
+22222783|Ka raadi cinwaanka ama milkiilaha {search} si aad u hesho 'Transfer on Death Designation Affidavit' ama warqad lahaansho oo leh 'survivorship'. Xafiiska Recorder-ka ayaa ku caawin kara: {phone}.
+6265e0b8|Qiyaastii 15 daqiiqo online ah
+08e1719b|Raadintu waa bilaash
+b347ef1c|Wax la diiwaangeliyay oo guriga gudbinaya ma jiro, oo kiis dhaxal ah oo furan ma jiro.
+049cfffc|Guriga waxay u badan tahay inuu weli sharci ahaan ku qoran yahay magaca qof dhintay
+a76d4ef5|Waqti
+20b4f77b|Qiimo
+b3c5b21d|Halkee
+f72d534d|Waxaa loo diyaariyay {name}
+d6ecf94d|Guri: {address}    Taariikh: {date}
+6f8002eb|lama raadin
+6a289a14|HomeKeep: qorshahayga
+12171c7e|Natiijo: {label}. {headline}
+1197ba6e|Qorshaha tallaabooyinkayga: calaamadee tallaabo kasta
+17bbc905|Macluumaad guud oo ku saabsan sharciga Ohio, ma aha talo sharci. Sharciyada, foomamka iyo lacagaha way isbeddelaan; la xaqiiji xafiisyada Degmada ama qareen ka hor intaadan wax gudbin.
+b09586ff|HomeKeep: liiska faa'iidooyinka guriga (homestead)
+9ea501cf|Lacagta la filayo in la keydiyo: qiyaastii ${amount} sannadkii.
+3e53c8b1|Goorta ay dhacayso
+7dadd2a4|Waa wanaagsan tahay inaad ogaato
+ed9cabd2|Dariska
+5021013e|Waddada dhinaceeda kale
+382c70fa|Gadaal
+945d5e23|Bidix
+92b09c7c|Midig
+02d497cd|Ilmaha {n}aad ee {name}
+350f6332|Lammaanaha nool
+4f800d2f|Marka ilmo kasta uu sidoo kale yahay ilmaha lammaanaha nool, lammaanuhu wax walba ayuu dhaxlaa.
+36e60d57|Marka uu jiro lammaane nool iyo hal ilmo oo aan ahayn ilmaha lammaanaha, lammaanuhu marka hore wuxuu helaa ${first} hantida, kadibna {share} inta kale. Ilmuhu wuxuu helaa qaybta harsan.
+50b1c7fb|Marka uu jiro lammaane nool iyo carruur aan dhammaantood ahayn carruurta lammaanaha, lammaanuhu marka hore wuxuu helaa ${first} hantida, kadibna {share} inta kale. Laamaha carruurtu waxay qaybsadaan qaybta harsan.
+736e2553|Marka uu jiro lammaane nool iyo carruur aan midkoodna ahayn carruurta lammaanaha, lammaanuhu marka hore wuxuu helaa ${first} hantida, kadibna {share} inta kale. Laamaha carruurtu waxay qaybsadaan qaybta harsan.
+5268a2ee|Haddii aan lammaane nool jirin, carruurtu si siman ayay u dhaxlaan. Haddii ilmo dhintay, carruurtiisa ayaa qaybsada qaybta waalidkood.
+375b59ca|Haddii aan carruur iyo awoowayaal-ka-dhal (carruurta carruurta) jirin, lammaanaha nool ayaa wax walba dhaxla.
+18d5a0d2|Waalid {n}
+30269022|Waalid
+ece10300|Haddii aan lammaane, carruur ama carruurta carruurta jirin, waalidiintu si siman ayay u dhaxlaan.
+cf082b13|Walaal {n}
+53561d71|Haddii aan lammaane, carruur, carruurta carruurta ama waalidiin jirin, walaalaha ayaa si siman u dhaxla (carruurtooda ayaa beddela kuwa dhintay).
+230a58ba|Qaraabo ka fog (awoowayaal, adeero, abtiyo, ilmo adeer) ayaa xiga. Kiiskan wuxuu u baahan yahay qareen.
+a8091ca2|65 jir ama ka weyn (ama sannadkan 65 buuxinaya)
+373feb2f|Naafo joogto ah oo buuxda
+0cc74308|Lammaanaha nool ee qof helayay dhimista (59 jir ama ka weyn markuu qofkaasi dhintay)
+e6250bdc|Askari hore (veteran) oo leh qiimayn naafonimo 100% ah oo la xiriirta adeegga, ama lammaanihiisa nool
+28617783|U qalmitaanku wuxuu ku xiran yahay wax ka badan su'aalahan, sida dakhliga, cidda warqadda lahaanshaha ku qoran, iyo halkii aad deganayd 1da Janaayo. Auditor-ka Degmada Franklin oo keliya ayaa ansixin kara.
+4e9f243c|Cadaynta lahaanshaha si toos ah kuuguma siiso dhimista. Waxay kuu oggolaanaysaa inaad codsato; Auditor-ku weli wuu hubiyaa shuruud kasta.
+ce62694e|Tirooyinka lacagta waxay ka yimaadeen website-ka Auditor-ka, sannad walbana way isbeddelaan. Codsigu waa bilaash; weligaa qofna lacag ha u bixin si uu kuu gudbiyo.
+be71725e|**Dhimista canshuurta guriga (homestead exemption)** ee Ohio waxay yaraysaa canshuurta hantida ee milkiilayaasha 65 jir ama ka weyn, naafada joogtada ah, ama lammaanaha nool ee u qalma: {exempt}-ka ugu horreeya ee qiimaha guriga canshuur laguma qaado ({veteran} askarta hore ee leh qiimayn naafonimo 100% ah). Degmada Franklin taasi badanaa waa **${low} ilaa ${high} sannadkii**. Milkiile kasta oo guriga ku nool wuxuu kaloo heli karaa **dhimis yar oo milkiilaha deggan (owner occupancy credit)**. Labaduba waa bilaash in la codsado, iyada oo loo marayo Auditor-ka Degmada Franklin.
+8a9bf95b|dhimista askarta hore ee naafada ah
+f9ddc054|dhimista canshuurta guriga
+0bd642d8|Qiyaasta {year} ee Auditor-ka Degmada Franklin ee {kind} ee degmada canshuurta {code} ({name}).
+3f22b154|Qiyaasta {year} ee Auditor-ka Degmada Franklin ee {kind} ee guri caadi ah oo Degmada Franklin ku yaal.
+8f645e76|Hubi waxa uu gurigu hadda helo
+410458ba|Guriga ka raadi {search}. Qaybta canshuurtu waxay muujisaa dhimis 'Homestead' ama 'Owner Occupancy' haddii gurigu horay u helo. Biilka canshuurtaaduna wuu muujiyaa.
+16fa0f3f|5 daqiiqo online ah
+15348436|Codso dhimista guriga ee askarta hore ee naafada ah
+2e2eaa46|{veteran}-ka ugu horreeya ee qiimaha guriga canshuur laguma qaado, xad dakhli ahna ma jiro. Buuxi {form} oo ku dar warqadda VA ee muujinaysa qiimaynta 100%.
+00ca6c2c|Codso dhimista canshuurta guriga (homestead)
+dcf6c012|{exempt}-ka ugu horreeya ee qiimaha guriga canshuur laguma qaado. Dakhliga codsadayaasha cusub ({year}, dakhliga guud ee la hagaajiyay ee Ohio) waa inuu ahaadaa {limit} ama ka yar. Buuxi {form}; milkiilaha naafada ah wuxuu kaloo u baahan yahay in dhakhtar saxiixo Shahaadada Naafonimada (DTE 105E). Lammaanaha nool ee horay u helayay waxaa laga yaabaa inuusan u baahnayn foom cusub; weydii Auditor-ka.
+9242dbe4|Codso dhimista milkiilaha deggan (owner occupancy credit)
+f56ff989|Milkiile kasta oo guriga u deggan sida gurigiisa ugu muhiimsan 1da Janaayo wuu heli karaa, xad da' ama dakhli ma jiro. Waxay yaraysaa canshuurta laga ansixiyay Noofembar 2013 ama ka hor. Buuxi {form}. Wax dheeraad ah: {info}.
+3d6855cb|Qiyaastii 10 daqiiqo
+ab5b1173|Gudbi ka hor {deadline}
+09a71041|Codso ka hor {deadline} ee sannadka aad rabto dhimista canshuurta. Codsiyada daahay waa la aqbalaa. Sannad walba dib uma codsanaysid; Auditor-ku wuxuu kuu soo diraa foom cusboonaysiin ah Janaayo kasta.
+2231d5c1|Ka hor waqtiga kama dambaysta ah
+d9740771|Caawimaad ka weydii xafiiska Auditor-ka
+ebc067bc|{name}, {address}, {phone}. Faahfaahinta iyo foomka online-ka: {info}.
+518cce7b|Hal wicitaan
+161c493c|U sheeg Auditor-ka marka wax isbeddelaan
+da931c54|Haddii milkiilihii helayay dhimista canshuurta uu dhinto, iibiyo ama guuro, u sheeg Auditor-ka. Uma gudubto dhaxlayaasha (lammaanaha nool ee u qalma oo keliya), dhimisyada la siiyay qof aan hadda u qalmin waxaa laga yaabaa in dib loo celiyo. {office}: {phone}.
+95ff7b71|Ka hor 31 Desembar {year}
+f7c90372|Codsiga u dir Auditor-ka: online, boosto, ama qof ahaan.
+05e3ea69|Bilowga {year}
+82b12094|Biilka canshuurta {year} (Ohio canshuurta waxay ku qaadaa sannad dib u dhac ah) waa inuu muujiyaa lacagta yar.
+f46463fe|Janaayo kasta kadib
+b7f9eb37|Auditor-ku wuxuu soo diraa foom cusboonaysiin ah. Akhri, oo u sheeg Auditor-ka haddii wax isbeddeleen.
+2c05061c|Dhimisyadan canshuurta waxaa loogu talagalay oo keliya guriga milkiiluhu ku nool yahay
+4b32390e|Dhimista canshuurta guriga iyo dhimista milkiilaha deggan waxay u socdaan oo keliya guriga ugu muhiimsan ee milkiilaha: halkii uu deganaa 1da Janaayo, halka uu ka codeeyo, iyo halka uu canshuurta dakhliga ka gudbiyo.
+dbf347e8|Mar kale hubi haddii milkiile soo guuro
+5e6aa8a9|Milkiile ka dhiga gurigan gurigiisa ugu muhiimsan wuu codsan karaa sannadka xiga.
+53d35821|Haddii dakhligu ka badan yahay {limit}, codsi cusub oo dhimista canshuurta guriga ah uma qalmayo. Hal ka reebis: haddii horay loogu oggolaaday 2013 gurigan, xadka dakhligu ma khuseeyo. Dhimista milkiilaha deggan xad dakhli ma leh.
+f7c2227a|Auditor-ku dhimisyadan canshuurta wuxuu siiyaa milkiilayaasha ku qoran diiwaanka Degmada ee guriga ku nool. Haddii guriga weli ku qoran yahay magaca qof dhintay, qoyska halkaas ku nool badanaa ma codsan karo ilaa lahaanshuhu magacooda ku noqdo.
+672ee307|Marka hore dhammee tallaabooyinka lahaanshaha ee qorshahaaga
+b03defa7|Marka diiwaanka Degmadu muujiyo milkiilaha saxda ah, ku soo noqo tallaabooyinkan.
+e064dcb1|Dhammee gudbinta lahaanshaha, kadib codso
+1b1f7e01|Marka hore cadee lahaanshaha, kadib codso
+7fb55ed0|Marka hore
+2052b4b6|Cadee lahaanshaha, si diiwaanka Degmadu u muujiyo cidda hadda guriga leh.
+5afe27f3|Kadib, ka hor 31 Desembar
+33ff4ed6|Milkiilaha diiwaanka ku qoran ayaa sannadkaas codsada.
+14ae55b2|Hay: foomka cusboonaysiinta ayaa yimaada Janaayo kasta.
+a40844d0|Hubi inaad hesho wax kasta oo aad u qalanto
+673f3f98|Ka eeg qaybta canshuurta {search} in ay jiraan dhimis 'Homestead' iyo dhimis 'Owner Occupancy'. Haddii mid maqan yahay, Auditor-ku wuu ku caawin karaa: {phone}.
+a34aaeeb|Gurigu horay ayuu u helaa dhimista canshuurta guriga
+17e1ad4f|Jawaabahaaga marka la eego, dhimista milkiilaha deggan ayaa hadda ku habboon. Milkiile wuxuu codsan karaa dhimista canshuurta guriga sannadka uu 65 jir noqdo ama naafo joogto ah noqdo.
+d449482e|Waxaad keydin kartaa qiyaastii ${amount} sannadkii
+9e7bc102|Milkiiluhu wuxuu keydin karaa qiyaastii ${amount} sannadkii
+d53b4b53|Keydin suurtagal ah oo loogu talagalay {who}: qiyaastii ${amount} sannadkii
+a275d532|Waxaa laga yaabaa inaad yarayn karto canshuurta hantidaada
+e92f88f5|Diiwaanka waxaa ku qoran {n} milkiile.
+4def616c|Fadlan qor cinwaan, tusaale ahaan 123 Main St.
+31e6b3d9|Ku bilow lambarka guriga, kadib magaca waddada, tusaale ahaan 123 Main St.
+246cd170|Diiwaannada hantida Degmadu waxay ku jawaabeen khalad. Fadlan isku day mar kale daqiiqad kadib.
+97946789|Diiwaannada hantida Degmadu way daahiyeen jawaabta. Fadlan isku day mar kale.
+4c976a21|Hadda lama gaari karo diiwaannada hantida Degmada. Weli waad ka jawaabi kartaa su'aalaha adiga oo isticmaalaya website-ka Auditor-ka.
+5616462f|Diiwaannada hantida Degmadu waxay soo direen wax aan la filayn. Fadlan isku day mar kale.
+6cc28f7f|Milkiile lama qorin
+56a255d0|{acres} acres ({sq_ft} sq ft)
+c9e773bc|Milkiile(yaal)
+ed92eb6f|Cabbirka dhulka
+966d658b|Dhul u dhow
+2c27cae7|Deris: {side}
+db9e6bf4|Gurigan
+52ef81d3|({acres} acres)
+531e4d3b|Qareenno bilaash ah oo loogu talagalay qoysaska dakhligoodu yar yahay. Waxay ka caawiyaan dhaxalka, hantida dhaxalka iyo waraaqaha lahaanshaha.
+ddb92563|Wicitaannada diiwaangelinta maalmaha shaqada 9:30 subaxnimo ilaa 1:30 galabnimo; online ka codso waqti kasta
+dffd8ba9|Nuqul biilka canshuurta ama warqadda lahaanshaha, iyo waraaq kasta oo ku saabsan qofka dhintay.
+8d25891c|Wuxuu diiwaangeliyaa Warqadaha Wareejinta Marka Geeriyoodo, warqadaha badbaadada iyo waraaqaha lahaanshaha, wuxuuna kuu oggolaanayaa inaad raadiso waxa horay loo diiwaangeliyay.
+4be9fcd6|Maalmaha shaqada; wac si aad u hubiso saacadaha
+1d876619|Foomka la saxiixay oo nootaayo xaqiijiyay, iyo jeeg ama kaarka lacagta $34.
+91e038ff|Codsiyada dhimista canshuurta guriga iyo dhimista milkiilaha deggan, qiimaha hantida iyo diiwaannada canshuurta.
+0a8bec38|Maalmaha shaqada; sidoo kale online waad ka codsan kartaa
+ad09f526|Aqoonsi sawir leh, iyo caddaynta da'da ama naafonimada ee dhimista canshuurta guriga.
+b94c8aba|Waxay maamushaa hantida marka qof dhinto, oo ay ku jiraan hababka gaaban ee hantida yar. Shaqaaluhu waxay sharxaan tallaabooyinka laakiin talo sharci ma bixin karaan.
+53864315|Isniin ilaa Jimce, 8 subaxnimo ilaa 5 galabnimo
+f19db5c8|Aqoonsi sawir leh, shahaadada dhimashada oo la xaqiijiyay, iyo dardaaranka asalka ah haddii uu jiro.
+accfbb38|Foomam bilaash ah oo Wareejinta Marka Geeriyoodo ah iyo shaqaale maktabadeed oo kaa caawiya inaad hesho foomka saxda ah (talo sharci ma bixin karaan).
+3a60171a|Isniin ilaa Khamiis, 8 subaxnimo ilaa 5 galabnimo
+aa5355cc|Cinwaanka guriga iyo lambarka dhulka (parcel number) (waxay ku jiraan liiska app-kan).
+aebccfc0|raadinta hantida Auditor-ka Degmada Franklin
+19b54833|raadinta diiwaannada dadweynaha ee Recorder-ka Degmada Franklin
+13929d30|foomamka Warqadda Wareejinta Marka Geeriyoodo (Maktabadda Sharciga Degmada Franklin)
+68af1a69|Sharciga Ohio: Transfer on Death Designation Affidavit (ORC 5302.22)
+35b5bd51|Sharciga Ohio: warqadda xaqiijinta wareejinta dhimashada kadib (ORC 5302.222)
+feadc788|Maxkamadda Dhaxalka Degmada Franklin: buug-yaraha hantida yar
+6618f220|Maxkamadda Dhaxalka Degmada Franklin: hagaha gudbinta hantida
+8448d054|Ohio Legal Help: sida dhaxalku u shaqeeyo
+d393da4f|Legal Aid of Southeast and Central Ohio: codso caawimaad bilaash ah
+a8ea34cf|Greater Ohio Policy Center: hantida dhaxalka ee Ohio
+14241385|LISC: caawimaadda hantida dhaxalka ee Ohio
+4e0d4b09|Auditor-ka Degmada Franklin: dhimista canshuurta guriga (Homestead)
+6a6f6270|Auditor-ka Degmada Franklin: su'aalaha inta badan la isweydiiyo ee Homestead
+a9dc6593|codsiga Homestead ee dadka waaweyn, dadka naafada ah iyo lammaanayaasha nool (DTE 105A)
+47524c4d|codsiga Homestead ee askarta hore ee naafada ah (DTE 105I)
+e63f052c|Auditor-ka Degmada Franklin: dhimista milkiilaha deggan
+6e5bfd5b|codsiga dhimista milkiilaha deggan (DTE 105C)
+3ba00a25|maalmaha shaqada 9:30 subaxnimo ilaa 1:30 galabnimo
+93db00b0|$34 labada bog ee ugu horreeya, iyo $8 bog kasta oo dheeraad ah
+2e91eb56|Lacagta diiwaangelinta $34 (2 bog)
+7d7b93b3|Lacagaha maxkamadda (weydii shaqaalaha)
+2129ccf5|Ohio waxay leedahay qiyaastii 9,000 hanti dhaxal ah (Greater Ohio Policy Center, 2024).
+d5caaa4c|Guryahaasi waxay hayaan qiyaastii $313 milyan oo hanti qoys ah oo lahaansho cad uu furi karo (LISC, 2024).
+d178c0f4|Lahaansho cad la'aantiis, qoysasku ma heli karaan amaah dayactirka guriga, dhimista canshuurta guriga, gargaarka masiibada, ama inay guriga ku amaahdaan (LISC, 2024).
+bc10f055|31 Desembar
+3efc0f9d|Warqadda lahaanshaha (deed)
+3d932c77|Warqadda, lagu diiwaangeliyay Degmada, ee sheegaysa cidda guriga leh.
+b78a3223|Lahaansho (title)
+9e2730b3|Lahaanshaha sharciga ah ee guriga. 'Lahaansho cad' waxay ka dhigan tahay in diiwaanka Degmadu la mid yahay cidda dhab ahaan guriga leh.
+36c70284|Lahaansho isku dhex yaacsan (hanti dhaxal ah)
+35616b7b|Marka milkiile dhintay oo guriga aan weligiis loo wareejin magacyada qoyska nool. Qoysku halkaas ayuu ku nool yahay, laakiin ma caddayn karo inuu leeyahay.
+d0a214bd|Warqadda Wareejinta Marka Geeriyoodo (Transfer on Death affidavit)
+ecb86cb3|Foom gaaban oo Ohio ah oo magacaabaya cidda guriga helaysa marka milkiiluhu dhinto, sidaas darteed maxkamad looma baahna. Waa in la diiwaangeliyaa inta milkiiluhu nool yahay.
+03dc21d2|Dhaxal (probate)
+7af9151f|Habka maxkamadda ee dhammeeya hantida qofka kadib dhimashadiisa oo u wareejisa dhaxlayaasha.
+e0c8c5ea|Badbaado (survivorship)
+b92dd657|Erayo ku qoran warqadda lahaanshaha oo macnahoodu yahay in milkiilaha nool uu si toos ah u haysto guriga marka milkiilaha kale dhinto.
+2882a471|Dhaxle
+76a84ed7|Qof qoyska ka mid ah oo hanti ku dhaxla sharciga Ohio marka aysan jirin dardaaran ama foomka Wareejinta Marka Geeriyoodo.
+8bc5d6b8|Nootaayo
+745a5457|Qof ku daawada markaad saxiixayso oo xaqiijiya inaad dhab ahaan adigu tahay. Bangiyo badan ayaa bilaash u sameeya.
+c4db881a|Dhimista canshuurta guriga (homestead exemption)
+14db9f69|Dhimis canshuurta hantida ah oo Ohio siiso milkiilayaasha 65 jir ama ka weyn, naafada ah, ama lammaanaha nool ee u qalma, guriga ay ku nool yihiin.
+d0557e35|Qoraal Ingiriisi ah
+940bfd45|**{name}** ma nool yahay?
+a23284e7|Foom hal bog ah, lagu diiwaangeliyay Degmada, oo magacaabaya cidda guriga xigta.
+83dd1597|Ma la diiwaangeliyay **Warqadda Wareejinta Marka Geeriyoodo** gurigan?
+3284acd2|Warqadda lahaanshuhu ma sheegaysaa **'with right of survivorship'** (xaq badbaado)?
+b3cf1592|Waxay ka dhigan tahay in milkiilaha nool uu si toos ah u haysto guriga.
+7551559a|Ka hor dhimashada, ma la diiwaangeliyay **Warqadda Wareejinta Marka Geeriyoodo**?
+b0ead639|Ma la furay **kiis dhaxal (probate)** maxkamadda?
+e652a9f4|**Lammaanaha nool** ma wax walba ayuu dhaxlayaa?
+77e7ad9a|Tani waxay ka caawisaa in la helo habka maxkamadda ugu fudud.
+92a9c2f5|Qiyaas ahaan, intee buu ahaa qiimaha **wax kasta oo uu ka tagay**, guriga oo ku jira?
+28cf84de|Ma waxa uu ka tagay **guriga oo keliya** (koonto bangi, baabuur ama hanti kale ma jirin)?
+b98c656c|milkiilaha
+6beae086|**Adigu** ma ku nooshahay gurigan sida **gurigaaga ugu muhiimsan**?
+6624519b|**{who}** ma ku nool yahay gurigan sida **gurigiisa ugu muhiimsan**?
+748d80a2|Halka uu deganaa 1da Janaayo, halka uu ka diiwaangashan yahay codbixinta, iyo halka uu canshuurta ka gudbiyo.
+15c756bd|Gurigu ma **hadda helaa dhimista canshuurta guriga**?
+f6e1490d|Waxay ka muuqataa biilka canshuurta iyo website-ka Auditor-ka sida dhimis 'Homestead'.
+9bccb787|Midkood ma **adiga** ku sifaynayaa? Dooro dhammaan kuwa ku habboon, ama midna.
+438b1f47|Midkood ma ku sifaynayaa **{who}**? Dooro dhammaan kuwa ku habboon, ama midna.
+3558e80d|Dakhligaaga guud ee {year} ma ahaa qiyaastii **{limit} ama ka yar**? Ku dar dakhliga ninkaaga ama xaaskaaga.
+bb8a203c|Dakhliga guud ee {who} ee {year} ma ahaa qiyaastii **{limit} ama ka yar**? Ku dar dakhliga ninka ama xaaska.
+62f2db78|Tani waa dakhliga guud ee la hagaajiyay ee Ohio ee ku qoran warqadda canshuurta gobolka. Haddii dhimista horay loogu oggolaaday 2013 gurigan, xadka dakhligu ma khuseeyo.
+6ba4a020|Gurigani waa kuma?
+b8926e26|Si aan natiijada ugu sharaxno si kuu habboon.
+5ec38a30|Gurigayga
+2ddec0f7|Guriga qof qoyskayga ka mid ah
+30e9e266|Qof aan caawinayo
+be5d5d37|iyo
+e81c4e4f|ama
+4cbad446|{name}, kani waa qorshahaaga
+30ecb6d9|Kani waa qorshahaaga
+64ac91ae|War wanaagsan: gurigaagu wuxuu leeyahay qorshe. Marka waqtigu yimaado, wuxuu u gudbi karaa dadka la magacaabay iyada oo aan maxkamadda dhaxalka la marin. Waraaqaha ku hay kuwo casri ah marka noloshu isbeddesho.
+2a55cee8|War wanaagsan: gurigoodu wuxuu leeyahay qorshe. Marka waqtigu yimaado, wuxuu u gudbi karaa dadka la magacaabay iyada oo aan maxkamadda dhaxalka la marin. Waraaqaha ku hay kuwo casri ah marka noloshu isbeddesho.
+f47a6726|Hadda gurigu si ammaan ah ayuu magacaaga ugu qoran yahay. Laakiin wax diiwaangashan oo sheegaya cidda xigta ma jiro, sidaas darteed qoyskaagu wuxuu u baahan karaa maxkamadda dhaxalka si ay u haystaan. Hal foom, oo la diiwaangeliyo inta aad nooshahay, ayaa ka hortagaya, waxayna qaadataa hal galab oo keliya.
+14a6e419|qoyskaaga
+8b6fc467|qoyska
+7f8f4266|Milkiiluhu weli guriga wuu leeyahay, taasina waa wanaagsan tahay. Laakiin wax diiwaangashan oo sheegaya cidda xigta ma jiro, sidaas darteed {family} waxay ku dambayn karaan maxkamadda dhaxalka. Xalku waa hal foom oo milkiiluhu hadda saxiixi karo, inta ay fudud tahay.
+a762a4ee|{name} weli guriga wuu leeyahay, taasina waa wanaagsan tahay. Laakiin wax diiwaangashan oo sheegaya cidda xigta ma jiro, sidaas darteed {family} waxay ku dambayn karaan maxkamadda dhaxalka. Xalku waa hal foom oo {name} hadda saxiixi karo, inta ay fudud tahay.
+7a9d4475|{names} weli guriga way leeyihiin, taasina waa wanaagsan tahay. Laakiin wax diiwaangashan oo sheegaya cidda xigta ma jiro, sidaas darteed {family} waxay ku dambayn karaan maxkamadda dhaxalka. Xalku waa hal foom oo {names} hadda saxiixi karaan, inta ay fudud tahay.
+b959a3fb|Qoyskaagu waxay ku jiraan waddada lahaansho cad. Badanaa hal gudbin oo keliya ayaa harsan. Dhakhso u dhammee, si diiwaanka Degmadu ula mid noqdo cidda dhab ahaan guriga leh.
+6deb2b3c|Qoysku waxay ku jiraan waddada lahaansho cad. Badanaa hal gudbin oo keliya ayaa harsan. Dhakhso u dhammeeya, si diiwaanka Degmadu ula mid noqdo cidda dhab ahaan guriga leh.
+b730cfe8|Guriga waxay u badan tahay inuu weli sharci ahaan ku qoran yahay magaca {name}. Taasi aad bay u badan tahay, waana la hagaajin karaa. Ilaa laga hagaajinayo, {family} waxaa laga yaabaa inaysan iibin karin, dib u maalgelin karin, heli karin amaah dayactir ama dhimis canshuureed. Ohio waxay qoysas badan u leedahay habab maxkamadeed oo gaaban, caawimaad sharci oo bilaash ahna waa la heli karaa.
+8f1e0182|Guriga waxay u badan tahay inuu weli sharci ahaan ku qoran yahay magaca milkiilihii dhintay. Taasi aad bay u badan tahay, waana la hagaajin karaa. Ilaa laga hagaajinayo, {family} waxaa laga yaabaa inaysan iibin karin, dib u maalgelin karin, heli karin amaah dayactir ama dhimis canshuureed. Ohio waxay qoysas badan u leedahay habab maxkamadeed oo gaaban, caawimaad sharci oo bilaash ahna waa la heli karaa.
+a94555de|Waxaan u baahanahay hal jawaab oo kale ka hor intaanan sheegin xaaladda. Tallaabada ugu horreysa ee hoose ayaa ku tusaysa sida loo ogaado, badanaa waxay qaadataa hal wicitaan ama dhowr daqiiqo online ah.
+8c8c9747|Adeegga khariidadda Degmadu ma jawaabin, sidaas darteed dhulkaaga oo keliya ayaa muuqda. Isku day mar kale daqiiqad kadib.
+e7c2c63f|, qiyaastii {feet} ft oo waddada ku teedsan
+48fec1a9|Gacanta lagu qoray
+a46e498b|Hanti Degmada Franklin ah oo cinwaankaas la mid ah lama helin. Hubi higgaadda, ama adiga hoos ku qor magacyada milkiilayaasha. Sidoo kale waxaad ka raadin kartaa {search}.
+20d69216|Marka hore guri raadi.
+0056b8f5|Lambarka dhulka ee Degmada: {pid}
+8b558f7a|Cabbirka dhulka: {lot}
+41ef5344|Ilmo {n}
+c54492c8|Milkiilaha asalka ah
+6cb2b956|Jiilka {n}
+147f3f72|Su'aalo yar
+6d92a741|Ka dhig mid shakhsi ah
+d57c24f3|ikhtiyaari
+14249f09|Magacaaga koowaad
+2ec66938|tusaale: Maryan
+8a0fedf7|Waxaa loo isticmaalaa oo keliya qoraalka qorshahaaga. Weligeed lama keydiyo.
+f44620b5|Milkiilahan su'aalo looma baahna.
+e4a769ae|Cusboonaysii natiijadayda
+4a555707|Qorshaha tallaabooyinkaaga
+e4b15b1b|{done} ka mid ah {total} tallaabo ayaa dhammaaday
+f8b4d84e|Calaamadee in tallaabada {n} dhammaatay
+e6979af9|Calaamadee tallaabooyinka markaad dhammayso. Horumarkaaga waxaa lagu xasuustaa qalabkan oo keliya.
+5ce4e75c|Soo deji qorshahayga la daabici karo (PDF)
+a75d569c|Hel caawimaad bilaash ah oo kuu dhow
+d4c9cf33|Ikhtiyaari: Hubinta faa'iidooyinka guriga (homestead)
+6ff2cf77|Gurigani ma bixin karaa canshuur hanti oo ka yar?
+8c3e52fd|keydin la qiyaasay sannadkii
+5937b96b|Lacagta dhabta ahi waxay ku xiran tahay biilka canshuurtaada.
+e844ac51|Soo deji liiska guriga (PDF)
+8df9489c|Erayo aad u baahan tahay inaad ogaato
+07f70f8a|Sababta lahaansho cad muhiim u yahay
+fc24a208|Qoyska
+1b8143ef|Ninka ama xaaska milkiilaha waa nool yahay
+e778b33d|Immisa carruur ah ayuu milkiiluhu lahaa?
+cbe8eac8|Magaca ilmaha {n}
+73ba7cfe|Nool
+9a413490|Carruurtiisa
+8738248e|Sidoo kale waa ilmaha lammaanaha
+e11bd74f|Waalidiinta nool
+04d878a7|Walaalaha nool
+06933067|Cusboonaysii
+5e22548c|Cidda guriga yeelan lahayd
+7dfd4215|1 qof ayaa guriga leh
+ed3376f1|{n} qof ayaa guriga yeelan lahaa
+755ed9c6|Hal qof ayaa maamuli kara lahaanshaha.
+f4b4bae5|Dhammaan {n}-da qof waa inay isku raacaan oo saxiixaan si guriga loo iibiyo ama dib loogu maalgeliyo.
+abad30e0|Gurigu intee buu u qiimo leeyahay?
+a45044a5|Waxaan ku bilownay tusaale.
+7402f0e0|Isticmaal qiimaha suuqa ee ku qoran biilka canshuurta ama website-ka Auditor-ka.
+eca6e6c5|oo hanti qoys ah ayaa **xiran** ilaa labada dhaxle ay isku raacaan oo saxiixaan. Ilaa markaas lama iibin karo, dib looma maalgelin karo, laguma amaahan karo dayactir.
+8ef26222|oo hanti qoys ah ayaa **xiran** ilaa dhammaan {n}-da dhaxle ay isku raacaan oo saxiixaan. Ilaa markaas lama iibin karo, dib looma maalgelin karo, laguma amaahan karo dayactir.
+c0018e9a|Hal dhaxle ayaa isticmaali kara qiimaha guriga oo dhan.
+5e2e9ef2|Sida guriga loo qaybin lahaa
+72122ce9|milkiile
+b132392a|milkiilayaal
+5a95a425|Qayb
+adaaee4b|Boqolkiiba
+49016b66|Qiimo
+45b69609|${amount}-ka lammaanaha waxaa marka hore laga jaraa hantida oo dhan, sidaas darteed qaybinta dhabta ah ee guriga waxay ku xiran tahay waxa kale ee uu ka tagay. Lacagaha dollarka ee kore waa tilmaan qiyaas ah. Weydii Legal Aid.
+e89d76cc|Maxaa dhacaya haddii aan cidna waraaqaha gudbin jiilal badan
+77dbfb07|Mar kasta oo milkiile dhinto isaga oo aan waraaqaha la gudbin, qaybtiisa ayaa mar kale loo qaybiyaa dhaxlayaashiisa. Jiid badhamada si aad u aragto.
+52ac81ab|Carruurta qof kasta:
+98054900|Jiilal:
+9ff6bfed|Dadka leh qayb ka mid ah guriga, jiil kasta
+6247eb64|Kadib **{gens}** jiil, **{people} qof** mid kastaa wuxuu leeyahay qiyaastii **{percent}%** guriga, qiimihiisuna waa qiyaastii **${worth}** mid kasta. Mid kasta waa in la helaa oo uu saxiixaa ka hor inta guriga aan la iibin, dib loo maalgelin ama amaah lagu dayactirin.
+a2b5fe8d|Kadib **{gens}** jiil, **{people} qof** mid kastaa wuxuu leeyahay qiyaastii **{percent}%** guriga. Mid kasta waa in la helaa oo uu saxiixaa ka hor inta guriga aan la iibin, dib loo maalgelin ama amaah lagu dayactirin.
+9c82b0a2|**Xalku waa hal foom, oo la diiwaangeliyo inta milkiiluhu nool yahay:** Warqadda Wareejinta Marka Geeriyoodo ({forms}). Kadib guriga si toos ah ayuu ugu gudbaa dadka la magacaabay, maxkamad la'aan.
+53609811|Hadda hubi guri
+8f7f4c1c|Ku saabsan
+fb61758d|Ilaha
+dcc58aed|HomeKeep: guriga qoyskaagu ma ku qoran yahay magaca saxda ah?
+0acf88fe|Hubin bilaash ah oo 2 daqiiqo ah: guriga qoyskaagu sharci ahaan ma ku qoran yahay magaca saxda ah, maxayse yihiin tallaabooyinka bilaashka ah ee lagu ilaaliyo?
+87116033|U gudub qoraalka ugu muhiimsan
+a02c83a7|Ugu muhiimsan
+fa1aaa96|Hubi gurigayga
+36074c9c|Yaa dhaxli lahaa?
+546262cb|Caawimaad bilaash ah oo kuu dhow
+2f1a3e62|Baro
+4994a8ff|Luqadda
+3513d2de|Qoraal weyn
+e0125c0c|Boggan waxaa lagu turjumay caawimaadda AI. Magacyada xafiisyada, cinwaannada iyo foomamku waa Ingiriisi. Haddii wax kuu caddayn waayaan, Legal Aid ayaa ku caawin kara.
+2ab5b48b|Bilaash, qarsoodi ah oo luqad fudud ah. Waxaa sameeyay arday dugsi sare oo Bartamaha Ohio ah.
+b338a134|Waxa aad qorto lama keydiyo.
+fd022c70|Kani waa macluumaad guud oo ku saabsan sharciga Ohio, ma aha talo sharci. Sharciyada, foomamka iyo lacagaha way isbeddelaan; la xaqiiji xafiisyada Degmada ama qareen ka hor intaadan wax gudbin.
+682618f7|Caawimaad sharci oo bilaash ah
+9adaa673|Ku saabsan iyo ilaha
+5cbab1cb|Qor cinwaanka guriga
+5f6c5315|Hubi gurigan
+4c0c0085|Isku day guri tusaale ah
+36c1a63c|Bilaash iyo qarsoodi. Waxa aad qorto lama keydiyo.
+2875e145|Guriga qoyskaagu sharci ahaan ma ku qoran yahay magaca saxda ah?
+31bb4e01|Marka milkiile guri dhinto oo waraaqaha aan weligood la gudbin, qoysku wuxuu waayi karaa guriga, dhimisyada canshuurta, iyo hantidii loogu talagalay inay dhaxlaan. Ogow xaaladda gurigaaga **2 daqiiqo** gudahood, oo hel tallaabooyinka bilaashka ah ee lagu hagaajiyo ama lagu ilaaliyo.
+fc7e3dcb|Guryo dhowr ah ayaa la mid ah. Kee waaye?
+352d14f5|Isticmaal gurigan
+96e324be|Dhib ma leh: qor magacyada ku qoran warqadda lahaanshaha
+aaa152c8|Waxay ku qoran yihiin biilka canshuurta hantida, ama website-ka Auditor-ka. Hal magac sadar kasta.
+a0bfb8e5|Sii wad
+d1450b5a|Sababta ay tani Ohio muhiim ugu tahay
+31f08efb|guryaha Ohio ayaa la qiyaasay inay yihiin hanti dhaxal ah, oo ku dhegan magaca qof dhintay
+91d2bbcd|oo hanti qoys ah ayay guryahaasi hayaan, oo sugaya lahaansho cad
+2f585ad0|1 foom
+c3cc3ad5|oo la diiwaangeliyo inta milkiiluhu nool yahay ayaa ka hortagi kara, lacag $34 ah
+322c7876|Ilaha: Greater Ohio Policy Center (2024), LISC (2024), jadwalka lacagaha Recorder-ka Degmada Franklin.
+9ffdb952|Sida ay u shaqeyso
+a17a8b5e|Hel guriga
+138ce66a|Waxaan eegnaa diiwaanka dadweynaha ee Degmada: cidda warqadda lahaanshaha ku qoran iyo goorta ugu dambeysay ee milkiile cusub la helay.
+709181f8|Ka jawaab su'aalo yar
+543a2ad5|Haa ama maya, tusaale ahaan: qof kasta oo warqadda lahaanshaha ku qoran ma nool yahay? Waraaq looma baahna.
+a50ee3b2|Hel qorshaha tallaabooyinkaaga
+e3b30d35|Tallaabooyin luqad fudud ah oo leh waqti, qiimo iyo meesha la aado, liis la daabici karo, iyo caawimaad bilaash ah oo kuu dhow.
+46b5f8c5|Horumar
+92093df1|Ka jawaab su'aalaha
+3a3df558|Waxa diiwaanka Degmadu sheegayo
+6941bc38|Warqadda lahaanshaha ku qoran
+a8280590|Markii ugu dambeysay ee milkiile cusub la helay
+88183b94|Lama yaqaan
+d91aa15c|Ka eeg website-ka Auditor-ka
+f4e9407d|Khariidadda hantida: xadka dhulkaaga iyo derisyadaada
+2eb7b8e2|Buluuggu waa gurigan. Dhulalka liimiga ah ayaa taabanaya (L = bidix, R = midig, B = gadaal, marka waddada laga eego). Guduudka khafiifka ahi waa waddada dhinaceeda kale. Taabo dhul kasta si aad u aragto diiwaankiisa dadweynaha, oo isticmaal mastarada si aad u cabbirto.
+d69d6cd1|Xaafadda tusaalaha ahi waa mid la sameeyay, sidaas darteed sawir dayax-gacmeed ma leh.
+d01268ec|Ku beddel sawirka dayax-gacmeedka iyo khariidadda waddooyinka geeska sare ee midig.
+68710914|Khariidadda hantida
+dd7bf230|Cinwaan
+e7bb8d4f|Xad wadaag ah
+1b046778|Derisyadu waxay muujiyaan oo keliya waxa Degmadu horay ugu muujiso khariidaddeeda dadweynaha. App-kani weligii ma muujiyo xaaladda lahaanshaha guriga qof kale.
+a1530584|Gurigan ma laha sawir xadka dhulka, sidaas darteed khariidad ma jirto. Weli waad dhammaystiri kartaa hubinta.
+5518647f|Hubi guri kale
+3a312b7c|Bilaash iyo rasmi, magaalada Columbus
+e3bb5a4c|Kaligaa uma baahnid inaad tan samayso, umana baahnid inaad qof aadan aqoon lacag u bixiso. Kuwani waa meelaha bilaashka iyo rasmiga ah ee Degmada Franklin oo qabta tallaabo kasta. Inta badan waxay ku yaalaan hal dhisme oo bartamaha magaalada ah, **373 S. High St.**
+2782700e|Khariidadda caawimaadda bilaashka ah ee Degmada Franklin
+30f1c647|Ka hor intaadan tegin
+f9b0b017|**Ka bilow Legal Aid** haddii qof dhintay oo aan waxba la gudbin. Waa bilaash haddii aad u qalanto.
+f1355aec|**Marka hore wac.** Saacaduhu way isbeddelaan, wicitaan 2 daqiiqo ahna wuxuu kaa badbaadin karaa safar bartamaha magaalada ah.
+97eb6850|**Keen qorshahaaga la daabici karo** ee app-kan. Wuxuu leeyahay cinwaanka guriga iyo lambarka dhulka.
+45d4b331|**Ka digtoonow qof kasta oo kuu soo bandhiga inuu guriga iibsado ama lahaanshaha hagaajiyo lacag.** Xafiisyadani waa bilaash ama qiimo jaban.
+bcc254b5|Telefoon
+6a7e7316|Saacadaha
+7409b762|Keen
+987b3c77|Tilmaamaha jidka
+15bbb9d0|Website
+ee9e62ae|Caawimaad aad guriga ka isticmaali karto
+ff17c6e7|[Ohio Legal Help]({url}): hagayaal iyo foomam luqad fudud ah oo ku saabsan dhaxalka iyo hantida, oo ka yimid kooxaha caawimaadda sharciga ee Ohio.
+6baedaa1|[Foomamka Wareejinta Marka Geeriyoodo]({url}) ee Maktabadda Sharciga Degmada Franklin, bilaash in la soo dejiyo.
+5cb2615f|[Raadinta diiwaannada Recorder-ka]({url}): eeg haddii Warqadda Wareejinta Marka Geeriyoodo horay loo diiwaangeliyay.
+b4e9abf1|[Dhimista canshuurta guriga]({url}): online kaga codso Auditor-ka Degmada.
+6b2c7ee7|Dhaxalka Ohio, sawirro ahaan
+0d0b38f1|Yaa dhaxli lahaa guriga?
+458f18d5|Marka milkiile guri oo Ohio ah dhinto **isaga oo aan lahayn dardaaran iyo Warqadda Wareejinta Marka Geeriyoodo**, sharciga gobolka ayaa go'aamiya cidda guriga xigta. Hoos ka dhis qoyska si aad u aragto sida guriga loo qaybin lahaa, iyo inta qof ee ay tahay inay saxiixaan si guriga loo iibiyo, dib loogu maalgeliyo, ama lahaanshaha loo hagaajiyo.
+77e57d49|Nooc la fududeeyay oo ah xeerarka Ohio (ORC 2105.06). Dardaaran, deyn, ama qoys ka murugsan ayaa beddela jawaabta. Macluumaad guud, ma aha talo sharci. Waxa aad qorto lama keydiyo.
+ed2cda20|Waa maxay lahaansho isku dhex yaacsan?
+a97d236e|Hal milkiile wuxuu noqdaa afar, kadibna kow iyo toban
+16ba038e|Awoowe
+9aaf40d9|magaciisa ayaa ku qoran warqadda lahaanshaha
+3508e6a5|wuu dhintaa, waxba lama gudbin
+268184c1|carruur
+de509d5d|mid kastaa wuxuu leeyahay 1/4
+4719d4b4|2 ka mid ah way dhintaan
+fabfffe6|2 carruur + 9 carruurta carruurta

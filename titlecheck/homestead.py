@@ -14,13 +14,15 @@ from datetime import date
 from statistics import median
 
 from titlecheck.assess import AT_RISK, IN_PROGRESS, NO, PROTECTED, UNSURE, YES, Step
+from titlecheck.i18n import N_, t
 from titlecheck.resources import CONTACTS, HOMESTEAD, link
 from titlecheck.tax_districts import DISTRICTS, SCHEDULE_YEAR
 
-SENIOR = "65 or older (or turning 65 this year)"
-DISABLED = "Permanently and totally disabled"
-SPOUSE = "Surviving spouse of someone who got the exemption (59 or older when they died)"
-VETERAN = "Veteran with a 100% service-connected disability rating, or their surviving spouse"
+# The answers are stored in English; the screen shows t(SENIOR) and so on
+SENIOR = N_("65 or older (or turning 65 this year)")
+DISABLED = N_("Permanently and totally disabled")
+SPOUSE = N_("Surviving spouse of someone who got the exemption (59 or older when they died)")
+VETERAN = N_("Veteran with a 100% service-connected disability rating, or their surviving spouse")
 QUALIFIERS = [SENIOR, DISABLED, SPOUSE, VETERAN]
 INCOME_TESTED = {SENIOR, DISABLED, SPOUSE}       # the disabled veteran exemption has no income limit
 
@@ -30,21 +32,24 @@ TYPICAL_SAVINGS = int(median(v for _, v in DISTRICTS.values()))
 LOWEST_SAVINGS = min(v for _, v in DISTRICTS.values())
 HIGHEST_SAVINGS = max(v for _, v in DISTRICTS.values())
 
-EXPLAINER = (f"Ohio's **homestead exemption** lowers property taxes for homeowners who are 65 or older, permanently "
-             f"disabled, or a qualifying surviving spouse: the first {HOMESTEAD['exempt_value']} of the home's value "
-             f"isn't taxed ({HOMESTEAD['veteran_value']} for veterans with a 100% disability rating). In Franklin "
-             f"County that's usually **${LOWEST_SAVINGS} to ${HIGHEST_SAVINGS} a year**. Any owner who lives in the "
-             "home can also get a smaller **owner occupancy credit**. Both are free to apply for, through the "
-             "Franklin County Auditor.")
-
 CAVEATS = [
-    "Eligibility depends on more than these questions, like income, who is on the deed, and where you lived on "
-    "January 1. Only the Franklin County Auditor can approve it.",
-    "Clearing a title doesn't automatically get you the exemption. It lets you apply; the Auditor still checks every "
-    "requirement.",
-    "Dollar figures are from the Auditor's website and change every year. Applying is free; never pay anyone to "
-    "file it for you.",
+    N_("Eligibility depends on more than these questions, like income, who is on the deed, and where you lived on "
+       "January 1. Only the Franklin County Auditor can approve it."),
+    N_("Clearing a title doesn't automatically get you the exemption. It lets you apply; the Auditor still checks every "
+       "requirement."),
+    N_("Dollar figures are from the Auditor's website and change every year. Applying is free; never pay anyone to "
+       "file it for you."),
 ]
+
+
+def explainer() -> str:
+    return t("Ohio's **homestead exemption** lowers property taxes for homeowners who are 65 or older, permanently "
+             "disabled, or a qualifying surviving spouse: the first {exempt} of the home's value isn't taxed "
+             "({veteran} for veterans with a 100% disability rating). In Franklin County that's usually **${low} to "
+             "${high} a year**. Any owner who lives in the home can also get a smaller **owner occupancy credit**. "
+             "Both are free to apply for, through the Franklin County Auditor.",
+             exempt=HOMESTEAD["exempt_value"], veteran=HOMESTEAD["veteran_value"], low=LOWEST_SAVINGS,
+             high=HIGHEST_SAVINGS)
 
 
 @dataclass
@@ -64,10 +69,12 @@ class Savings:
 
     @property
     def source(self) -> str:
-        where = (f"tax district {self.district} ({self.district_name})" if self.district
-                 else "a typical Franklin County home")
-        kind = "disabled veteran exemption" if self.veteran else "homestead exemption"
-        return f"The Franklin County Auditor's {SCHEDULE_YEAR} estimate of the {kind} for {where}."
+        kind = t("disabled veteran exemption") if self.veteran else t("homestead exemption")
+        if self.district:
+            return t("The Franklin County Auditor's {year} estimate of the {kind} for tax district {code} ({name}).",
+                     year=SCHEDULE_YEAR, kind=kind, code=self.district, name=self.district_name)
+        return t("The Franklin County Auditor's {year} estimate of the {kind} for a typical Franklin County home.",
+                 year=SCHEDULE_YEAR, kind=kind)
 
 
 @dataclass
@@ -75,7 +82,7 @@ class HomesteadPlan:
     headline: str
     notes: list[str] = field(default_factory=list)
     steps: list[Step] = field(default_factory=list)
-    caveats: list[str] = field(default_factory=lambda: list(CAVEATS))
+    caveats: list[str] = field(default_factory=lambda: [t(c) for c in CAVEATS])
     savings: Savings | None = None          # what the family could save if it qualifies
     timeline: list[tuple[str, str]] = field(default_factory=list)   # (when, what happens)
 
@@ -104,54 +111,62 @@ def estimate(parcel_id: str, veteran: bool = False) -> Savings:
 # ---------------------------------------------------------------- plan building blocks
 def _apply_steps(a: HomesteadAnswers, qualifies: bool) -> list[Step]:
     name, address, phone = CONTACTS["auditor"]
+    deadline = t(HOMESTEAD["deadline"])
     steps = []
     if a.gets_it_now == UNSURE:
-        steps.append(Step("Check what the home gets now",
-                          f"Look the home up on the {link('auditor_search')}. The tax section lists a 'Homestead' "
-                          "or 'Owner Occupancy' credit if the home already gets one. Your tax bill shows them too.",
-                          time="5 minutes online", cost="Free", where="auditor"))
+        steps.append(Step(t("Check what the home gets now"),
+                          t("Look the home up on the {search}. The tax section lists a 'Homestead' or 'Owner Occupancy' "
+                            "credit if the home already gets one. Your tax bill shows them too.",
+                            search=link("auditor_search")),
+                          time=t("5 minutes online"), cost=t("Free"), where="auditor"))
     if VETERAN in a.qualifiers:
-        steps.append(Step("Apply for the disabled veteran homestead exemption",
-                          f"The first {HOMESTEAD['veteran_value']} of the home's value isn't taxed, with no income "
-                          f"limit. Fill out {link('dte_105i')} and include the VA letter showing a 100% rating.",
-                          time="About 15 minutes", cost="Free", where="auditor"))
+        steps.append(Step(t("Apply for the disabled veteran homestead exemption"),
+                          t("The first {veteran} of the home's value isn't taxed, with no income limit. Fill out {form} "
+                            "and include the VA letter showing a 100% rating.",
+                            veteran=HOMESTEAD["veteran_value"], form=link("dte_105i")),
+                          time=t("About 15 minutes"), cost=t("Free"), where="auditor"))
     if INCOME_TESTED & set(a.qualifiers) and qualifies and VETERAN not in a.qualifiers:
-        steps.append(Step("Apply for the homestead exemption",
-                          f"The first {HOMESTEAD['exempt_value']} of the home's value isn't taxed. New applicants' "
-                          f"income ({HOMESTEAD['income_year']} Ohio modified adjusted gross income) must be "
-                          f"{HOMESTEAD['income_limit']} or less. Fill out {link('dte_105a')}; a disabled owner also "
-                          "needs a doctor to sign the Certificate of Disability (DTE 105E). A surviving spouse who "
-                          "already gets it may not need a new form; ask the Auditor.",
-                          time="About 15 minutes", cost="Free", where="auditor"))
-    steps.append(Step("Apply for the owner occupancy credit",
-                      "Any owner who lives in the home as their main home on January 1 can get it, with no age or "
-                      f"income limit. It lowers taxes from levies passed in November 2013 or earlier. Fill out "
-                      f"{link('dte_105c')}. More: {link('owner_occupancy')}.",
-                      time="About 10 minutes", cost="Free", where="auditor"))
-    steps.append(Step(f"File by {HOMESTEAD['deadline']}",
-                      f"Apply by {HOMESTEAD['deadline']} of the year you want the tax break for. Late applications are "
-                      "accepted. You don't reapply every year; the Auditor mails a renewal form each January.",
-                      time="Before the deadline", cost="Free"))
-    steps.append(Step("Ask the Auditor's office for help",
-                      f"{name}, {address}, {phone}. Details and the online form: {link('homestead')}.",
-                      time="One phone call", cost="Free", where="auditor"))
+        steps.append(Step(t("Apply for the homestead exemption"),
+                          t("The first {exempt} of the home's value isn't taxed. New applicants' income ({year} Ohio "
+                            "modified adjusted gross income) must be {limit} or less. Fill out {form}; a disabled owner "
+                            "also needs a doctor to sign the Certificate of Disability (DTE 105E). A surviving spouse "
+                            "who already gets it may not need a new form; ask the Auditor.",
+                            exempt=HOMESTEAD["exempt_value"], year=HOMESTEAD["income_year"],
+                            limit=HOMESTEAD["income_limit"], form=link("dte_105a")),
+                          time=t("About 15 minutes"), cost=t("Free"), where="auditor"))
+    steps.append(Step(t("Apply for the owner occupancy credit"),
+                      t("Any owner who lives in the home as their main home on January 1 can get it, with no age or "
+                        "income limit. It lowers taxes from levies passed in November 2013 or earlier. Fill out "
+                        "{form}. More: {info}.", form=link("dte_105c"), info=link("owner_occupancy")),
+                      time=t("About 10 minutes"), cost=t("Free"), where="auditor"))
+    steps.append(Step(t("File by {deadline}", deadline=deadline),
+                      t("Apply by {deadline} of the year you want the tax break for. Late applications are accepted. "
+                        "You don't reapply every year; the Auditor mails a renewal form each January.",
+                        deadline=deadline),
+                      time=t("Before the deadline"), cost=t("Free")))
+    steps.append(Step(t("Ask the Auditor's office for help"),
+                      t("{name}, {address}, {phone}. Details and the online form: {info}.",
+                        name=name, address=address, phone=phone, info=link("homestead")),
+                      time=t("One phone call"), cost=t("Free"), where="auditor"))
     return steps
 
 
 def _report_changes() -> Step:
-    return Step("Tell the Auditor when things change",
-                "If the owner who got the tax break dies, sells or moves out, tell the Auditor. It doesn't pass to "
-                "heirs (only to a surviving spouse who qualifies), and tax breaks given to someone who no longer "
-                f"qualifies may have to be paid back. {CONTACTS['auditor'][0]}: {CONTACTS['auditor'][2]}.",
-                time="One phone call", cost="Free", where="auditor")
+    return Step(t("Tell the Auditor when things change"),
+                t("If the owner who got the tax break dies, sells or moves out, tell the Auditor. It doesn't pass to "
+                  "heirs (only to a surviving spouse who qualifies), and tax breaks given to someone who no longer "
+                  "qualifies may have to be paid back. {office}: {phone}.",
+                  office=CONTACTS["auditor"][0], phone=CONTACTS["auditor"][2]),
+                time=t("One phone call"), cost=t("Free"), where="auditor")
 
 
 def _timeline(year: int) -> list[tuple[str, str]]:
-    return [(f"By December 31, {year}", "Send the application to the Auditor: online, by mail, or in person."),
-            (f"Early {year + 1}", f"The tax bill for {year} taxes (Ohio bills a year behind) should show the lower "
-                                  "amount."),
-            ("Every January after", "The Auditor mails a renewal form. Read it, and tell the Auditor if anything "
-                                    "changed.")]
+    return [(t("By December 31, {year}", year=year),
+             t("Send the application to the Auditor: online, by mail, or in person.")),
+            (t("Early {year}", year=year + 1),
+             t("The tax bill for {year} taxes (Ohio bills a year behind) should show the lower amount.", year=year)),
+            (t("Every January after"),
+             t("The Auditor mails a renewal form. Read it, and tell the Auditor if anything changed."))]
 
 
 # ---------------------------------------------------------------- the decision
@@ -159,56 +174,63 @@ def homestead_plan(a: HomesteadAnswers, title_status: str, parcel_id: str = "", 
                    year: int | None = None) -> HomesteadPlan:
     """What a family can claim, given its answers, the title status from assess(), and the home's parcel number.
 
-    `who` names the owners in plain words ("James and Louise") so the result can speak to this family.
+    `who` names the owners in plain words ("James and Louise") so the result can speak to this family. "you" means the
+    person checking owns the home, and "the owner" means there are no names to use.
     """
     year = year or date.today().year
     veteran = VETERAN in a.qualifiers
     income_tested = bool(INCOME_TESTED & set(a.qualifiers))
     qualifies = veteran or (income_tested and a.income_ok != NO)
     savings = estimate(parcel_id, veteran) if qualifies else None
-    Who = who[:1].upper() + who[1:]
 
     if a.main_home == NO:
         steps = [_report_changes()] if a.gets_it_now != NO else []
-        return HomesteadPlan("These tax breaks are only for the home an owner lives in",
-                             ["The homestead exemption and the owner occupancy credit only go to an owner's main home: "
-                              "where they lived on January 1, vote, and file income taxes."],
-                             steps + [Step("Check again if an owner moves in",
-                                           "An owner who makes this their main home can apply for the next year.")])
+        return HomesteadPlan(t("These tax breaks are only for the home an owner lives in"),
+                             [t("The homestead exemption and the owner occupancy credit only go to an owner's main "
+                                "home: where they lived on January 1, vote, and file income taxes.")],
+                             steps + [Step(t("Check again if an owner moves in"),
+                                           t("An owner who makes this their main home can apply for the next year."))])
 
     notes = []
     if income_tested and a.income_ok == NO and not veteran:
-        notes.append(f"With income over {HOMESTEAD['income_limit']}, a new application for the homestead exemption "
-                     f"won't qualify. One exception: if {who} already got it for 2013 at this home, the income limit "
-                     "doesn't apply. The owner occupancy credit has no income limit.")
+        notes.append(t("With income over {limit}, a new application for the homestead exemption won't qualify. One "
+                       "exception: if it was already granted for 2013 at this home, the income limit doesn't apply. "
+                       "The owner occupancy credit has no income limit.", limit=HOMESTEAD["income_limit"]))
 
     if title_status not in (PROTECTED, AT_RISK):
-        notes.insert(0, "The Auditor gives these tax breaks to owners on the County record who live in the home. If "
-                        "the home is still in the name of someone who died, the family living there usually can't "
-                        "apply until the title is in their name.")
-        steps = [Step("Finish the title steps in your action plan first",
-                      "Once the County record shows the right owner, come back to these steps.")]
+        notes.insert(0, t("The Auditor gives these tax breaks to owners on the County record who live in the home. If "
+                          "the home is still in the name of someone who died, the family living there usually can't "
+                          "apply until the title is in their name."))
+        steps = [Step(t("Finish the title steps in your action plan first"),
+                      t("Once the County record shows the right owner, come back to these steps."))]
         if a.gets_it_now != NO:
             steps.append(_report_changes())
-        headline = ("Finish the title filing, then apply" if title_status == IN_PROGRESS
-                    else "Clear the title first, then apply")
-        timeline = [("First", "Clear the title, so the County record shows who owns the home now."),
-                    ("Then, by December 31", "The owner on the record applies for that year.")]
+        headline = (t("Finish the title filing, then apply") if title_status == IN_PROGRESS
+                    else t("Clear the title first, then apply"))
+        timeline = [(t("First"), t("Clear the title, so the County record shows who owns the home now.")),
+                    (t("Then, by December 31"), t("The owner on the record applies for that year."))]
         return HomesteadPlan(headline, notes, steps + _apply_steps(a, qualifies), savings=savings, timeline=timeline)
 
     if a.gets_it_now == YES:
-        notes.insert(0, "Keep it: the renewal form comes each January.")
+        notes.insert(0, t("Keep it: the renewal form comes each January."))
         steps = [_report_changes()]
         if a.qualifiers:
-            steps.insert(0, Step("Make sure you get everything you qualify for",
-                                 f"Check the tax section on the {link('auditor_search')} for both a 'Homestead' and "
-                                 f"an 'Owner Occupancy' credit. If one is missing, the Auditor can help: "
-                                 f"{CONTACTS['auditor'][2]}.", time="5 minutes online", cost="Free", where="auditor"))
-        return HomesteadPlan("The home already gets a homestead tax break", notes, steps, savings=savings)
+            steps.insert(0, Step(t("Make sure you get everything you qualify for"),
+                                 t("Check the tax section on the {search} for both a 'Homestead' and an 'Owner "
+                                   "Occupancy' credit. If one is missing, the Auditor can help: {phone}.",
+                                   search=link("auditor_search"), phone=CONTACTS["auditor"][2]),
+                                 time=t("5 minutes online"), cost=t("Free"), where="auditor"))
+        return HomesteadPlan(t("The home already gets a homestead tax break"), notes, steps, savings=savings)
 
     if not a.qualifiers:
-        notes.append("From your answers, the owner occupancy credit fits now. An owner can apply for the homestead "
-                     "exemption in the year they turn 65 or become permanently disabled.")
-    headline = (f"{Who} could save about ${savings.yearly:,} a year" if savings
-                else "You may be able to lower your property taxes")
+        notes.append(t("From your answers, the owner occupancy credit fits now. An owner can apply for the homestead "
+                       "exemption in the year they turn 65 or become permanently disabled."))
+    if savings and who == "you":
+        headline = t("You could save about ${amount} a year", amount=f"{savings.yearly:,}")
+    elif savings and who == "the owner":
+        headline = t("The owner could save about ${amount} a year", amount=f"{savings.yearly:,}")
+    elif savings:
+        headline = t("{who} could save about ${amount} a year", who=who, amount=f"{savings.yearly:,}")
+    else:
+        headline = t("You may be able to lower your property taxes")
     return HomesteadPlan(headline, notes, _apply_steps(a, qualifies), savings=savings, timeline=_timeline(year))

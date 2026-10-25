@@ -6,6 +6,8 @@ The files use a tiny, forgiving bit of Markdown:
     Text before the first section is the page's introduction.
 
     ## Section heading {icon}     <- every "##" starts a new card; {icon} is optional (see _icons.html for names)
+    ## Título {icon} = English title   <- in a translated file: show the English file's section with that title
+                                         (used for "Use of AI tools", so the team's own words appear everywhere)
     A paragraph. Blank lines separate paragraphs.
     - a bullet point
     1. a numbered point
@@ -37,6 +39,7 @@ class Section:
     title: str
     html: Markup
     icon: str = ""
+    from_english: str = ""      # title of the English section whose text this one shows, if any
 
 
 @dataclass
@@ -86,15 +89,15 @@ def parse(text: str) -> Page:
 
     def close():
         if current is not None:
-            title, icon = current
-            page.sections.append(Section(title, blocks_to_html("\n".join(body)), icon))
+            title, icon, english = current
+            page.sections.append(Section(title, blocks_to_html("\n".join(body)), icon, english))
 
     for line in text.splitlines():
         if line.startswith("## "):
             close()
-            heading = line[3:].strip()
+            heading, _, english = line[3:].strip().partition(" = ")
             tag = ICON_TAG.search(heading)
-            current, body = (ICON_TAG.sub("", heading), tag.group(1) if tag else ""), []
+            current, body = (ICON_TAG.sub("", heading), tag.group(1) if tag else "", english.strip()), []
         elif line.startswith("# ") and current is None and not page.title:
             page.title = line[2:].strip()
         elif current is None:
@@ -106,6 +109,15 @@ def parse(text: str) -> Page:
     return page
 
 
-def load(name: str) -> Page:
-    """content/<name>.md, read fresh each time so an edit shows up on the next page load."""
-    return parse((CONTENT_DIR / f"{name}.md").read_text(encoding="utf-8"))
+def load(name: str, lang: str = "en") -> Page:
+    """content/<name>.md (or <name>.es.md / <name>.so.md for Spanish / Somali, if it exists), read fresh each time so
+    an edit shows up on the next page load."""
+    english = parse((CONTENT_DIR / f"{name}.md").read_text(encoding="utf-8"))
+    path = CONTENT_DIR / f"{name}.{lang}.md"
+    if lang == "en" or not path.exists():
+        return english
+    page = parse(path.read_text(encoding="utf-8"))
+    for s in page.sections:
+        if s.from_english and (source := english.section(s.from_english)) is not None:
+            s.html = source.html
+    return page

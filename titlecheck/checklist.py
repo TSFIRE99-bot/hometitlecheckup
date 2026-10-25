@@ -7,6 +7,7 @@ from datetime import date
 from fpdf import FPDF
 
 from titlecheck.assess import Assessment
+from titlecheck.i18n import format_date, t
 from titlecheck.homestead import HomesteadPlan
 
 MD_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
@@ -23,7 +24,7 @@ def plain(text: str) -> str:
 
 def _step_facts(step, places: dict[str, str] | None) -> str:
     """'Time: About 30 minutes  |  Cost: Free form  |  Where: Franklin County Law Library'."""
-    facts = [("Time", step.time), ("Cost", step.cost), ("Where", (places or {}).get(step.where, ""))]
+    facts = [(t("Time"), step.time), (t("Cost"), step.cost), (t("Where"), (places or {}).get(step.where, ""))]
     return "  |  ".join(f"{k}: {v}" for k, v in facts if v)
 
 
@@ -34,8 +35,8 @@ def _header(pdf: FPDF, title: str, address: str | None, prepared_for: str = "") 
     pdf.cell(0, 10, plain(title), new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 11)
     if prepared_for:
-        pdf.cell(0, 6, plain(f"Prepared for {prepared_for}"), new_x="LMARGIN", new_y="NEXT")
-    pdf.cell(0, 7, plain(f"Home: {address or 'not looked up'}    Date: {date.today():%B %d, %Y}"),
+        pdf.cell(0, 6, plain(t("Prepared for {name}", name=prepared_for)), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 7, plain(t("Home: {address}    Date: {date}", address=address or t("not looked up"), date=format_date(date.today()))),
              new_x="LMARGIN", new_y="NEXT")
 
 
@@ -44,12 +45,12 @@ def build_pdf(result: Assessment, address: str | None, notes: list[str], details
     pdf = FPDF(format="Letter")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    _header(pdf, "HomeKeep: my action plan", address, prepared_for)
+    _header(pdf, t("HomeKeep: my action plan"), address, prepared_for)
     for line in details or []:
         pdf.cell(0, 6, plain(line), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
-    pdf.multi_cell(0, 8, plain(f"Result: {result.label}. {result.headline}"), new_x="LMARGIN", new_y="NEXT")
+    pdf.multi_cell(0, 8, plain(t("Result: {label}. {headline}", label=result.label, headline=result.headline)), new_x="LMARGIN", new_y="NEXT")
     if summary:
         pdf.set_font("Helvetica", "I", 11)
         pdf.multi_cell(0, 6, plain(summary), new_x="LMARGIN", new_y="NEXT")
@@ -58,7 +59,7 @@ def build_pdf(result: Assessment, address: str | None, notes: list[str], details
         pdf.multi_cell(0, 6, plain(f"- {line}"), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
-    pdf.cell(0, 8, "My roadmap: check off each step", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 8, plain(t("My roadmap: check off each step")), new_x="LMARGIN", new_y="NEXT")
     for i, step in enumerate(result.steps, 1):
         pdf.set_font("Helvetica", "B", 12)
         pdf.multi_cell(0, 7, plain(f"[  ]  {i}. {step.title}"), new_x="LMARGIN", new_y="NEXT")
@@ -71,8 +72,8 @@ def build_pdf(result: Assessment, address: str | None, notes: list[str], details
         pdf.ln(2)
     pdf.ln(2)
     pdf.set_font("Helvetica", "I", 9)
-    pdf.multi_cell(0, 5, "General information about Ohio law, not legal advice. Laws, forms and fees change; "
-                         "confirm with the County offices or a lawyer before filing anything.",
+    pdf.multi_cell(0, 5, plain(t("General information about Ohio law, not legal advice. Laws, forms and fees change; "
+                                 "confirm with the County offices or a lawyer before filing anything.")),
                    new_x="LMARGIN", new_y="NEXT")
     return bytes(pdf.output())
 
@@ -82,13 +83,13 @@ def build_homestead_pdf(plan: HomesteadPlan, address: str | None, prepared_for: 
     pdf = FPDF(format="Letter")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    _header(pdf, "HomeKeep: homestead benefits checklist", address, prepared_for)
+    _header(pdf, t("HomeKeep: homestead benefits checklist"), address, prepared_for)
     pdf.ln(3)
     pdf.set_font("Helvetica", "B", 14)
     pdf.multi_cell(0, 8, plain(plan.headline), new_x="LMARGIN", new_y="NEXT")
     if plan.savings:
         pdf.set_font("Helvetica", "", 11)
-        pdf.multi_cell(0, 6, plain(f"Estimated savings: about ${plan.savings.yearly:,} a year. {plan.savings.source}"),
+        pdf.multi_cell(0, 6, plain(t("Estimated savings: about ${amount} a year.", amount=f"{plan.savings.yearly:,}") + " " + plan.savings.source),
                        new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 11)
     for line in plan.notes:
@@ -96,7 +97,7 @@ def build_homestead_pdf(plan: HomesteadPlan, address: str | None, prepared_for: 
     if plan.timeline:
         pdf.ln(2)
         pdf.set_font("Helvetica", "B", 12)
-        pdf.cell(0, 7, "When it happens", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 7, plain(t("When it happens")), new_x="LMARGIN", new_y="NEXT")
         pdf.set_font("Helvetica", "", 11)
         for when, what in plan.timeline:
             pdf.multi_cell(0, 6, plain(f"{when}: {what}"), new_x="LMARGIN", new_y="NEXT")
@@ -108,7 +109,7 @@ def build_homestead_pdf(plan: HomesteadPlan, address: str | None, prepared_for: 
         pdf.multi_cell(0, 6, plain(step.detail), new_x="LMARGIN", new_y="NEXT")
         pdf.ln(2)
     pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 7, "Good to know", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 7, plain(t("Good to know")), new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "I", 10)
     for line in plan.caveats:
         pdf.multi_cell(0, 5, plain(f"- {line}"), new_x="LMARGIN", new_y="NEXT")

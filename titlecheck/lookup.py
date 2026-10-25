@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 
 import requests
 
+from titlecheck.i18n import N_
+
 from titlecheck.geo import bounding_box
 
 PARCEL_URL = ("https://gis.franklincountyohio.gov/hosting/rest/services/"
@@ -72,7 +74,7 @@ def normalize_address(text: str) -> tuple[str, str | None]:
     Returns the street part in the County's format plus the ZIP code if one was typed.
     """
     if not text or not text.strip():
-        raise AddressLookupError("Please type a street address, like 123 Main St.")
+        raise AddressLookupError(N_("Please type a street address, like 123 Main St."))
     zip_match = re.search(r"\b(\d{5})(?:-\d{4})?\s*$", text.strip())
     zip_code = zip_match.group(1) if zip_match else None
     street = text.split(",")[0].upper()
@@ -86,7 +88,7 @@ def normalize_address(text: str) -> tuple[str, str | None]:
     if zip_code and out and out[-1] == zip_code:
         out = out[:-1]
     if len(out) < 2 or not out[0][0].isdigit():
-        raise AddressLookupError("Start with the house number, then the street name, like 123 Main St.")
+        raise AddressLookupError(N_("Start with the house number, then the street name, like 123 Main St."))
     return " ".join(out), zip_code
 
 
@@ -118,7 +120,7 @@ def _rings(geometry: dict | None) -> list:
 
 def parse_features(payload: dict) -> list[Parcel]:
     if "error" in payload:
-        raise AddressLookupError("The County's property records answered with an error. Please try again in a minute.")
+        raise AddressLookupError(N_("The County's property records answered with an error. Please try again in a minute."))
     parcels = []
     for feat in payload.get("features", []):
         a = feat.get("attributes", {})
@@ -138,12 +140,12 @@ def _query(params: dict, session) -> list[Parcel]:
         r.raise_for_status()
         payload = r.json()
     except requests.Timeout as e:
-        raise AddressLookupError("The County's property records took too long to answer. Please try again.") from e
+        raise AddressLookupError(N_("The County's property records took too long to answer. Please try again.")) from e
     except (requests.ConnectionError, requests.HTTPError) as e:
-        raise AddressLookupError("Couldn't reach the County's property records right now. "
-                                 "You can still answer the questions using the Auditor's website.") from e
+        raise AddressLookupError(N_("Couldn't reach the County's property records right now. "
+                                 "You can still answer the questions using the Auditor's website.")) from e
     except ValueError as e:  # response was not JSON
-        raise AddressLookupError("The County's property records sent back something unexpected. Please try again.") from e
+        raise AddressLookupError(N_("The County's property records sent back something unexpected. Please try again.")) from e
     return parse_features(payload)
 
 

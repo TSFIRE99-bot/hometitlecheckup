@@ -17,6 +17,8 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
+from titlecheck.i18n import N_
+
 Point = tuple[float, float]
 Ring = list[Point]
 
@@ -233,16 +235,16 @@ def analyze(subject_lonlat: list[Ring], others_lonlat: dict[str, list[Ring]]) ->
 def _position(direction: Point | None, front: Point | None) -> str:
     """Where a neighbor is, as seen from the street, looking at the house."""
     if direction is None or front is None:
-        return "Next door"
+        return N_("Next door")
     along = _dot(direction, front)
     if along > SIDE_COS:
-        return "Across the street"
+        return N_("Across the street")
     if along < -SIDE_COS:
-        return "Behind"
+        return N_("Behind")
     # someone on the street faces the house, so they look in the -front direction; their left is that turned 90 deg
     facing = (-front[0], -front[1])
     viewers_left = (-facing[1], facing[0])
-    return "Left" if _dot(direction, viewers_left) > 0 else "Right"
+    return N_("Left") if _dot(direction, viewers_left) > 0 else N_("Right")
 
 
 def bounding_box(rings: list[Ring], pad_m: float) -> tuple[float, float, float, float]:

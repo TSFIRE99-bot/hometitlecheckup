@@ -3,6 +3,8 @@
 The web app keeps nothing on the server between clicks. Once a home is found, its public record (address, owners,
 years since it changed hands) rides along in hidden form fields, and every answer comes back with each click. These
 functions turn that form into the same Answers the decision rules in titlecheck/assess.py use.
+
+Answer values stay in English (the rules compare them); _question.html shows each choice through t().
 """
 from __future__ import annotations
 
@@ -10,6 +12,7 @@ from dataclasses import dataclass, field
 
 from titlecheck.assess import ESTATE_SIZES, NO, UNSURE, YES, Answers, owner_kind, pretty
 from titlecheck.homestead import INCOME_TESTED, QUALIFIERS, HomesteadAnswers
+from titlecheck.i18n import t
 from titlecheck.resources import HOMESTEAD
 from web.personal import FAMILY, ROLES
 
@@ -52,55 +55,64 @@ def title_questions(owners: list[str], data) -> tuple[list[Question], Answers]:
     f = Form(data)
     people = [o for o in owners if owner_kind(o) == "person"]
     kinds = {owner_kind(o) for o in owners}
-    alive = {p: f.ask(f"alive_{i}", f"Is **{pretty(p)}** living?") for i, p in enumerate(people)}
+    alive = {p: f.ask(f"alive_{i}", t("Is **{name}** living?", name=pretty(p))) for i, p in enumerate(people)}
     a = Answers(owners_alive=alive)
     someone_died = NO in alive.values() or "estate" in kinds
+    tod_help = t("A one-page form, recorded with the County, that names who gets the home next.")
 
     if people and all(v == YES for v in alive.values()) and "estate" not in kinds:
-        a.tod_recorded = f.ask("q_tod", "Has a **Transfer on Death affidavit** been recorded for this home?",
-                               "A one-page form, recorded with the County, that names who gets the home next.")
+        a.tod_recorded = f.ask("q_tod", t("Has a **Transfer on Death affidavit** been recorded for this home?"),
+                               tod_help)
     elif someone_died:
         living = [p for p, v in alive.items() if v == YES]
         if living and len(people) >= 2:
-            a.survivorship = f.ask("q_surv", "Does the deed say **'with right of survivorship'**?",
-                                   "It means the living owner automatically keeps the home.")
-        a.tod_recorded = f.ask("q_tod", "Before the death, was a **Transfer on Death affidavit** recorded?",
-                               "A one-page form, recorded with the County, that names who gets the home next.")
-        a.probate_opened = f.ask("q_probate", "Has a **probate case** been opened in court?")
+            a.survivorship = f.ask("q_surv", t("Does the deed say **'with right of survivorship'**?"),
+                                   t("It means the living owner automatically keeps the home."))
+        a.tod_recorded = f.ask("q_tod", t("Before the death, was a **Transfer on Death affidavit** recorded?"),
+                               tod_help)
+        a.probate_opened = f.ask("q_probate", t("Has a **probate case** been opened in court?"))
         if a.tod_recorded != YES and a.probate_opened != YES and a.survivorship != YES:
-            a.spouse_gets_all = f.ask("q_spouse", "Is a **surviving spouse** inheriting everything?",
-                                      "This helps find the simplest court process.")
-            a.estate_size = f.ask("q_size", "Roughly how much was **everything they left** worth, house included?",
+            a.spouse_gets_all = f.ask("q_spouse", t("Is a **surviving spouse** inheriting everything?"),
+                                      t("This helps find the simplest court process."))
+            a.estate_size = f.ask("q_size", t("Roughly how much was **everything they left** worth, house included?"),
                                   choices=ESTATE_SIZES)
-            a.only_real_estate = f.ask("q_only", "Did they leave **only the house** (no bank accounts, cars, or "
-                                       "other property)?")
+            a.only_real_estate = f.ask("q_only", t("Did they leave **only the house** (no bank accounts, cars, or "
+                                                   "other property)?"))
     return f.questions, a
 
 
-def homestead_questions(data, who: str = "an owner") -> tuple[list[Question], HomesteadAnswers]:
-    """`who` is how the owners are named in the questions, like 'James or Louise' (or 'you')."""
+def homestead_questions(data, who: str = "the owner") -> tuple[list[Question], HomesteadAnswers]:
+    """`who` names the owners in the questions, like 'James or Louise', or is 'you' or 'the owner'."""
     f = Form(data)
     you = who == "you"
+    name = t("the owner") if who == "the owner" else who
     h = HomesteadAnswers(main_home=f.ask(
-        "q_hs_main", f"{'Do **you**' if you else f'Does **{who}**'} live in this home as {'your' if you else 'their'} "
-                     "**main home**?",
-        "Where they lived on January 1, are registered to vote, and file taxes."))
+        "q_hs_main",
+        t("Do **you** live in this home as your **main home**?") if you else
+        t("Does **{who}** live in this home as their **main home**?", who=name),
+        t("Where they lived on January 1, are registered to vote, and file taxes.")))
     if h.main_home != NO:
-        h.gets_it_now = f.ask("q_hs_now", "Does the home **get the homestead exemption now**?",
-                              "It shows on the tax bill and the Auditor's website as a 'Homestead' credit.")
-        h.qualifiers = f.pick_many("q_hs_who", f"Do any of these describe **{who}**? Pick all that fit, or none.",
-                                   QUALIFIERS)
+        h.gets_it_now = f.ask("q_hs_now", t("Does the home **get the homestead exemption now**?"),
+                              t("It shows on the tax bill and the Auditor's website as a 'Homestead' credit."))
+        h.qualifiers = f.pick_many(
+            "q_hs_who",
+            t("Do any of these describe **you**? Pick all that fit, or none.") if you else
+            t("Do any of these describe **{who}**? Pick all that fit, or none.", who=name), QUALIFIERS)
         if INCOME_TESTED & set(h.qualifiers):
+            values = {"year": HOMESTEAD["income_year"], "limit": HOMESTEAD["income_limit"], "who": name}
             h.income_ok = f.ask(
-                "q_hs_income", f"Was {'your' if you else who + chr(39) + 's'} total income in {HOMESTEAD['income_year']} "
-                               f"about **{HOMESTEAD['income_limit']} or less**? Count a husband's or wife's income too.",
-                "This is the Ohio adjusted gross income on the state tax return. If the exemption was already "
-                "granted for 2013 at this home, the income limit doesn't apply.")
+                "q_hs_income",
+                t("Was your total income in {year} about **{limit} or less**? Count a husband's or wife's income "
+                  "too.", **values) if you else
+                t("Was {who}'s total income in {year} about **{limit} or less**? Count a husband's or wife's income "
+                  "too.", **values),
+                t("This is the Ohio adjusted gross income on the state tax return. If the exemption was already "
+                  "granted for 2013 at this home, the income limit doesn't apply."))
     return f.questions, h
 
 
 def role_question(data) -> tuple[Question, str]:
     value = data.get("role")
     value = value if value in ROLES else None
-    return Question("role", "Whose home is this?", "So we can explain the result in a way that fits you.",
+    return Question("role", t("Whose home is this?"), t("So we can explain the result in a way that fits you."),
                     list(ROLES), value), value or FAMILY

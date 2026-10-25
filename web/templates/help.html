@@ -1,25 +1,22 @@
 {% extends "base.html" %}
 {% import "_icons.html" as ic %}
-{% block title %}Free help near you · HomeKeep{% endblock %}
+{% block title %}{{ t("Free help near you") }} · HomeKeep{% endblock %}
 {% block content %}
 <section class="page-head">
-  <p class="eyebrow">Free and official, in Columbus</p>
-  <h1>Free help near you</h1>
-  <p class="lead">You don't have to do this alone, and you shouldn't have to pay a stranger to do it. These are the
-    free and official places in Franklin County that handle each step. Most are in one building downtown, at
-    <strong>373 S. High St.</strong></p>
+  <p class="eyebrow">{{ t("Free and official, in Columbus") }}</p>
+  <h1>{{ t("Free help near you") }}</h1>
+  <p class="lead">{{ t("You don't have to do this alone, and you shouldn't have to pay a stranger to do it. These are the free and official places in Franklin County that handle each step. Most are in one building downtown, at **373 S. High St.**")|md }}</p>
 </section>
 
 <div class="help-layout">
-  <iframe class="map help-map" title="Map of free help in Franklin County" srcdoc="{{ map_html }}"></iframe>
+  <iframe class="map help-map" title="{{ t("Map of free help in Franklin County") }}" srcdoc="{{ map_html }}"></iframe>
   <div class="tip card">
-    <p class="personal-title">{{ ic.icon("info") }} Before you go</p>
+    <p class="personal-title">{{ ic.icon("info") }} {{ t("Before you go") }}</p>
     <ul>
-      <li><strong>Start with Legal Aid</strong> if someone has died and nothing was filed. It's free if you qualify.</li>
-      <li><strong>Call first.</strong> Hours change, and a 2-minute call can save a trip downtown.</li>
-      <li><strong>Bring your printable plan</strong> from this app. It has the home's address and parcel number.</li>
-      <li><strong>Be careful of anyone who offers to buy the home or "fix the title" for a fee.</strong> These offices
-        are free or low cost.</li>
+      <li>{{ t("**Start with Legal Aid** if someone has died and nothing was filed. It's free if you qualify.")|md }}</li>
+      <li>{{ t("**Call first.** Hours change, and a 2-minute call can save a trip downtown.")|md }}</li>
+      <li>{{ t("**Bring your printable plan** from this app. It has the home's address and parcel number.")|md }}</li>
+      <li>{{ t("**Be careful of anyone who offers to buy the home or fix the title for a fee.** These offices are free or low cost.")|md }}</li>
     </ul>
   </div>
 </div>
@@ -28,32 +25,28 @@
 {% for p in places %}
   <article class="card place" id="{{ p.key }}">
     <h2 class="place-name">{{ ic.icon("pin") }} {{ p.name }}</h2>
-    <p>{{ p.what }}</p>
+    <p>{{ t(p.what) }}</p>
     <dl class="facts small">
-      <div><dt>Address</dt><dd>{{ p.address }}</dd></div>
-      <div><dt>Phone</dt><dd>{{ p.phone }}</dd></div>
-      <div><dt>Hours</dt><dd>{{ p.hours }}</dd></div>
-      {% if p.bring %}<div><dt>Bring</dt><dd>{{ p.bring }}</dd></div>{% endif %}
+      <div><dt>{{ t("Address") }}</dt><dd>{{ p.address }}</dd></div>
+      <div><dt>{{ t("Phone") }}</dt><dd>{{ p.phone }}</dd></div>
+      <div><dt>{{ t("Hours") }}</dt><dd>{{ t(p.hours) }}</dd></div>
+      {% if p.bring %}<div><dt>{{ t("Bring") }}</dt><dd>{{ t(p.bring) }}</dd></div>{% endif %}
     </dl>
     <div class="row">
-      <a class="button ghost small" href="{{ p.directions }}" target="_blank" rel="noopener">{{ ic.icon("map") }} Directions</a>
-      <a class="button ghost small" href="{{ p.web }}" target="_blank" rel="noopener">{{ ic.icon("external") }} Website</a>
+      <a class="button ghost small" href="{{ p.directions }}" target="_blank" rel="noopener">{{ ic.icon("map") }} {{ t("Directions") }}</a>
+      <a class="button ghost small" href="{{ p.web }}" target="_blank" rel="noopener">{{ ic.icon("external") }} {{ t("Website") }}</a>
     </div>
   </article>
 {% endfor %}
 </div>
 
 <section class="card">
-  <h2 class="card-title">{{ ic.icon("book") }} Help you can use from home</h2>
+  <h2 class="card-title">{{ ic.icon("book") }} {{ t("Help you can use from home") }}</h2>
   <ul>
-    <li><a href="{{ links.ohio_legal_help_probate[1] }}" target="_blank" rel="noopener">Ohio Legal Help</a>: plain-English
-      guides and forms for probate and property, from Ohio's legal aid groups.</li>
-    <li><a href="{{ links.tod_forms[1] }}" target="_blank" rel="noopener">Transfer on Death forms</a> from the Franklin
-      County Law Library, free to download.</li>
-    <li><a href="{{ links.recorder_search[1] }}" target="_blank" rel="noopener">Recorder's records search</a>: see
-      whether a Transfer on Death affidavit is already recorded.</li>
-    <li><a href="{{ links.homestead[1] }}" target="_blank" rel="noopener">Homestead exemption</a>: apply online with the
-      County Auditor.</li>
+    <li>{{ t("[Ohio Legal Help]({url}): plain-English guides and forms for probate and property, from Ohio's legal aid groups.", url=links.ohio_legal_help_probate[1])|md }}</li>
+    <li>{{ t("[Transfer on Death forms]({url}) from the Franklin County Law Library, free to download.", url=links.tod_forms[1])|md }}</li>
+    <li>{{ t("[Recorder's records search]({url}): see whether a Transfer on Death affidavit is already recorded.", url=links.recorder_search[1])|md }}</li>
+    <li>{{ t("[Homestead exemption]({url}): apply online with the County Auditor.", url=links.homestead[1])|md }}</li>
   </ul>
 </section>
 {% endblock %}

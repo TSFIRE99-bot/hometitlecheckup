@@ -2,26 +2,26 @@
 {% import "_icons.html" as ic %}
 {% import "_content.html" as content %}
 {# The words on this page live in content/learn.md, so they can be edited without touching this file. #}
-{% block title %}What is a tangled title? · HomeKeep{% endblock %}
+{% block title %}{{ t("What is a tangled title?") }} · HomeKeep{% endblock %}
 {% block content %}
 {{ content.page_head(page) }}
 
 {% set flow %}
-<div class="flow" role="img" aria-label="One owner becomes four, then eleven">
-  <div class="flow-box blue"><span class="flow-num">1</span>Grandpa<br><small>name on the deed</small></div>
-  <div class="flow-arrow">{{ ic.icon("arrow") }}<small>dies, nothing filed</small></div>
-  <div class="flow-box orange"><span class="flow-num">4</span>children<br><small>each owns 1/4</small></div>
-  <div class="flow-arrow">{{ ic.icon("arrow") }}<small>2 of them die</small></div>
-  <div class="flow-box red"><span class="flow-num">11</span>owners<br><small>2 children + 9 grandchildren</small></div>
+<div class="flow" role="img" aria-label="{{ t("One owner becomes four, then eleven") }}">
+  <div class="flow-box blue"><span class="flow-num">1</span>{{ t("Grandpa") }}<br><small>{{ t("name on the deed") }}</small></div>
+  <div class="flow-arrow">{{ ic.icon("arrow") }}<small>{{ t("dies, nothing filed") }}</small></div>
+  <div class="flow-box orange"><span class="flow-num">4</span>{{ t("children") }}<br><small>{{ t("each owns 1/4") }}</small></div>
+  <div class="flow-arrow">{{ ic.icon("arrow") }}<small>{{ t("2 of them die") }}</small></div>
+  <div class="flow-box red"><span class="flow-num">11</span>{{ t("owners") }}<br><small>{{ t("2 children + 9 grandchildren") }}</small></div>
 </div>
 {% endset %}
 <div class="content-grid">
 {% for s in page.sections %}{{ content.section_card(s, flow if loop.first else "") }}{% endfor %}
 </div>
-<p class="center"><a href="/" class="button primary">Check my home {{ ic.icon("arrow") }}</a></p>
+<p class="center"><a href="/" class="button primary">{{ t("Check my home") }} {{ ic.icon("arrow") }}</a></p>
 
 <section class="card" id="words">
-  <h2 class="card-title">{{ ic.icon("book") }} Words to know</h2>
-  <dl class="glossary">{% for term, meaning in glossary %}<div><dt>{{ term }}</dt><dd>{{ meaning }}</dd></div>{% endfor %}</dl>
+  <h2 class="card-title">{{ ic.icon("book") }} {{ t("Words to know") }}</h2>
+  <dl class="glossary">{% for term, meaning in glossary %}<div><dt>{{ t(term) }}</dt><dd>{{ t(meaning) }}</dd></div>{% endfor %}</dl>
 </section>
 {% endblock %}

@@ -10,6 +10,7 @@ import folium
 from folium.plugins import Fullscreen, MeasureControl
 
 from titlecheck.assess import pretty
+from titlecheck.i18n import t
 from titlecheck.geo import SQ_FT_PER_ACRE, LotShape, Neighbor, center_lonlat, lot_sq_ft
 from titlecheck.lookup import Parcel
 
@@ -33,13 +34,13 @@ def _feature(p: Parcel, role: str, label: str) -> dict:
     return {"type": "Feature",
             "geometry": {"type": "Polygon", "coordinates": [[list(pt) for pt in ring] for ring in p.rings]},
             "properties": {"parcel_id": p.parcel_id, "address": p.address or "No street address", "role": role,
-                           "label": label, "owners": ", ".join(pretty(o) for o in p.owners) or "No owner listed",
-                           "lot": f"{sq_ft / SQ_FT_PER_ACRE:.2f} acres ({sq_ft:,.0f} sq ft)"}}
+                           "label": label, "owners": ", ".join(pretty(o) for o in p.owners) or t("No owner listed"),
+                           "lot": t("{acres} acres ({sq_ft} sq ft)", acres=f"{sq_ft / SQ_FT_PER_ACRE:.2f}", sq_ft=f"{sq_ft:,.0f}")}}
 
 
 def _popup() -> folium.GeoJsonPopup:
     # clicking a lot shows its public record, the same things the County's own map shows
-    return folium.GeoJsonPopup(["label", "address", "owners", "lot"], aliases=["", "", "Owner(s)", "Lot size"])
+    return folium.GeoJsonPopup(["label", "address", "owners", "lot"], aliases=["", "", t("Owner(s)"), t("Lot size")])
 
 
 def _style(role: str, imagery: bool):
@@ -81,10 +82,11 @@ def build_map(home: Parcel, nearby: list[Parcel], neighbors: list[Neighbor], sha
     for p in nearby:
         n = place.get(p.parcel_id)
         if n is None:
-            role, label = "other", "Nearby lot"
+            role, label = "other", t("Nearby lot")
         else:
             role = "across" if n.position == "Across the street" else "neighbor"
-            label = n.position if n.position in ("Across the street", "Next door") else f"Neighbor: {n.position}"
+            label = (t(n.position) if n.position in ("Across the street", "Next door")
+                     else t("Neighbor: {side}", side=t(n.position)))
         folium.GeoJson(_feature(p, role, label), style_function=_style(role, imagery),
                        highlight_function=lambda _: {"weight": 5, "fillOpacity": 0.4},
                        tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""]),
@@ -96,9 +98,9 @@ def build_map(home: Parcel, nearby: list[Parcel], neighbors: list[Neighbor], sha
                           tooltip=f"{label}: {p.address}").add_to(lines)
     lines.add_to(m)
 
-    home_label = "This home"
+    home_label = t("This home")
     if shape is not None:
-        home_label += f" ({shape.acres:.2f} acres)"
+        home_label += " " + t("({acres} acres)", acres=f"{shape.acres:.2f}")
     folium.GeoJson(_feature(home, "home", home_label), style_function=_style("home", imagery),
                    tooltip=folium.GeoJsonTooltip(["label", "address"], aliases=["", ""]), popup=_popup(),
                    name="This home").add_to(m)

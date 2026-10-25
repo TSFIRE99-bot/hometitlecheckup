@@ -1,0 +1,472 @@
+# Spanish (Español) translations for HomeKeep. One line per sentence: id|translation.
+# The ids come from tools/keys.txt (perl tools/i18n.pl extract). After editing, run: perl tools/i18n.pl build es so
+# Keep every {placeholder}, every ** and every [link](...) exactly as in the English.
+# Office names (Franklin County Recorder, Auditor, Probate Court...) stay in English so people can find them.
+93cba074|Sí
+bafd7322|No
+ae4ee459|No estoy seguro
+89dd4a5a|Parece protegida
+5adab083|En camino a un título claro
+2a601bb0|Todavía no está protegida
+3349029c|Probablemente es un título enredado
+617bd0b1|Necesitamos un poco más de información
+c54b9fd6|Menos de $35,000
+205e5d7b|De $35,000 a $100,000
+456af815|Más de $100,000
+e3b014d0|El Condado indica que el dueño es un **patrimonio (estate)**. Eso normalmente significa que el dueño falleció y la casa todavía no se ha pasado a los herederos.
+8cc708fe|La casa está en un **fideicomiso (trust)**. Un fideicomiso normalmente pasa la propiedad sin ir a la corte de sucesiones (probate), siempre que haya un fideicomisario sucesor nombrado.
+bd23520e|La escritura no ha cambiado de dueño en unos **{years} años**. Es común y está bien, pero si las personas nombradas en ella ya fallecieron, así es como empiezan los títulos enredados.
+6014f491|Hay **{n} dueños** en el registro. Hay que tomar en cuenta la parte de cada uno.
+d367e012|Llene una declaración jurada de Transferencia en caso de Muerte (Transfer on Death Designation Affidavit)
+f2117255|Nombra quién recibe la casa cuando el dueño muere, sin pasar por la corte de sucesiones. Formularios gratis: {forms}. Si el dueño está casado, su cónyuge también firma.
+8a63addf|Unos 30 minutos
+4aee8633|Formulario gratis
+a6908032|Fírmela frente a un notario
+5ccdbe23|La ley de Ohio exige que se firme frente a alguien que pueda tomar juramentos, como un notario. Los bancos y la oficina del Auditor del Condado muchas veces tienen uno.
+28a5f383|Unos 15 minutos
+c6ef0fe9|Muchas veces es gratis en su banco o cooperativa de crédito
+469ac10f|Regístrela con el Registrador del Condado (County Recorder) antes de que el dueño muera
+e97a3cae|{office}, {address}, {phone}. El costo de registro es {fee}. Solo funciona si se registra mientras el dueño está vivo. El dueño puede cambiarla o cancelarla después.
+4dc366d8|Una visita, o por correo
+143def84|Presente la declaración jurada de confirmación con un acta de defunción
+10da2c16|La persona nombrada en la declaración jurada de Transferencia en caso de Muerte presenta una declaración jurada que confirma la transferencia, junto con un acta de defunción certificada, ante el Registrador del Condado ({law}). Los formularios están con los demás formularios TOD: {forms}.
+a2d52977|Una visita
+c0c75e40|Actualice los registros del Auditor
+0d8e85f5|Lleve una copia al Auditor del Condado para que las facturas de impuestos y la reducción de impuestos de vivienda (homestead) vayan al nuevo dueño.
+b24ce0cd|Gratis
+afd3b696|Presente la declaración jurada de supervivencia con un acta de defunción
+81f122f1|Cuando una escritura dice 'with right of survivorship' (con derecho de supervivencia), el dueño que sigue vivo se queda con la casa. Esa persona presenta una declaración jurada y un acta de defunción certificada ante el Auditor y el Registrador del Condado para que el registro la muestre como dueña.
+e15f3eb9|Usted podría calificar para una 'Liberación de la Administración' (Release from Administration) más sencilla
+57a6d79f|La Corte de Sucesiones (Probate Court) del Condado de Franklin tiene un proceso más corto para patrimonios pequeños: hasta $35,000 si no hay cónyuge sobreviviente, o hasta $100,000 cuando un cónyuge sobreviviente lo hereda todo. Detalles: {brochure}.
+bda96cc7|Normalmente más rápido que una sucesión completa
+ef257920|Pregunte por la opción 'Solo transferencia de bienes raíces' (Real Estate Transfer Only)
+c0a71f7e|Si la persona murió hace más de seis meses, solo tenía bienes raíces y ningún acreedor ha presentado reclamos, la Corte de Sucesiones tiene una opción solo para bienes raíces. {brochure}
+13f84da0|Abra un caso de sucesión (probate) para transferir la casa
+58508a33|La Corte de Sucesiones nombra a alguien para manejar el patrimonio y luego transfiere la casa a los herederos. Muchas veces toma de seis meses a un año. {guide}
+429117a5|Muchas veces de 6 a 12 meses
+e6053f2e|Junte los documentos que pide la corte
+40ae62f1|Identificación con foto, un acta de defunción certificada, el testamento original si existe, prueba de que se pagó el funeral, y la escritura o la factura de impuestos de la casa.
+2d16d788|Unos días
+4e776c24|Un pequeño costo por cada acta de defunción certificada
+8e87f7c9|Los impuestos se siguen debiendo mientras se arregla el título. No pagar los impuestos puede llevar a una ejecución hipotecaria (foreclosure), incluso en una casa heredada.
+2fbc1be0|Siga pagando los impuestos de propiedad
+7f7a7a80|Dos veces al año
+984a1453|Siga el caso hasta el final
+5b3047c5|Consiga ayuda legal gratis
+ffaa8002|{name} ayuda gratis a familias de bajos ingresos: {apply}, o llame a la línea de admisión al {intake} ({hours}). Los empleados de la Corte de Sucesiones pueden explicarle los pasos al {probate}, pero no pueden darle consejo legal. Guía en lenguaje sencillo: {guide}.
+11b0dbf7|Una llamada para empezar
+dbfe8ad9|Gratis si califica
+6c87789f|Esta casa es de una compañía u organización
+013c338a|Esta herramienta es para casas que son de personas o familias.
+1acb9a6b|La casa está en un fideicomiso
+aae87030|Los fideicomisos normalmente pasan una casa sin la corte de sucesiones.
+f0fd7a8a|Asegúrese de que haya un fideicomisario sucesor nombrado
+56e4fde6|El documento del fideicomiso debe decir quién toma el control cuando el fideicomisario actual muera. Si no se nombró a nadie, o el fideicomiso nunca se terminó, hable con un abogado.
+f21ac277|Un caso de sucesión está manejando la transferencia
+038832d8|El Condado indica que el dueño es un patrimonio, y usted dijo que se abrió un caso de sucesión.
+0902cea7|Cuando la corte lo apruebe, la casa se transfiere a los herederos y el registro del Condado cambia. Pregunte a la corte o a su abogado qué falta.
+5f6a2e72|Los impuestos se siguen debiendo mientras el caso está abierto.
+ba6b8f57|La casa todavía está a nombre de un patrimonio
+ce295adb|El Condado indica que el dueño es un patrimonio, y no se ha abierto ningún caso de sucesión.
+7b707720|No pudimos saber quién es dueño de esta casa
+91f328ae|Primero, averigüe si todas las personas en la escritura están vivas
+1bb6f8b8|La respuesta decide todo lo demás.
+f212d8bb|Pregunte a su familia
+9d688a26|Pregunte a sus familiares si cada persona en la escritura está viva.
+dce6e0e5|Una llamada
+3e76cc4e|La casa tiene un plan para lo que sigue
+eff5c430|Todas las personas en la escritura están vivas, y hay una declaración jurada de Transferencia en caso de Muerte registrada.
+b1bff6b8|Manténgala al día
+79772c4a|Si una persona nombrada muere o cambian los planes de la familia, registre una nueva declaración jurada.
+77735d3f|Avise a las personas nombradas
+1c7b6681|Más adelante tendrán que presentar una declaración jurada de confirmación y un acta de defunción.
+13538f93|Una conversación
+e4f1b7b0|Todas las personas en la escritura están vivas, pero no hay nada registrado que diga quién recibe la casa después.
+197a76d5|Puede buscar si hay una declaración jurada registrada en la {search}.
+30ead121|Proteja la casa ahora, mientras es fácil
+0775f716|La persona en la escritura falleció.
+119327b1|Las {n} personas en la escritura fallecieron.
+111f6778|1 de las {n} personas en la escritura falleció.
+eac32e0c|{died} de las {n} personas en la escritura fallecieron.
+e18b0e5b|La escritura le da la casa a los dueños que siguen vivos (derecho de supervivencia).
+db8357f3|El dueño sobreviviente puede aclarar el título con un solo trámite
+4d208ac3|Se registró una declaración jurada de Transferencia en caso de Muerte antes del fallecimiento.
+862330ec|El familiar nombrado puede terminar la transferencia
+35a6ce59|Se abrió un caso de sucesión.
+8d8eebc7|Pregunte a la corte o a su abogado qué falta.
+26d36c68|No pudimos confirmar si existe una declaración jurada de Transferencia en caso de Muerte o una escritura con derecho de supervivencia.
+33ee91ac|Revise la escritura registrada antes de hacer cualquier otra cosa
+4138efa9|Busque los documentos registrados
+22222783|Busque la dirección o el dueño en la {search} para encontrar un 'Transfer on Death Designation Affidavit' o una escritura que diga 'survivorship'. La oficina del Registrador puede ayudarle: {phone}.
+6265e0b8|Unos 15 minutos en línea
+08e1719b|Buscar es gratis
+b347ef1c|No se registró nada para pasar la casa, y no hay ningún caso de sucesión abierto.
+049cfffc|Probablemente la casa todavía está legalmente a nombre de alguien que falleció
+a76d4ef5|Tiempo
+20b4f77b|Costo
+b3c5b21d|Dónde
+f72d534d|Preparado para {name}
+d6ecf94d|Casa: {address}    Fecha: {date}
+6f8002eb|no se buscó
+6a289a14|HomeKeep: mi plan de acción
+12171c7e|Resultado: {label}. {headline}
+1197ba6e|Mi plan de pasos: marque cada paso
+17bbc905|Información general sobre la ley de Ohio, no es consejo legal. Las leyes, los formularios y los costos cambian; confirme con las oficinas del Condado o con un abogado antes de presentar cualquier cosa.
+b09586ff|HomeKeep: lista de beneficios de vivienda (homestead)
+9ea501cf|Ahorro estimado: unos ${amount} al año.
+3e53c8b1|Cuándo pasa
+7dadd2a4|Es bueno saber
+ed9cabd2|Al lado
+5021013e|Al otro lado de la calle
+382c70fa|Atrás
+945d5e23|Izquierda
+92b09c7c|Derecha
+02d497cd|Hijo {n} de {name}
+350f6332|Cónyuge sobreviviente
+4f800d2f|Cuando todos los hijos también son hijos del cónyuge sobreviviente, el cónyuge lo hereda todo.
+36e60d57|Con un cónyuge sobreviviente y un hijo que no es hijo del cónyuge, el cónyuge primero recibe ${first} del patrimonio y luego {share} del resto. El hijo recibe la parte que queda.
+50b1c7fb|Con un cónyuge sobreviviente e hijos que no son todos del cónyuge, el cónyuge primero recibe ${first} del patrimonio y luego {share} del resto. Las ramas de los hijos se reparten la parte que queda.
+736e2553|Con un cónyuge sobreviviente e hijos que no son del cónyuge, el cónyuge primero recibe ${first} del patrimonio y luego {share} del resto. Las ramas de los hijos se reparten la parte que queda.
+5268a2ee|Si no hay cónyuge sobreviviente, los hijos heredan por partes iguales. Si un hijo murió, los hijos de ese hijo se reparten la parte de su padre o madre.
+375b59ca|Si no hay hijos ni nietos, el cónyuge sobreviviente lo hereda todo.
+18d5a0d2|Padre o madre {n}
+30269022|Padre o madre
+ece10300|Si no hay cónyuge, hijos ni nietos, los padres heredan por partes iguales.
+cf082b13|Hermano o hermana {n}
+53561d71|Si no hay cónyuge, hijos, nietos ni padres, los hermanos y hermanas heredan por partes iguales (sus hijos toman el lugar de los que hayan muerto).
+230a58ba|Después heredan parientes más lejanos (abuelos, tíos, primos). Este caso necesita un abogado.
+a8091ca2|65 años o más (o cumple 65 este año)
+373feb2f|Con una discapacidad permanente y total
+0cc74308|Cónyuge sobreviviente de alguien que recibía la exención (tenía 59 años o más cuando esa persona murió)
+e6250bdc|Veterano con una calificación de discapacidad del 100% relacionada con el servicio, o su cónyuge sobreviviente
+28617783|Calificar depende de más que estas preguntas, como los ingresos, quién está en la escritura y dónde vivía el 1 de enero. Solo el Auditor del Condado de Franklin puede aprobarlo.
+4e9f243c|Aclarar un título no le da la exención automáticamente. Le permite solicitarla; el Auditor sigue revisando cada requisito.
+ce62694e|Las cantidades vienen del sitio web del Auditor y cambian cada año. Solicitar es gratis; nunca le pague a nadie para que lo haga por usted.
+be71725e|La **exención de vivienda (homestead exemption)** de Ohio baja los impuestos de propiedad para dueños de 65 años o más, con una discapacidad permanente, o un cónyuge sobreviviente que califica: los primeros {exempt} del valor de la casa no pagan impuestos ({veteran} para veteranos con una calificación de discapacidad del 100%). En el Condado de Franklin eso normalmente es **de ${low} a ${high} al año**. Cualquier dueño que vive en la casa también puede recibir un **crédito por ocupación del dueño (owner occupancy credit)** más pequeño. Los dos son gratis de solicitar, con el Auditor del Condado de Franklin.
+8a9bf95b|exención para veteranos discapacitados
+f9ddc054|exención de vivienda
+0bd642d8|El cálculo de {year} del Auditor del Condado de Franklin para la {kind} en el distrito de impuestos {code} ({name}).
+3f22b154|El cálculo de {year} del Auditor del Condado de Franklin para la {kind} en una casa típica del Condado de Franklin.
+8f645e76|Revise qué recibe la casa ahora
+410458ba|Busque la casa en la {search}. La sección de impuestos muestra un crédito 'Homestead' u 'Owner Occupancy' si la casa ya lo recibe. Su factura de impuestos también los muestra.
+16fa0f3f|5 minutos en línea
+15348436|Solicite la exención de vivienda para veteranos discapacitados
+2e2eaa46|Los primeros {veteran} del valor de la casa no pagan impuestos, sin límite de ingresos. Llene {form} e incluya la carta de la VA que muestra la calificación del 100%.
+00ca6c2c|Solicite la exención de vivienda (homestead)
+dcf6c012|Los primeros {exempt} del valor de la casa no pagan impuestos. Los ingresos de quienes solicitan por primera vez ({year}, ingreso bruto ajustado modificado de Ohio) deben ser de {limit} o menos. Llene {form}; un dueño con discapacidad también necesita que un médico firme el Certificado de Discapacidad (DTE 105E). Un cónyuge sobreviviente que ya la recibe tal vez no necesite un formulario nuevo; pregunte al Auditor.
+9242dbe4|Solicite el crédito por ocupación del dueño
+f56ff989|Cualquier dueño que vive en la casa como su hogar principal el 1 de enero puede recibirlo, sin límite de edad ni de ingresos. Baja los impuestos de los gravámenes aprobados en noviembre de 2013 o antes. Llene {form}. Más información: {info}.
+3d6855cb|Unos 10 minutos
+ab5b1173|Presente la solicitud antes del {deadline}
+09a71041|Presente la solicitud antes del {deadline} del año en que quiere la reducción de impuestos. Se aceptan solicitudes tarde. No tiene que volver a solicitar cada año; el Auditor le envía un formulario de renovación cada enero.
+2231d5c1|Antes de la fecha límite
+d9740771|Pida ayuda a la oficina del Auditor
+ebc067bc|{name}, {address}, {phone}. Detalles y el formulario en línea: {info}.
+518cce7b|Una llamada
+161c493c|Avise al Auditor cuando algo cambie
+da931c54|Si el dueño que recibía la reducción de impuestos muere, vende o se muda, avise al Auditor. No pasa a los herederos (solo a un cónyuge sobreviviente que califique), y las reducciones dadas a alguien que ya no califica tal vez se tengan que devolver. {office}: {phone}.
+95ff7b71|Antes del 31 de diciembre de {year}
+f7c90372|Envíe la solicitud al Auditor: en línea, por correo o en persona.
+05e3ea69|A principios de {year}
+82b12094|La factura de impuestos de {year} (Ohio cobra con un año de atraso) debería mostrar la cantidad más baja.
+f46463fe|Cada enero después
+b7f9eb37|El Auditor le envía un formulario de renovación. Léalo, y avise al Auditor si algo cambió.
+2c05061c|Estas reducciones de impuestos son solo para la casa donde vive un dueño
+4b32390e|La exención de vivienda y el crédito por ocupación del dueño solo son para el hogar principal de un dueño: donde vivía el 1 de enero, donde vota y donde declara sus impuestos.
+dbf347e8|Revise otra vez si un dueño se muda a la casa
+5e6aa8a9|Un dueño que haga de esta casa su hogar principal puede solicitarlo para el año siguiente.
+53d35821|Con ingresos de más de {limit}, una solicitud nueva para la exención de vivienda no va a calificar. Una excepción: si ya se otorgó para 2013 en esta casa, el límite de ingresos no aplica. El crédito por ocupación del dueño no tiene límite de ingresos.
+f7c2227a|El Auditor da estas reducciones de impuestos a los dueños que aparecen en el registro del Condado y que viven en la casa. Si la casa todavía está a nombre de alguien que murió, la familia que vive ahí normalmente no puede solicitarlas hasta que el título esté a su nombre.
+672ee307|Primero termine los pasos del título en su plan de acción
+b03defa7|Cuando el registro del Condado muestre al dueño correcto, regrese a estos pasos.
+e064dcb1|Termine el trámite del título, y después solicite
+1b1f7e01|Primero aclare el título, y después solicite
+7fb55ed0|Primero
+2052b4b6|Aclare el título, para que el registro del Condado muestre quién es dueño de la casa ahora.
+5afe27f3|Después, antes del 31 de diciembre
+33ff4ed6|El dueño que aparece en el registro solicita para ese año.
+14ae55b2|Consérvela: el formulario de renovación llega cada enero.
+a40844d0|Asegúrese de recibir todo lo que le corresponde
+673f3f98|Revise la sección de impuestos en la {search} para ver si hay un crédito 'Homestead' y un crédito 'Owner Occupancy'. Si falta uno, el Auditor le puede ayudar: {phone}.
+a34aaeeb|La casa ya recibe una reducción de impuestos de vivienda
+17e1ad4f|Según sus respuestas, el crédito por ocupación del dueño aplica ahora. Un dueño puede solicitar la exención de vivienda el año en que cumple 65 o queda con una discapacidad permanente.
+d449482e|Usted podría ahorrar unos ${amount} al año
+9e7bc102|El dueño podría ahorrar unos ${amount} al año
+d53b4b53|Ahorro posible para {who}: unos ${amount} al año
+a275d532|Es posible que pueda pagar menos impuestos de propiedad
+e92f88f5|Hay {n} dueños en el registro.
+4def616c|Escriba una dirección, por ejemplo 123 Main St.
+31e6b3d9|Empiece con el número de la casa y luego el nombre de la calle, por ejemplo 123 Main St.
+246cd170|Los registros de propiedad del Condado respondieron con un error. Intente otra vez en un minuto.
+97946789|Los registros de propiedad del Condado tardaron demasiado en responder. Intente otra vez.
+4c976a21|No pudimos conectarnos con los registros de propiedad del Condado en este momento. Igual puede contestar las preguntas usando el sitio web del Auditor.
+5616462f|Los registros de propiedad del Condado enviaron algo inesperado. Intente otra vez.
+6cc28f7f|No aparece ningún dueño
+56a255d0|{acres} acres ({sq_ft} pies cuadrados)
+c9e773bc|Dueño(s)
+ed92eb6f|Tamaño del terreno
+966d658b|Terreno cercano
+2c27cae7|Vecino: {side}
+db9e6bf4|Esta casa
+52ef81d3|({acres} acres)
+531e4d3b|Abogados gratis para familias de bajos ingresos. Ayudan con sucesiones, propiedades de herederos y escrituras.
+ddb92563|Llamadas de admisión entre semana de 9:30 a.m. a 1:30 p.m.; solicite en línea a cualquier hora
+dffd8ba9|Una copia de la factura de impuestos o de la escritura, y cualquier documento sobre la persona que murió.
+8d25891c|Registra declaraciones juradas de Transferencia en caso de Muerte, declaraciones de supervivencia y escrituras, y le permite buscar lo que ya está registrado.
+4be9fcd6|Entre semana; llame para confirmar el horario
+1d876619|El formulario firmado y notarizado, y un cheque o tarjeta para el costo de $34.
+91e038ff|Solicitudes de exención de vivienda y crédito por ocupación del dueño, valores de propiedad y registros de impuestos.
+0a8bec38|Entre semana; también puede solicitar en línea
+ad09f526|Identificación con foto, y prueba de edad o discapacidad para la exención de vivienda.
+b94c8aba|Maneja los patrimonios cuando alguien muere, incluso las opciones más cortas para patrimonios pequeños. Los empleados explican los pasos pero no pueden dar consejo legal.
+53864315|De lunes a viernes, de 8 a.m. a 5 p.m.
+f19db5c8|Identificación con foto, un acta de defunción certificada y el testamento original si existe.
+accfbb38|Formularios gratis de Transferencia en caso de Muerte y bibliotecarios que le ayudan a encontrar el formulario correcto (no pueden dar consejo legal).
+3a60171a|De lunes a jueves, de 8 a.m. a 5 p.m.
+aa5355cc|La dirección y el número de parcela de la casa (están en la lista de esta aplicación).
+aebccfc0|búsqueda de propiedades del Auditor del Condado de Franklin
+19b54833|búsqueda de registros públicos del Registrador del Condado de Franklin
+13929d30|formularios de Transferencia en caso de Muerte (Biblioteca Legal del Condado de Franklin)
+68af1a69|Ley de Ohio: Transfer on Death Designation Affidavit (ORC 5302.22)
+35b5bd51|Ley de Ohio: declaración jurada para confirmar la transferencia después de la muerte (ORC 5302.222)
+feadc788|Corte de Sucesiones del Condado de Franklin: folleto de patrimonios pequeños
+6618f220|Corte de Sucesiones del Condado de Franklin: guía para presentar patrimonios
+8448d054|Ohio Legal Help: cómo funciona la sucesión
+d393da4f|Legal Aid of Southeast and Central Ohio: solicite ayuda gratis
+a8ea34cf|Greater Ohio Policy Center: propiedades de herederos en Ohio
+14241385|LISC: ayuda para propiedades de herederos en Ohio
+4e0d4b09|Auditor del Condado de Franklin: exención de vivienda (Homestead)
+6a6f6270|Auditor del Condado de Franklin: preguntas frecuentes sobre Homestead
+a9dc6593|solicitud de Homestead para personas mayores, personas con discapacidad y cónyuges sobrevivientes (DTE 105A)
+47524c4d|solicitud de Homestead para veteranos discapacitados (DTE 105I)
+e63f052c|Auditor del Condado de Franklin: crédito por ocupación del dueño
+6e5bfd5b|solicitud del crédito por ocupación del dueño (DTE 105C)
+3ba00a25|entre semana de 9:30 a.m. a 1:30 p.m.
+93db00b0|$34 por las primeras dos páginas, más $8 por cada página adicional
+2e91eb56|Costo de registro de $34 (2 páginas)
+7d7b93b3|Costos de la corte (pregunte al empleado)
+2129ccf5|Ohio tiene unas 9,000 propiedades de herederos (Greater Ohio Policy Center, 2024).
+d5caaa4c|Esas casas guardan unos $313 millones en riqueza familiar que los títulos claros podrían liberar (LISC, 2024).
+d178c0f4|Sin un título claro, las familias no pueden conseguir préstamos para reparar la casa, recibir la reducción de impuestos de vivienda, recibir ayuda por desastres ni pedir dinero prestado con la casa como garantía (LISC, 2024).
+bc10f055|31 de diciembre
+3efc0f9d|Escritura (deed)
+3d932c77|El documento, registrado con el Condado, que dice quién es dueño de una casa.
+b78a3223|Título
+9e2730b3|La propiedad legal de una casa. Un 'título claro' significa que el registro del Condado coincide con quién es el dueño de verdad.
+36c70284|Título enredado (propiedad de herederos)
+35616b7b|Cuando un dueño murió y la casa nunca se pasó a nombre de la familia que sigue viva. La familia vive ahí, pero no puede probar que es dueña.
+d0a214bd|Declaración jurada de Transferencia en caso de Muerte (Transfer on Death affidavit)
+ecb86cb3|Un formulario corto de Ohio que nombra quién recibe la casa cuando el dueño muere, así no se necesita ir a la corte. Se debe registrar mientras el dueño está vivo.
+03dc21d2|Sucesión (probate)
+7af9151f|El proceso de la corte que arregla los bienes de una persona después de que muere y los pasa a los herederos.
+e0c8c5ea|Supervivencia (survivorship)
+b92dd657|Palabras en una escritura que significan que el dueño que sigue vivo se queda automáticamente con la casa cuando el otro dueño muere.
+2882a471|Heredero
+76a84ed7|Un familiar que hereda bienes según la ley de Ohio cuando no hay testamento ni formulario de Transferencia en caso de Muerte.
+8bc5d6b8|Notario
+745a5457|Una persona que lo ve firmar y confirma que de verdad es usted. Muchos bancos lo hacen gratis.
+c4db881a|Exención de vivienda (homestead exemption)
+14db9f69|Una reducción de impuestos de propiedad de Ohio para dueños de 65 años o más, con discapacidad, o un cónyuge sobreviviente que califica, en la casa donde viven.
+d0557e35|Texto en inglés
+940bfd45|¿**{name}** está vivo(a)?
+a23284e7|Un formulario de una página, registrado con el Condado, que nombra quién recibe la casa después.
+83dd1597|¿Se registró una **declaración jurada de Transferencia en caso de Muerte** para esta casa?
+3284acd2|¿La escritura dice **'with right of survivorship'** (con derecho de supervivencia)?
+b3cf1592|Significa que el dueño que sigue vivo se queda automáticamente con la casa.
+7551559a|Antes del fallecimiento, ¿se registró una **declaración jurada de Transferencia en caso de Muerte**?
+b0ead639|¿Se abrió un **caso de sucesión (probate)** en la corte?
+e652a9f4|¿Un **cónyuge sobreviviente** lo hereda todo?
+77e7ad9a|Esto ayuda a encontrar el proceso de la corte más sencillo.
+92a9c2f5|Más o menos, ¿cuánto valía **todo lo que dejó**, incluida la casa?
+28cf84de|¿Dejó **solo la casa** (sin cuentas de banco, carros ni otros bienes)?
+b98c656c|el dueño
+6beae086|¿**Usted** vive en esta casa como su **hogar principal**?
+6624519b|¿**{who}** vive en esta casa como su **hogar principal**?
+748d80a2|Donde vivía el 1 de enero, donde está registrado para votar y donde declara impuestos.
+15c756bd|¿La casa **recibe la exención de vivienda ahora**?
+f6e1490d|Aparece en la factura de impuestos y en el sitio web del Auditor como un crédito 'Homestead'.
+9bccb787|¿Alguna de estas opciones lo describe **a usted**? Marque todas las que apliquen, o ninguna.
+438b1f47|¿Alguna de estas opciones describe a **{who}**? Marque todas las que apliquen, o ninguna.
+3558e80d|¿Sus ingresos totales en {year} fueron de unos **{limit} o menos**? Cuente también los ingresos de su esposo o esposa.
+bb8a203c|¿Los ingresos totales de {who} en {year} fueron de unos **{limit} o menos**? Cuente también los ingresos de su esposo o esposa.
+62f2db78|Es el ingreso bruto ajustado de Ohio en la declaración de impuestos estatal. Si la exención ya se otorgó para 2013 en esta casa, el límite de ingresos no aplica.
+6ba4a020|¿De quién es esta casa?
+b8926e26|Así podemos explicarle el resultado de una manera que le sirva.
+5ec38a30|Mi propia casa
+2ddec0f7|La casa de un familiar
+30e9e266|Alguien a quien estoy ayudando
+be5d5d37|y
+e81c4e4f|o
+4cbad446|{name}, este es su plan
+30ecb6d9|Este es su plan
+64ac91ae|Buenas noticias: su casa tiene un plan. Cuando llegue el momento, puede pasar a las personas nombradas sin la corte de sucesiones. Mantenga los papeles al día cuando la vida cambie.
+2a55cee8|Buenas noticias: su casa tiene un plan. Cuando llegue el momento, puede pasar a las personas nombradas sin la corte de sucesiones. Mantengan los papeles al día cuando la vida cambie.
+f47a6726|Ahora mismo la casa está segura a su nombre. Pero no hay nada registrado que diga quién la recibe después, así que su familia podría necesitar la corte de sucesiones para quedarse con ella. Un formulario, registrado mientras usted está vivo, lo evita, y solo toma una tarde.
+14a6e419|su familia
+8b6fc467|la familia
+7f8f4266|El dueño todavía es dueño de la casa, y eso es bueno. Pero no hay nada registrado que diga quién la recibe después, así que {family} podría terminar en la corte de sucesiones. La solución es un formulario que el dueño puede firmar ahora, mientras es fácil.
+a762a4ee|{name} todavía es dueño de la casa, y eso es bueno. Pero no hay nada registrado que diga quién la recibe después, así que {family} podría terminar en la corte de sucesiones. La solución es un formulario que {name} puede firmar ahora, mientras es fácil.
+7a9d4475|{names} todavía son dueños de la casa, y eso es bueno. Pero no hay nada registrado que diga quién la recibe después, así que {family} podría terminar en la corte de sucesiones. La solución es un formulario que {names} pueden firmar ahora, mientras es fácil.
+b959a3fb|Su familia va en camino a un título claro. Normalmente solo falta un trámite. Termínelo pronto, para que el registro del Condado coincida con quién es el dueño de verdad.
+6deb2b3c|La familia va en camino a un título claro. Normalmente solo falta un trámite. Termínenlo pronto, para que el registro del Condado coincida con quién es el dueño de verdad.
+b730cfe8|Probablemente la casa todavía está legalmente a nombre de {name}. Es muy común, y se puede arreglar. Mientras tanto, {family} tal vez no pueda vender, refinanciar, conseguir préstamos para reparaciones ni recibir reducciones de impuestos. Ohio tiene opciones de corte más cortas para muchas familias, y hay ayuda legal gratis.
+8f1e0182|Probablemente la casa todavía está legalmente a nombre del dueño que murió. Es muy común, y se puede arreglar. Mientras tanto, {family} tal vez no pueda vender, refinanciar, conseguir préstamos para reparaciones ni recibir reducciones de impuestos. Ohio tiene opciones de corte más cortas para muchas familias, y hay ayuda legal gratis.
+a94555de|Necesitamos una respuesta más antes de decir cómo están las cosas. El primer paso de abajo le muestra cómo averiguarlo, y normalmente toma una llamada o unos minutos en línea.
+8c8c9747|El servicio de mapas del Condado no respondió, así que solo se muestra su terreno. Intente otra vez en un minuto.
+e7c2c63f|, unos {feet} pies a lo largo de la calle
+48fec1a9|Escrito a mano
+a46e498b|Ninguna propiedad del Condado de Franklin coincide con esa dirección. Revise cómo se escribe, o escriba usted mismo los nombres de los dueños abajo. También puede buscar en la {search}.
+20d69216|Primero busque una casa.
+0056b8f5|Número de parcela del Condado: {pid}
+8b558f7a|Tamaño del terreno: {lot}
+41ef5344|Hijo {n}
+c54492c8|Dueño original
+6cb2b956|Generación {n}
+147f3f72|Unas preguntas
+6d92a741|Hágalo personal
+d57c24f3|opcional
+14249f09|Su nombre
+2ec66938|por ejemplo, María
+8a0fedf7|Solo se usa para escribir su plan. Nunca se guarda.
+f44620b5|No se necesitan preguntas para este dueño.
+e4a769ae|Actualizar mi resultado
+4a555707|Su plan de pasos
+e4b15b1b|{done} de {total} pasos hechos
+f8b4d84e|Marcar el paso {n} como hecho
+e6979af9|Marque los pasos a medida que avanza. Su progreso se guarda solo en este dispositivo.
+5ce4e75c|Descargar mi plan para imprimir (PDF)
+a75d569c|Encuentre ayuda gratis cerca de usted
+d4c9cf33|Opcional: revisión de beneficios de vivienda (homestead)
+6ff2cf77|¿Podría esta casa pagar menos impuestos de propiedad?
+8c3e52fd|de ahorro estimado al año
+5937b96b|La cantidad real depende de su factura de impuestos.
+e844ac51|Descargar la lista de vivienda (PDF)
+8df9489c|Palabras que debe saber
+07f70f8a|Por qué importa un título claro
+fc24a208|La familia
+1b8143ef|El esposo o la esposa del dueño está vivo(a)
+e778b33d|¿Cuántos hijos tuvo el dueño?
+cbe8eac8|Nombre del hijo {n}
+73ba7cfe|Vivo(a)
+9a413490|Sus hijos
+8738248e|También es hijo del cónyuge
+e11bd74f|Padres vivos
+04d878a7|Hermanos y hermanas vivos
+06933067|Actualizar
+5e22548c|Quién sería dueño de la casa
+7dfd4215|1 persona es dueña de la casa
+ed3376f1|{n} personas serían dueñas de la casa
+755ed9c6|Una sola persona puede encargarse del título.
+f4b4bae5|Las {n} tendrían que ponerse de acuerdo y firmar para vender o refinanciar.
+abad30e0|¿Cuánto vale la casa?
+a45044a5|Empezamos con un ejemplo.
+7402f0e0|Use el valor de mercado que aparece en la factura de impuestos o en el sitio web del Auditor.
+eca6e6c5|de riqueza familiar está **bloqueado** hasta que los dos herederos se pongan de acuerdo y firmen. Mientras tanto no se puede vender, refinanciar ni usar como garantía para un préstamo de reparaciones.
+8ef26222|de riqueza familiar está **bloqueado** hasta que los {n} herederos se pongan de acuerdo y firmen. Mientras tanto no se puede vender, refinanciar ni usar como garantía para un préstamo de reparaciones.
+c0018e9a|Un solo heredero puede usar todo el valor de la casa.
+5e2e9ef2|Cómo se dividiría la casa
+72122ce9|dueño
+b132392a|dueños
+5a95a425|Parte
+adaaee4b|Porcentaje
+49016b66|Valor
+45b69609|Los ${amount} del cónyuge salen primero de todo el patrimonio, así que la división real de la casa depende de qué más dejó. Las cantidades en dólares de arriba son solo una guía. Pregunte a Legal Aid.
+e89d76cc|Qué pasa si nadie hace el trámite por generaciones
+77dbfb07|Cada vez que un dueño muere sin los papeles, su parte se vuelve a dividir entre sus herederos. Mueva los controles para verlo.
+52ac81ab|Hijos por persona:
+98054900|Generaciones:
+9ff6bfed|Personas que son dueñas de una parte de la casa, por generación
+6247eb64|Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una, que vale unos **${worth}** cada parte. Hay que encontrar a cada una y todas tienen que firmar antes de que la casa se pueda vender, refinanciar o reparar con un préstamo.
+a2b5fe8d|Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una. Hay que encontrar a cada una y todas tienen que firmar antes de que la casa se pueda vender, refinanciar o reparar con un préstamo.
+9c82b0a2|**La solución es un formulario, registrado mientras el dueño está vivo:** una declaración jurada de Transferencia en caso de Muerte ({forms}). Así la casa pasa directamente a las personas nombradas, sin corte.
+53609811|Revise una casa ahora
+8f7f4c1c|Acerca de
+fb61758d|Fuentes
+dcc58aed|HomeKeep: ¿la casa de su familia está a nombre de la persona correcta?
+0acf88fe|Una revisión gratis de 2 minutos: ¿la casa de su familia está legalmente a nombre de la persona correcta, y cuáles son los pasos gratis para protegerla?
+87116033|Ir al contenido principal
+a02c83a7|Principal
+fa1aaa96|Revisar mi casa
+36074c9c|¿Quién heredaría?
+546262cb|Ayuda gratis cerca de usted
+2f1a3e62|Aprender
+4994a8ff|Idioma
+3513d2de|Letra más grande
+e0125c0c|Esta página se tradujo con ayuda de inteligencia artificial. Los nombres de las oficinas, las direcciones y los formularios están en inglés. Si algo no está claro, Legal Aid puede ayudarle.
+2ab5b48b|Gratis, privado y en lenguaje sencillo. Hecho por estudiantes de preparatoria del centro de Ohio.
+b338a134|Nada de lo que escribe se guarda.
+fd022c70|Esta es información general sobre la ley de Ohio, no es consejo legal. Las leyes, los formularios y los costos cambian; confirme con las oficinas del Condado o con un abogado antes de presentar cualquier cosa.
+682618f7|Ayuda legal gratis
+9adaa673|Acerca de y fuentes
+5cbab1cb|Escriba la dirección de la casa
+5f6c5315|Revisar esta casa
+4c0c0085|Probar con una casa de ejemplo
+36c1a63c|Gratis y privado. Nada de lo que escribe se guarda.
+2875e145|¿La casa de su familia está legalmente a nombre de la persona correcta?
+31bb4e01|Cuando un dueño muere y nadie presenta los papeles, la familia puede perder la casa, las reducciones de impuestos y la riqueza que se suponía que iba a heredar. Averigüe cómo está su casa en **2 minutos**, y reciba los pasos gratis para arreglarla o protegerla.
+fc7e3dcb|Varias casas coinciden. ¿Cuál es?
+352d14f5|Usar esta casa
+96e324be|No hay problema: escriba los nombres que aparecen en la escritura
+aaa152c8|Están en la factura de impuestos de propiedad o en el sitio web del Auditor. Un nombre por línea.
+a0bfb8e5|Continuar
+d1450b5a|Por qué esto importa en Ohio
+31f08efb|casas en Ohio se calcula que son propiedad de herederos, atrapadas a nombre de alguien que murió
+91d2bbcd|en riqueza familiar que guardan esas casas, esperando un título claro
+2f585ad0|1 formulario
+c3cc3ad5|registrado mientras el dueño está vivo puede evitarlo, por un costo de $34
+322c7876|Fuentes: Greater Ohio Policy Center (2024), LISC (2024), tabla de costos del Registrador del Condado de Franklin.
+9ffdb952|Cómo funciona
+a17a8b5e|Buscar la casa
+138ce66a|Buscamos el registro público del Condado: quién está en la escritura y cuándo cambió de dueño por última vez.
+709181f8|Contestar unas preguntas
+543a2ad5|Sí o no, por ejemplo: ¿todas las personas en la escritura están vivas? No necesita papeles.
+a50ee3b2|Recibir su plan de pasos
+e3b30d35|Pasos en lenguaje sencillo con tiempo, costo y adónde ir, una lista para imprimir y ayuda gratis cerca.
+46b5f8c5|Progreso
+92093df1|Contestar preguntas
+3a3df558|Lo que dice el registro del Condado
+6941bc38|En la escritura
+a8280590|Último cambio de dueño
+88183b94|Desconocido
+d91aa15c|Verla en el sitio web del Auditor
+f4e9407d|Mapa de la propiedad: los límites de su terreno y sus vecinos
+2eb7b8e2|Azul es esta casa. Los terrenos anaranjados la tocan (L = izquierda, R = derecha, B = atrás, vistos desde la calle). Morado es al otro lado de la calle. Toque cualquier terreno para ver su registro público, y use la regla para medir.
+d69d6cd1|La cuadra de ejemplo es inventada, así que no tiene foto de satélite.
+d01268ec|Cambie entre la foto de satélite y el mapa de calles en la esquina de arriba a la derecha.
+68710914|Mapa de la propiedad
+dd7bf230|Dirección
+e7bb8d4f|Límite compartido
+1b046778|Los vecinos solo muestran lo que el Condado ya muestra en su mapa público. Esta aplicación nunca muestra el estado del título de la casa de otra persona.
+a1530584|No hay contorno del terreno para esta casa, así que no hay mapa. Igual puede terminar la revisión.
+5518647f|Revisar otra casa
+3a312b7c|Gratis y oficial, en Columbus
+e3bb5a4c|No tiene que hacer esto solo, y no debería tener que pagarle a un desconocido para que lo haga. Estos son los lugares gratis y oficiales del Condado de Franklin que se encargan de cada paso. La mayoría están en un solo edificio del centro, en **373 S. High St.**
+2782700e|Mapa de ayuda gratis en el Condado de Franklin
+30f1c647|Antes de ir
+f9b0b017|**Empiece con Legal Aid** si alguien murió y no se presentó nada. Es gratis si califica.
+f1355aec|**Llame primero.** Los horarios cambian, y una llamada de 2 minutos puede ahorrarle un viaje al centro.
+97eb6850|**Lleve su plan para imprimir** de esta aplicación. Tiene la dirección y el número de parcela de la casa.
+45d4b331|**Tenga cuidado con cualquiera que le ofrezca comprar la casa o arreglar el título a cambio de dinero.** Estas oficinas son gratis o de bajo costo.
+bcc254b5|Teléfono
+6a7e7316|Horario
+7409b762|Qué llevar
+987b3c77|Cómo llegar
+15bbb9d0|Sitio web
+ee9e62ae|Ayuda que puede usar desde casa
+ff17c6e7|[Ohio Legal Help]({url}): guías y formularios en lenguaje sencillo sobre sucesiones y propiedades, de los grupos de ayuda legal de Ohio.
+6baedaa1|[Formularios de Transferencia en caso de Muerte]({url}) de la Biblioteca Legal del Condado de Franklin, gratis para descargar.
+5cb2615f|[Búsqueda de registros del Registrador]({url}): vea si ya hay una declaración jurada de Transferencia en caso de Muerte registrada.
+b4e9abf1|[Exención de vivienda]({url}): solicítela en línea con el Auditor del Condado.
+6b2c7ee7|La herencia en Ohio, en imágenes
+0d0b38f1|¿Quién heredaría la casa?
+458f18d5|Cuando un dueño de casa en Ohio muere **sin testamento y sin una declaración jurada de Transferencia en caso de Muerte**, la ley del estado decide quién es el siguiente dueño de la casa. Arme la familia abajo para ver cómo se dividiría la casa, y cuántas personas tendrían que firmar para venderla, refinanciarla o arreglar el título.
+77e57d49|Una versión simplificada de las reglas de Ohio (ORC 2105.06). Un testamento, las deudas o una familia más complicada cambian la respuesta. Información general, no es consejo legal. Nada de lo que escribe se guarda.
+ed2cda20|¿Qué es un título enredado?
+a97d236e|Un dueño se convierte en cuatro, y después en once
+16ba038e|El abuelo
+9aaf40d9|su nombre está en la escritura
+3508e6a5|muere, no se presenta nada
+268184c1|hijos
+de509d5d|cada uno es dueño de 1/4
+4719d4b4|2 de ellos mueren
+fabfffe6|2 hijos + 9 nietos

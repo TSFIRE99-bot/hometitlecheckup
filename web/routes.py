@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from itertools import groupby
 
 import folium
-from flask import Blueprint, Response, render_template, request
+from flask import Blueprint, Response, redirect, render_template, request
 from markupsafe import escape
 
 from titlecheck.assess import UNSURE, assess, pretty, record_notes, why_it_matters
@@ -17,7 +17,8 @@ from titlecheck.checklist import build_homestead_pdf, build_pdf
 from titlecheck.demo import DEMO, DEMO_NEIGHBORS
 from titlecheck.geo import FT_PER_M, analyze
 from titlecheck.heirs import Child, Family, frozen_equity, generations, share_values, who_inherits
-from titlecheck.homestead import EXPLAINER, homestead_plan
+from titlecheck.homestead import explainer, homestead_plan
+from titlecheck.i18n import LANGS, get_lang, set_lang, t
 from titlecheck.lookup import AUDITOR_PARCEL_LINK, AddressLookupError, Parcel, find_nearby, find_parcels
 from titlecheck.parcel_map import build_map
 from titlecheck.places import BY_KEY, PLACES
@@ -60,16 +61,16 @@ def _map_section(p: Parcel) -> dict:
         try:
             nearby = find_nearby(p)
         except AddressLookupError:
-            warning = "The County's map service didn't answer, so only your lot is shown. Try again in a minute."
+            warning = t("The County's map service didn't answer, so only your lot is shown. Try again in a minute.")
     shape, neighbors = analyze(p.rings, {n.parcel_id: n.rings for n in nearby or []})
     by_id = {n.parcel_id: n for n in nearby or []}
-    lot = f"{shape.acres:.2f} acres ({shape.area_sq_ft:,.0f} sq ft)"
+    lot = t("{acres} acres ({sq_ft} sq ft)", acres=f"{shape.acres:.2f}", sq_ft=f"{shape.area_sq_ft:,.0f}")
     if shape.frontage_ft:
-        lot += f", about {shape.frontage_ft:,.0f} ft along the street"
+        lot += t(", about {feet} ft along the street", feet=f"{shape.frontage_ft:,.0f}")
     return {"demo": demo, "warning": warning, "lot": lot,
             "map_html": build_map(p, nearby or [], neighbors, shape, demo=demo).get_root().render(),
-            "neighbors": [{"where": n.position, "address": by_id[n.key].address,
-                           "owners": ", ".join(pretty(o) for o in by_id[n.key].owners) or "No owner listed",
+            "neighbors": [{"where": t(n.position), "address": by_id[n.key].address,
+                           "owners": ", ".join(pretty(o) for o in by_id[n.key].owners) or t("No owner listed"),
                            "shared": f"{n.shared_m * FT_PER_M:,.0f} ft" if n.shared_m else "-"} for n in neighbors]}
 
 
@@ -95,7 +96,7 @@ def _manual_parcel(names: str, address: str) -> Parcel | None:
     owners = [n.strip().upper() for n in names.splitlines() if n.strip()]
     # typed names are 'First Last'; store them the County's way ('LAST FIRST') so display matches
     owners = [" ".join(n.split()[-1:] + n.split()[:-1]) for n in owners]
-    return Parcel("MANUAL", address or "Entered by hand", "", owners, None, "") if owners else None
+    return Parcel("MANUAL", address or t("Entered by hand"), "", owners, None, "") if owners else None
 
 
 @bp.route("/", methods=["GET", "POST"])
@@ -108,6 +109,15 @@ def check():
 
     if action == "demo":
         parcel = DEMO
+    elif action == "relang" and record is not None:
+        # the visitor switched language: look the same home up again (for the map), keeping every answer
+        if record["pid"] == "DEMO":
+            parcel = DEMO
+        elif record["pid"] != "MANUAL":
+            try:
+                parcel = next((m for m in find_parcels(record["addr"]) if m.parcel_id == record["pid"]), None)
+            except AddressLookupError:
+                parcel = None
     elif action == "manual":
         parcel = _manual_parcel(form.get("names", ""), page["address"])
         page["manual"] = parcel is None
@@ -115,12 +125,13 @@ def check():
         try:
             matches = find_parcels(page["address"])
         except AddressLookupError as e:
-            page["error"], page["manual"], matches = str(e), True, None
+            page["error"], page["manual"], matches = t(str(e)), True, None
         if matches is not None:
             chosen = [m for m in matches if m.parcel_id == form.get("pick")] if action == "pick" else matches
             if not matches:
-                page["notice"] = ("No Franklin County property matched that address. Check the spelling, or type "
-                                  f"the owner names yourself below. You can also search the {link('auditor_search')}.")
+                page["notice"] = t("No Franklin County property matched that address. Check the spelling, or type the "
+                                   "owner names yourself below. You can also search the {search}.",
+                                   search=link("auditor_search"))
                 page["manual"] = True
             elif len(chosen) == 1:
                 parcel = chosen[0]
@@ -140,7 +151,7 @@ def check():
         pid = record["pid"]
         page.update(record=record, owners_shown=[pretty(o) for o in record["owners"]],
                     auditor_link=AUDITOR_PARCEL_LINK.format(parcel=pid) if pid not in ("DEMO", "MANUAL") else None,
-                    explainer=EXPLAINER, why=why_it_matters(), **_plan(record, form))
+                    explainer=explainer(), why=why_it_matters(), **_plan(record, form))
         if request.headers.get("X-Partial"):
             return render_template("_answers.html", **page)
     return render_template("check.html", **page)
@@ -161,10 +172,10 @@ def _pdf_response(data: bytes, name: str) -> Response:
 def plan_pdf():
     record, plan = _pdf_inputs()
     if record is None:
-        return Response("Look up a home first.", status=400)
-    details = [f"County parcel ID: {record['pid']}"] if record["pid"] not in ("DEMO", "MANUAL") else []
+        return Response(t("Look up a home first."), status=400)
+    details = [t("County parcel ID: {pid}", pid=record["pid"])] if record["pid"] not in ("DEMO", "MANUAL") else []
     if record["lot"]:
-        details.append(f"Lot size: {record['lot']}")
+        details.append(t("Lot size: {lot}", lot=record["lot"]))
     return _pdf_response(build_pdf(plan["result"], record["addr"], plan["notes"], details,
                                    prepared_for=plan["you"], summary=plan["summary"], places=PLACE_NAMES),
                          "homekeep-action-plan.pdf")
@@ -174,7 +185,7 @@ def plan_pdf():
 def homestead_pdf():
     record, plan = _pdf_inputs()
     if record is None:
-        return Response("Look up a home first.", status=400)
+        return Response(t("Look up a home first."), status=400)
     return _pdf_response(build_homestead_pdf(plan["homestead"], record["addr"], prepared_for=plan["you"]),
                          "homestead-checklist.pdf")
 
@@ -227,7 +238,7 @@ def inherit():
     children = []
     for i in range(count):
         shown = f"name_{i}" in form
-        name = (form.get(f"name_{i}") or "").strip()[:40] or f"Child {i + 1}"
+        name = (form.get(f"name_{i}") or "").strip()[:40] or t("Child {n}", n=i + 1)
         living = form.get(f"living_{i}") == "on" if shown else True
         grandkids = _int(form.get(f"gk_{i}"), 0, 10, 0) if not living else 0
         with_spouse = form.get(f"ws_{i}") == "on" if shown and had_spouse_boxes else True
@@ -247,7 +258,7 @@ def inherit():
     kids, gens = _int(form.get("kids"), 1, 5, 3), _int(form.get("gens"), 1, 5, 3)
     rows = generations(kids, gens)
     top = rows[-1][1]
-    bars = [{"label": "Original owner" if g == 0 else f"Generation {g}", "owners": o, "height": max(2, 100 * o / top)}
+    bars = [{"label": t("Original owner") if g == 0 else t("Generation {n}", n=g), "owners": o, "height": max(2, 100 * o / top)}
             for g, o in rows]
     page = {"spouse": spouse, "count": count, "children": children, "ask_parents": ask_parents, "parents": parents,
             "siblings": siblings, "result": result, "slices": slices, "kids": kids, "gens": gens, "bars": bars,
@@ -262,14 +273,33 @@ def inherit():
 # ------------------------------------------------------------------ the two reading pages
 @bp.get("/learn")
 def learn():
-    return render_template("learn.html", page=load_content("learn"))
+    return render_template("learn.html", page=load_content("learn", get_lang()))
 
 
 @bp.get("/about")
 def about():
-    return render_template("about.html", page=load_content("about"), links=LINKS.values())
+    return render_template("about.html", page=load_content("about", get_lang()), links=LINKS.values())
+
+
+# ------------------------------------------------------------------ language
+@bp.before_app_request
+def pick_language():
+    """?lang=es on any link switches for that page; otherwise use the language the visitor picked last time."""
+    set_lang(request.args.get("lang") or request.cookies.get("lang"))
+
+
+@bp.get("/lang/<code>")
+def choose_language(code: str):
+    target = request.args.get("next", "/")
+    if not target.startswith("/") or target.startswith("//"):
+        target = "/"                     # only ever send people back to a page on this site
+    resp = redirect(target)
+    resp.set_cookie("lang", code if code in LANGS else "en", max_age=365 * 24 * 3600, samesite="Lax",
+                    httponly=True, secure=request.is_secure)
+    return resp
 
 
 @bp.app_context_processor
 def common():
-    return {"this_year": datetime.now(timezone.utc).year, "unsure": UNSURE, "glossary": GLOSSARY, "facts": FACTS}
+    return {"this_year": datetime.now(timezone.utc).year, "unsure": UNSURE, "glossary": GLOSSARY, "facts": FACTS,
+            "langs": LANGS, "lang": get_lang()}
