@@ -64,9 +64,9 @@ inuu helo amaah dayactir, gargaar masiibo, iyo dhimista canshuurta guriga, oo uu
 
 ## Waxaa lagu sameeyay {file}
 
-Python, Flask, HTML / CSS / JavaScript, requests, fpdf2, folium iyo Leaflet (khariidado), iyo pytest, oo lagu martigeliyay
-Vercel. Khariidadaha waxaa bixiya ka-qaybgalayaasha OpenStreetMap iyo Esri World Imagery. Xogta dhulka iyo qiyaasaha
-guriga waxay ka yimaadeen Auditor-ka Degmada Franklin. Qoraalku wuxuu isticmaalaa Atkinson Hyperlegible, far uu
-naqshadeeyay Braille Institute si ay ugu fududaato dadka aragtidoodu liidato.
+Python, HTML / CSS / JavaScript, iyo pytest, oo lagu martigeliyay Vercel.
+Khariidadaha waxaa bixiya ka-qaybgalayaasha OpenStreetMap iyo Esri World Imagery.
+Xogta dhulka iyo qiyaasaha guriga waxay ka yimaadeen Auditor-ka Degmada Franklin.
+Farta qoraalku waa Atkinson Hyperlegible.
 
 ## Isticmaalka qalabka AI {info} = Use of AI tools

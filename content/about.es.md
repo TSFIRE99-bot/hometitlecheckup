@@ -62,9 +62,9 @@ vivienda, y pasar la casa a la siguiente generación.
 
 ## Hecho con {file}
 
-Python, Flask, HTML / CSS / JavaScript, requests, fpdf2, folium y Leaflet (mapas) y pytest, alojado en Vercel. Mapas de
-los colaboradores de OpenStreetMap y Esri World Imagery. Datos de parcelas y cálculos de vivienda del Auditor del
-Condado de Franklin. La letra es Atkinson Hyperlegible, un tipo de letra diseñado por el Braille Institute para que sea
-más fácil de leer para personas con poca visión.
+Python, HTML / CSS / JavaScript y pytest, alojado en Vercel.
+Mapas de los colaboradores de OpenStreetMap y Esri World Imagery.
+Datos de parcelas y cálculos de vivienda del Auditor del Condado de Franklin.
+La letra es Atkinson Hyperlegible.
 
 ## Uso de herramientas de IA {info} = Use of AI tools
