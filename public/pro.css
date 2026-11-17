@@ -170,7 +170,9 @@ input[type="file"]::file-selector-button:hover { border-color: var(--ink); backg
 .badge.rejected, .badge.set_aside, .badge.deleted, .badge.not_needed { color: var(--ink-3); border-style: dashed; text-decoration: line-through; }
 
 /* page sections: heading column narrower than content, every section ruled */
+.banner + .page-head, .banner + .hero, .flash + .page-head, .flash + .hero { margin-top: var(--s5); }
 .page-head { padding-bottom: var(--s5); }
+.hero .fine { margin-top: var(--s3); max-width: 34rem; }
 .page-head h1 { margin-bottom: var(--s3); }
 .split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--s4) var(--s7); border-top: 1px solid var(--rule);
   padding: var(--s6) 0; }
@@ -261,6 +263,7 @@ td.ref, .ref { font-family: var(--mono); font-size: .84rem; font-weight: 600; }
   .specimen { transform: none; }
   .ledger li { grid-template-columns: 2.4rem minmax(0, 1fr); }
   .ledger li span { grid-column: 2; }
+  .top { position: static; }          /* three rows on a phone: don't pin them over the content */
   .top-inner { padding: var(--s2) 16px; }
   main { padding: var(--s5) 16px var(--s7); }
 }
