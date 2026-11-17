@@ -20,17 +20,19 @@
   <form method="post" action="{{ url_for('pro.family_upload', token=token) }}" enctype="multipart/form-data">
     <input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="item" value="{{ item.id }}">
     <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required aria-label="Choose a file for {{ item.label }}">
-    <div><button class="button primary">Send</button></div>
+    <div><button class="button primary" data-busy-label="Sending…">Send</button></div>
   </form>
   {% else %}
   <form method="post" action="{{ url_for('pro.family_info', token=token) }}">
     <input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="item" value="{{ item.id }}">
     <label class="help" for="text-{{ item.id }}">{% if item.key == "family_tree" %}One person per line: their name and how they are related to the person who died.{% else %}Your answer{% endif %}</label>
     <textarea id="text-{{ item.id }}" name="text" rows="4" maxlength="2000" required></textarea>
-    <div><button class="button primary">Send</button></div>
+    <div><button class="button primary" data-busy-label="Sending…">Send</button></div>
   </form>
   {% endif %}
 </div>
+{% else %}
+<div class="empty"><p class="empty-title">Nothing to send right now.</p><p>The law office hasn't asked you for anything on this link. If you think that's a mistake, call them.</p></div>
 {% endfor %}
 
 {% if uploads %}<section class="section"><h2>What you've sent</h2><ul>{% for u in uploads %}<li>{{ u.filename }} ({{ u.created_at.strftime("%b %d") }})</li>{% endfor %}</ul></section>{% endif %}

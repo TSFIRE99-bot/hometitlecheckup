@@ -8,13 +8,14 @@
     {% if request.args.get("closed") == "1" %}<a href="{{ url_for('pro.cases') }}">Hide closed</a>{% else %}<a href="{{ url_for('pro.cases', closed=1) }}">Show closed</a>{% endif %}</p>
 </section>
 
+{% if cases %}
 <div class="table-wrap">
 <table class="data">
   <thead><tr><th>Matter</th><th>Case</th><th>Status</th><th>Assigned</th><th>Missing</th><th>Facts to review</th><th>Packet</th></tr></thead>
   <tbody>
   {% for c in cases %}
     <tr>
-      <td><a href="{{ url_for('pro.case', case_id=c.id) }}">{{ c.reference }}</a></td>
+      <td class="ref"><a href="{{ url_for('pro.case', case_id=c.id) }}">{{ c.reference }}</a></td>
       <td>{{ c.title }}</td>
       <td>{{ statuses.get(c.status, c.status) }}</td>
       <td>{{ people.get(c.assigned_to, "Unassigned") }}</td>
@@ -22,12 +23,16 @@
       <td>{% set r = summary[c.id][1] %}<span class="badge {{ 'awaiting_review' if r else 'ok' }}">{{ r }}</span></td>
       <td>{{ c.packet_ready_at.strftime("%b %d") if c.packet_ready_at else "Not yet" }}</td>
     </tr>
-  {% else %}
-    <tr><td colspan="7">No cases yet.</td></tr>
   {% endfor %}
   </tbody>
 </table>
 </div>
+{% else %}
+<div class="empty">
+  <p class="empty-title">{% if request.args.get("closed") == "1" %}No cases at all yet.{% else %}No open cases.{% endif %}</p>
+  <p>Start one below with the matter number from your own system. You can send the family a link right after.</p>
+</div>
+{% endif %}
 
 <section class="split">
   <div class="split-head"><h2>New case</h2><p class="help">Counts as one new matter on your plan. Use your firm's own matter number.</p></div>
@@ -39,7 +44,7 @@
       <label>Person who died (as you know it)<input type="text" name="decedent" maxlength="200"></label>
       <label>Property address<input type="text" name="address" maxlength="300"></label>
       <label>Parcel number, if known<input type="text" name="parcel" maxlength="40"></label>
-      <div><button class="button primary">Create case</button></div>
+      <div><button class="button primary" data-busy-label="Creating…">Create case</button></div>
     </form>
   </div>
 </section>

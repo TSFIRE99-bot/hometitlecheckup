@@ -28,7 +28,7 @@
       <form method="post" action="{{ url_for('pro.review_field', case_id=case.id, field_id=f.id) }}" class="inline-form">
         <input type="hidden" name="csrf" value="{{ csrf() }}">
         <button class="button small primary" name="action" value="approve">Approve</button>
-        <button class="button small" name="action" value="reject">Reject</button>
+        <button class="button small destructive" name="action" value="reject">Reject</button>
       </form>
       {% endif %}
       <form method="post" action="{{ url_for('pro.review_field', case_id=case.id, field_id=f.id) }}" class="inline-form" style="margin-top:.5rem">
@@ -59,7 +59,7 @@
     <label>Fact<select name="key">{% for key, label in labels.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select></label>
     <label>Value<input type="text" name="value" required maxlength="200"></label>
     <label>Where it came from<input type="text" name="evidence" maxlength="300" placeholder="e.g. phone call with Lucia, Nov 17"></label>
-    <div><button class="button primary">Add</button></div>
+    <div><button class="button primary" data-busy-label="Adding…">Add</button></div>
   </form></div>
 </section>
 {% endblock %}

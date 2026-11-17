@@ -5,24 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="{% block robots %}noindex{% endblock %}">
   <title>{% block title %}HomeKeep Pro{% endblock %}</title>
-  <meta name="theme-color" content="#13315c">
-  {# No outside fonts or scripts on professional and family pages: nothing here loads from another company. #}
-  <link rel="stylesheet" href="/style.css">
+  <meta name="theme-color" content="#f3efe6">
+  {# Only our own files load here: the stylesheet, the fonts it names in /fonts, and pro.js. #}
+  <link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/plus-jakarta-sans-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/pro.css">
+  <script src="/pro.js" defer></script>
 </head>
 <body class="pro">
+<a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="top-inner">
-    <a href="{{ url_for('pro.cases') if pro_user else url_for('pro.landing') }}" class="brand"><span>Home<b>Keep</b> Pro</span></a>
+    <a href="{{ url_for('pro.cases') if pro_user else url_for('pro.landing') }}" class="brand"><span class="word">HomeKeep</span><span class="tag">PRO</span></a>
     {% block nav %}
     <nav aria-label="Main">
+      {% set here = request.endpoint %}
       {% if pro_user %}
-      <a href="{{ url_for('pro.cases') }}">Cases</a>
-      <a href="{{ url_for('pro.settings') }}">Firm settings</a>
-      <a href="{{ url_for('pro.security') }}">Data handling</a>
+      <a href="{{ url_for('pro.cases') }}" {% if here in ("pro.cases", "pro.case", "pro.review") %}aria-current="page"{% endif %}>Cases</a>
+      <a href="{{ url_for('pro.settings') }}" {% if here == "pro.settings" %}aria-current="page"{% endif %}>Firm settings</a>
+      <a href="{{ url_for('pro.security') }}" {% if here == "pro.security" %}aria-current="page"{% endif %}>Data handling</a>
       {% else %}
-      <a href="{{ url_for('pro.landing') }}">For professionals</a>
-      <a href="{{ url_for('pro.security') }}">Data handling</a>
+      <a href="{{ url_for('pro.landing') }}" {% if here == "pro.landing" %}aria-current="page"{% endif %}>For law offices</a>
+      <a href="{{ url_for('pro.security') }}" {% if here == "pro.security" %}aria-current="page"{% endif %}>Data handling</a>
       <a href="{{ free_site }}">Free homeowner checkup</a>
       {% endif %}
     </nav>
@@ -38,19 +42,20 @@
   </div>
 </header>
 <main id="main">
-{% if pro_firm and pro_firm.is_demo %}<p class="banner demo">Fictional demo firm. Every person, property and document here is made up.</p>{% endif %}
+{% if pro_firm and pro_firm.is_demo %}<p class="banner demo">Demo firm. Every person, property and document here is made up.</p>{% endif %}
 {% for note in staging_notes %}<p class="banner">{{ note }}</p>{% endfor %}
 {% for category, message in get_flashed_messages(with_categories=true) %}
   {% if category == "link" %}{% set label, _, link = message.rpartition(": ") %}
-  <div class="flash link"><p>{{ label }}:</p><input type="text" readonly value="{{ link }}" onclick="this.select()" aria-label="Link to copy"></div>
-  {% else %}<p class="flash {{ category }}">{{ message }}</p>{% endif %}
+  <div class="flash link" role="status"><p>{{ label }}:</p><input type="text" readonly value="{{ link }}" onclick="this.select()" aria-label="Link to copy"></div>
+  {% else %}<p class="flash {{ category }}" role="{{ 'alert' if category == 'error' else 'status' }}">{{ message }}</p>{% endif %}
 {% endfor %}
 {% block content %}{% endblock %}
 </main>
 <footer class="foot">
   <div class="foot-inner">
-    <div><p class="foot-brand">HomeKeep Pro</p><p>Software for administrative intake work supervised by legal professionals. Built by a student team.</p></div>
-    <div><p>HomeKeep does not give legal advice, determine heirs, certify title or file documents. Packets are prepared for professional review.</p>
+    <div><p class="foot-brand">HomeKeep Pro</p><p>Intake software for law offices, built by four high school students in Central Ohio.</p></div>
+    <div><p>HomeKeep doesn't give legal advice, decide who the heirs are, certify title or file anything. Your
+      attorneys make those calls; packets are put together for them to review.</p>
       <p><a href="{{ url_for('pro.security') }}">How documents are handled</a> · <a href="{{ free_site }}">Free homeowner checkup</a></p></div>
   </div>
 </footer>

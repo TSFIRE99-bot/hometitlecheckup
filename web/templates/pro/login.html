@@ -7,7 +7,7 @@
     <input type="hidden" name="csrf" value="{{ csrf() }}">
     <label>Email<input type="text" name="email" required autocomplete="username" inputmode="email"></label>
     <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
-    <div><button class="button primary">Sign in</button></div>
+    <div><button class="button primary" data-busy-label="Signing in…">Sign in</button></div>
   </form>
   {% if demo|default(false) %}
   <div>

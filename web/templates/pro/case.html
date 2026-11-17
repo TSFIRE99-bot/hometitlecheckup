@@ -2,7 +2,7 @@
 {% block title %}{{ case.reference }} · HomeKeep Pro{% endblock %}
 {% block content %}
 <section class="page-head">
-  <p class="eyebrow"><a href="{{ url_for('pro.cases') }}">Cases</a> · Matter {{ case.reference }}</p>
+  <p class="eyebrow"><a href="{{ url_for('pro.cases') }}">Cases</a> · Matter <span class="ref">{{ case.reference }}</span></p>
   <h1>{{ case.title }}</h1>
   <p class="meta">Person who died, as entered: {{ case.decedent_name or "not entered" }} · Property: {{ case.property_address or "not entered" }}
     · Parcel: {{ case.parcel_id or "not entered" }} · {{ case.county }} County</p>
@@ -35,7 +35,7 @@
   </table></div>
   <form method="post" action="{{ url_for('pro.attach_record', case_id=case.id) }}" class="row">
     <input type="hidden" name="csrf" value="{{ csrf() }}">
-    <button class="button small">Attach Franklin County Auditor record</button>
+    <button class="button small" data-busy-label="Looking it up…">Attach Franklin County Auditor record</button>
     <span class="meta">{% if record %}Attached: <a href="{{ record.url }}" target="_blank" rel="noopener">parcel {{ record.parcel }}</a>, retrieved {{ record.retrieved }}. {{ record.limits }}{% else %}Looks up the address in the Auditor's public records. The owner field is a tax record, not proof of title.{% endif %}</span>
   </form></div>
 </section>
@@ -57,11 +57,11 @@
         <form method="post" action="{{ url_for('pro.participant_action', case_id=case.id, pid=p.id, action='message') }}" class="inline-form">
           <input type="hidden" name="csrf" value="{{ csrf() }}">
           <select name="template" aria-label="Message template">{% for tpl in templates %}<option value="{{ tpl.id }}" {% if not tpl.approved_at %}disabled{% endif %}>{{ tpl.name }}{% if not tpl.approved_at %} (not approved){% endif %}</option>{% endfor %}</select>
-          <button class="button small primary">Send follow-up</button></form>
+          <button class="button small primary" data-busy-label="Recording…">Send follow-up</button></form>
         {% endif %}
       </div>
     </div>
-    {% else %}<p>No family members invited yet.</p>{% endfor %}
+    {% else %}<div class="empty"><p class="empty-title">Nobody invited yet.</p><p>Add a relative below. They'll get a private link that shows only what you ask them for.</p></div>{% endfor %}
 
     <h3>Invite a family member</h3>
     <form method="post" action="{{ url_for('pro.add_participant', case_id=case.id) }}" class="grid-form">
@@ -72,7 +72,7 @@
       <fieldset class="checks" style="grid-column: 1 / -1; border: 0; padding: 0"><legend>Ask them for</legend>
         {% for i in family_items %}<label><input type="checkbox" name="items" value="{{ i.id }}"> {{ i.label }}</label>{% endfor %}</fieldset>
       <label class="checks" style="grid-column: 1 / -1"><span><input type="checkbox" name="consent" value="yes"> They agreed to receive email about this case.</span></label>
-      <div><button class="button primary">Create link</button></div>
+      <div><button class="button primary" data-busy-label="Creating link…">Create link</button></div>
     </form>
 
     {% if outbox %}<h3>Outbox</h3><div class="table-wrap"><table class="data"><thead><tr><th>When</th><th>To</th><th>Subject</th><th>Status</th></tr></thead><tbody>
@@ -83,24 +83,25 @@
 <section class="split" id="documents">
   <div class="split-head"><h2>Documents</h2><p class="help">Files from family stay quarantined until a staff member releases them. Downloads are never opened in the browser.</p></div>
   <div class="split-body">
-    <div class="table-wrap"><table class="data">
+    {% if documents %}<div class="table-wrap"><table class="data">
       <thead><tr><th>File</th><th>Type</th><th>Text</th><th>Status</th><th></th></tr></thead>
       <tbody>{% for d in documents %}<tr>
         <td>{{ d.filename }}<div class="meta">{{ (d.size / 1024)|round|int }} KB · {{ d.created_at.strftime("%b %d") }} · {{ "family upload" if d.participant_id else "staff upload" }}</div></td>
         <td>{{ doc_types.get(d.doc_type or "", "Not identified") }}</td>
         <td><span class="badge {{ d.text_status }}">{{ {"ok": "Read", "no_text": "Scan: needs manual entry", "not_pdf": "Image: needs manual entry", "too_long": "Too many pages", "error": "Could not read"}.get(d.text_status, d.text_status) }}</span></td>
         <td><span class="badge {{ d.status }}">{{ d.status }}</span></td>
-        <td class="row" style="margin:0">
+        <td class="actions">
           {% if d.status == "quarantined" %}<form method="post" action="{{ url_for('pro.document_action', case_id=case.id, doc_id=d.id, action='release') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="button small">Release</button></form>
           {% else %}<a class="button small" href="{{ url_for('pro.download', case_id=case.id, doc_id=d.id) }}">Download</a>{% endif %}
-          {% if can("delete") %}<form method="post" action="{{ url_for('pro.document_action', case_id=case.id, doc_id=d.id, action='delete') }}" class="inline-form"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="text" name="reason" placeholder="Reason" required maxlength="200" style="width:9rem"><button class="button small">Delete</button></form>{% endif %}
-        </td></tr>{% else %}<tr><td colspan="5">No documents yet.</td></tr>{% endfor %}</tbody>
-    </table></div>
+          {% if can("delete") %}<form method="post" action="{{ url_for('pro.document_action', case_id=case.id, doc_id=d.id, action='delete') }}" class="inline-form"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="text" name="reason" placeholder="Reason" required maxlength="200" style="width:9rem"><button class="button small destructive">Delete</button></form>{% endif %}
+        </td></tr>{% endfor %}</tbody>
+    </table></div>{% endif %}
+    {% if not documents %}<div class="empty" style="margin-top:.75rem"><p class="empty-title">No documents yet.</p><p>Upload one below, or send the family a link and their files will show up here, waiting for you to release them.</p></div>{% endif %}
     <form method="post" action="{{ url_for('pro.staff_upload', case_id=case.id) }}" enctype="multipart/form-data" class="inline-form" style="margin-top:1rem">
       <input type="hidden" name="csrf" value="{{ csrf() }}">
       <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required>
       <select name="item" aria-label="Checklist item"><option value="">Not linked to an item</option>{% for i in items if i.kind == "document" %}<option value="{{ i.id }}">{{ i.label }}</option>{% endfor %}</select>
-      <button class="button small primary">Upload</button>
+      <button class="button small primary" data-busy-label="Uploading…">Upload</button>
     </form>
   </div>
 </section>
@@ -120,7 +121,7 @@
 
 <section class="split" id="activity">
   <div class="split-head"><h2>History</h2></div>
-  <div class="split-body"><ol class="history" reversed>
+  <div class="split-body">{% if not activity %}<div class="empty"><p class="empty-title">Nothing yet.</p><p>Every change to this case shows up here, with who made it and when.</p></div>{% endif %}<ol class="history" reversed>
     {% for a in activity|reverse %}<li>{{ a.created_at.strftime("%b %d %H:%M") }} · {{ a.actor }} · {{ a.action.replace("_", " ") }}{% if a.detail %}: {{ a.detail }}{% endif %}</li>{% endfor %}
   </ol></div>
 </section>
@@ -131,7 +132,7 @@
   <div class="split-body"><form method="post" action="{{ url_for('pro.delete_case', case_id=case.id) }}" class="inline-form">
     <input type="hidden" name="csrf" value="{{ csrf() }}">
     <label>Type {{ case.reference }} to confirm <input type="text" name="confirm" required></label>
-    <button class="button small">Delete case</button></form></div>
+    <button class="button small destructive" data-busy-label="Deleting…">Delete case</button></form></div>
 </section>
 {% endif %}
 {% endblock %}

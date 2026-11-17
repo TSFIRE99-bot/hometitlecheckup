@@ -1,95 +1,115 @@
 {% extends "pro/base.html" %}
 {% block robots %}index{% endblock %}
-{% block title %}HomeKeep Pro: inherited-home intake for Ohio probate firms{% endblock %}
+{% block title %}HomeKeep Pro: inherited-home intake for Ohio probate offices{% endblock %}
 {% block content %}
 <section class="hero">
   <div>
-    <p class="eyebrow">For Ohio probate and estate-planning firms · Franklin County first</p>
-    <h1>Get inherited-home cases ready for attorney review with less document chasing.</h1>
-    <p class="lead">HomeKeep Pro collects family information and documents for matters involving a residential home,
-      shows what is missing or inconsistent, helps your staff follow up, and produces an organized packet for attorney
-      review. Your staff review everything; the software never gives legal advice or decides who the heirs are.</p>
+    <p class="eyebrow">For Ohio probate and estate offices · Franklin County first</p>
+    <h1>Inherited-home cases, ready for the attorney <em>without the chasing</em>.</h1>
+    <p class="lead">Families send the deed, death certificate and tax bill from their phones through a private link.
+      HomeKeep shows what's missing or doesn't match, and puts the file together for your attorney. Your staff check
+      every fact. It never gives legal advice or decides who the heirs are.</p>
     <div class="row">
       {% if demo %}
-      <form method="post" action="{{ url_for('pro.start_demo') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="role" value="staff"><button class="button primary">Try the demo (fictional cases)</button></form>
+      <form method="post" action="{{ url_for('pro.start_demo') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="role" value="staff"><button class="button primary" data-busy-label="Opening the demo…">Try the demo</button></form>
       {% endif %}
-      <a class="button" href="#request">Request a walkthrough</a>
+      <a class="button" href="#request">Ask for a walkthrough</a>
     </div>
-    <p class="fine">Built by a student team in Central Ohio. HomeKeep Pro is new. No firm has used it yet; we're looking for a
-      few firms to try it, first with fictional matters.</p>
+    <p class="fine">The demo uses made-up cases. HomeKeep Pro is new: no firm has used it yet, and we're looking for a
+      few to try it, starting with fictional matters.</p>
   </div>
+
+  <figure class="specimen-wrap" style="margin:0">
+    <div class="specimen" aria-label="Snapshot of the review screen from the demo">
+      <div class="specimen-head"><span>DEMO-2026-03 · Review facts</span><span>Fictional</span></div>
+      <div class="specimen-body">
+        <h3>Date of death <span class="badge conflicting">Conflicting</span></h3>
+        <div class="value-row">
+          <p class="value">March 3, 2025</p>
+          <p class="meta"><span class="badge awaiting_review">Awaiting review</span> Appears in a document · death-certificate-lindqvist.pdf, page 1</p>
+          <div class="evidence">Date of death: March 3, 2025</div>
+        </div>
+        <div class="value-row">
+          <p class="value">March 13, 2025</p>
+          <p class="meta"><span class="badge awaiting_review">Awaiting review</span> Reported by family (Nils Lindqvist, son)</p>
+        </div>
+      </div>
+    </div>
+    <figcaption class="specimen-caption">From the demo, as staff see it. The two dates disagree, so HomeKeep holds both
+      until someone at the firm decides.</figcaption>
+  </figure>
 </section>
 
 <section class="split">
-  <div class="split-head"><h2>How it works</h2></div>
+  <div class="split-head"><h2>How a case moves</h2><p class="help">Five steps, all done by your staff. HomeKeep keeps track
+    of what's done and what isn't.</p></div>
   <div class="split-body">
-    <ol class="flow-steps">
-      <li><strong>Open a matter.</strong><br>Staff add the property and choose what to collect from a checklist your attorney approves.</li>
-      <li><strong>Invite family.</strong><br>Each relative gets an expiring phone-friendly link that shows only what they were asked for.</li>
-      <li><strong>Read documents.</strong><br>Text-based PDFs are read and proposed facts are shown next to the exact line they came from. The reading is simple pattern matching, tested only on fictional files so far; scans and photos aren't read yet.</li>
-      <li><strong>Review and follow up.</strong><br>Staff approve or correct each fact. Conflicts and missing items are listed; follow-ups use templates you approve.</li>
-      <li><strong>Export the packet.</strong><br>A PDF and JSON packet with the document inventory, approved facts, evidence, open questions and missing items.</li>
+    <ol class="ledger">
+      <li><b>Open the matter</b><span>Add the property and your matter number. The checklist of what to collect is one your attorney approves once for the firm.</span></li>
+      <li><b>Send family a link</b><span>Each relative gets their own link that works on a phone, expires in 14 days, and shows only what they were asked for. No account.</span></li>
+      <li><b>Read the documents</b><span>HomeKeep reads the text in ordinary PDFs and suggests facts, each next to the line it came from. It's simple pattern matching, tested only on our fictional files so far, and it can't read scans or photos yet. Staff can always type a fact in.</span></li>
+      <li><b>Review and follow up</b><span>Approve, correct or reject each fact. Conflicts and missing items stay listed until someone deals with them. Follow-ups use only templates your attorney approved.</span></li>
+      <li><b>Export the packet</b><span>A PDF and a data file with the document list, approved facts and where each came from, open conflicts, and what's still missing, marked for professional review.</span></li>
     </ol>
   </div>
 </section>
 
-<section class="split">
-  <div class="split-head"><h2>What it does not do</h2></div>
-  <div class="split-body">
-    <ul>
-      <li>It does not give legal advice, determine heirs, calculate legally binding shares, certify title, draft deeds or file anything.</li>
-      <li>It treats the County Auditor's owner field as a tax record, not proof of title, and never assumes anyone has died.</li>
-      <li>It never sends a message on its own. A staff member reviews and sends every follow-up.</li>
-      <li>It does not sell or share homeowner information. The free homeowner checkup at myhomekeep.org stays free and never feeds this workspace.</li>
+<section class="pair">
+  <div>
+    <h2>What it won't do</h2>
+    <ul class="nots">
+      <li>Give legal advice, decide who the heirs are, work out legal shares, certify title, draft deeds or file anything.</li>
+      <li>Treat the County Auditor's owner name as proof of title, or assume anyone has died.</li>
+      <li>Send a message on its own. A person at your office sends every follow-up.</li>
+      <li>Sell or share anyone's information. The free homeowner checkup stays free and never feeds this workspace.</li>
     </ul>
+  </div>
+  <div>
+    <h2>Where the documents go</h2>
+    <p>Files are checked when they arrive, kept apart from every other firm, and can be downloaded only by your signed-in
+      staff. Anything a family sends waits in quarantine until someone at your office releases it.</p>
+    <p>Some things aren't in place yet, like malware scanning and a permanent database. The data handling page lists
+      them plainly. <a href="{{ url_for('pro.security') }}">Read how documents are handled</a>.</p>
   </div>
 </section>
 
 <section class="split">
-  <div class="split-head"><h2>Pilot offer</h2><p class="help">Prices are proposals we are testing in conversations with firms.</p></div>
+  <div class="split-head"><h2>Trying it</h2><p class="help">These prices are what we're testing in conversations with firms,
+    not settled terms. Payment isn't connected yet.</p></div>
   <div class="split-body">
-    <div class="pricing">
+    <div class="plans">
       {% for key in ("pilot", "monthly") %}{% set p = plans[key] %}
-      <div class="price">
+      <div class="plan{{ ' secondary' if p.renews }}">
         <p class="eyebrow">{{ p.label }}</p>
-        <p class="amount">${{ p.price_dollars }}{% if p.renews %}<small>/month</small>{% endif %}</p>
+        <p class="amount">${{ p.price_dollars }}{% if p.renews %}<small>a month</small>{% else %}<small>once</small>{% endif %}</p>
         <ul>
-          <li>Up to {{ p.new_matters }} new inherited-home matters {% if p.renews %}per month{% else %}in {{ p.period_days }} days{% endif %}</li>
-          <li>Up to {{ p.documents_per_matter }} documents per matter, {{ p.storage_mb }} MB total</li>
-          <li>{{ p.support_hours }} hours of setup and support{% if p.renews %} per month{% endif %}</li>
-          <li>{% if p.renews %}Renews only with your written agreement; cancel any time{% else %}Does not renew automatically{% endif %}</li>
+          <li>Up to {{ p.new_matters }} new inherited-home matters {% if p.renews %}a month{% else %}in {{ p.period_days }} days{% endif %}</li>
+          <li>Up to {{ p.documents_per_matter }} documents per matter, {{ p.storage_mb }} MB in all</li>
+          <li>{{ p.support_hours }} hours of setup and help{% if p.renews %} a month{% endif %}</li>
+          <li>{% if p.renews %}Starts only if you say yes in writing. Cancel any time.{% else %}Ends after 30 days. Nothing renews.{% endif %}</li>
         </ul>
       </div>
       {% endfor %}
     </div>
-    <p class="help">No overage charges. If a limit is reached, new matters pause until we talk; nothing already stored is
-      locked, and you can export or delete your data at any time. Payment isn't connected yet.</p>
-  </div>
-</section>
-
-<section class="split">
-  <div class="split-head"><h2>Documents and data</h2></div>
-  <div class="split-body">
-    <p>Files are checked on upload, kept out of the free site, separated by firm, and downloadable only by signed-in
-      staff of the firm that owns them. Family links expire and show only what each person was asked for.
-      <a href="{{ url_for('pro.security') }}">Read exactly how documents are handled</a>, including what is not in
-      place yet.</p>
+    <p class="help" style="margin-top:1rem">Going over a limit never costs extra: new cases just pause until we talk.
+      Nothing you've stored gets locked, and you can export or delete it whenever you want.</p>
   </div>
 </section>
 
 <section class="split" id="request">
-  <div class="split-head"><h2>Request a walkthrough</h2><p class="help">We use this only to reply to you. No mailing list.</p></div>
+  <div class="split-head"><h2>Ask for a walkthrough</h2><p class="help">One of us will email you back. We only use your
+    details to reply. No mailing list.</p></div>
   <div class="split-body">
     <form method="post" action="{{ url_for('pro.request_demo') }}" class="grid-form">
       <input type="hidden" name="csrf" value="{{ csrf() }}">
       <label>Your name<input type="text" name="name" required maxlength="200" autocomplete="name"></label>
       <label>Firm<input type="text" name="firm" required maxlength="200" autocomplete="organization"></label>
-      <label>Work email<input type="text" name="email" required maxlength="254" inputmode="email" autocomplete="email"></label>
+      <label>Work email<input type="email" name="email" required maxlength="254" autocomplete="email"></label>
       <label>Your role<input type="text" name="role" maxlength="120" placeholder="Attorney, paralegal, office manager"></label>
-      <label style="grid-column: 1 / -1">How does your office handle inherited-home intake today? (optional, please no client details)
+      <label class="wide">How do you collect documents for inherited-home cases now? (optional, no client details please)
         <textarea name="message" rows="3" maxlength="2000"></textarea></label>
-      <label class="checks" style="grid-column: 1 / -1"><span><input type="checkbox" name="consent" value="yes" required> HomeKeep may email me about this request.</span></label>
-      <div><button class="button primary">Send request</button></div>
+      <label class="checks wide"><span><input type="checkbox" name="consent" value="yes" required> It's fine to email me about this request.</span></label>
+      <div><button class="button primary" data-busy-label="Sending…">Send</button></div>
     </form>
   </div>
 </section>

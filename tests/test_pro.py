@@ -1,6 +1,7 @@
 """HomeKeep Pro: firm separation, permissions, family links, uploads, deletion, follow-ups, extraction and packets."""
 import io
 import json
+import re
 from datetime import timedelta
 
 import pytest
@@ -58,7 +59,13 @@ def test_professional_pages_load_and_never_load_outside_resources(app):
         assert r.status_code == 200, path
         html = r.get_data(as_text=True)
         assert "fonts.googleapis" not in html and "cdn.jsdelivr" not in html
+        loaded = re.findall(r'<(?:link|script)[^>]+(?:href|src)="([^"]+)"', html)
+        assert loaded and all(url.startswith("/") and not url.startswith("//") for url in loaded), loaded
         assert r.headers["Referrer-Policy"] == "no-referrer" and r.headers["Cache-Control"] == "no-store"
+    css = client.get("/pro.css").get_data(as_text=True)
+    for font in re.findall(r"url\((/fonts/[^)]+)\)", css):
+        assert client.get(font).status_code == 200, font
+    assert client.get("/pro.js").status_code == 200
 
 
 def test_posting_without_the_form_token_is_refused(app):
@@ -431,7 +438,7 @@ def test_demo_button_signs_in_to_the_fictional_firm(tmp_path):
     r = client.post("/pro/demo", data={"csrf": "t", "role": "attorney"})
     assert r.status_code == 302
     html = client.get("/pro/app").get_data(as_text=True)
-    assert "Fictional demo firm" in html and "DEMO-2026-03" in html
+    assert "Demo firm. Every person" in html and "DEMO-2026-03" in html
 
 
 def test_evaluation_harness_on_synthetic_documents():
