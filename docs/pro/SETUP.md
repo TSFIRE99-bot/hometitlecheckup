@@ -46,6 +46,14 @@ Names only. Never put values in the repo, in docs, in commit messages or in chat
 | `PRO_PLAN_PILOT_PRICE`, `PRO_PLAN_PILOT_MATTERS`, `PRO_PLAN_PILOT_SUPPORT_HOURS` | Pilot plan numbers shown on the landing page and enforced as limits. | 500, 10, 4 |
 | `PRO_PLAN_MONTHLY_PRICE`, `PRO_PLAN_MONTHLY_MATTERS`, `PRO_PLAN_MONTHLY_SUPPORT_HOURS` | Monthly plan numbers. | 399, 10, 2 |
 
+## The separate HomeKeep Pro project
+
+HomeKeep Pro has its own Vercel project, `homekeep-pro`, at https://homekeep-pro.vercel.app (set up November 17,
+2026). It deploys the `homekeep-pro` branch as its production, has `PRO_SITE=on` and its own `SECRET_KEY`, and its
+Ignored Build Step is "Only build production," so it builds nothing else. The original project
+(`hometitlecheckup-h5fn`, www.myhomekeep.org) has a custom Ignored Build Step that skips the `homekeep-pro` branch.
+`tests/conftest.py` clears the site settings so the tests behave the same in both projects.
+
 ## Staging on Vercel
 
 Every push to a branch other than `main` gets a Vercel preview URL. The `homekeep-pro` branch preview is the staging
