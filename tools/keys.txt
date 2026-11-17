@@ -242,8 +242,8 @@ e63f052c|Franklin County Auditor: Owner Occupancy Credit
 2e91eb56|$34 recording fee (2 pages)
 7d7b93b3|Court filing fees (ask the clerk)
 2129ccf5|Ohio has an estimated 9,000 heirs' properties (Greater Ohio Policy Center, 2024).
-d5caaa4c|Those homes hold about $313 million in family wealth that clear titles could unlock (LISC, 2024).
-d178c0f4|Without a clear title, families can't get home-repair financing, claim the homestead tax break, get disaster aid, or borrow against the home (LISC, 2024).
+6c7a6f09|Those homes are worth about $313 million in total (LISC, 2024). That's property value, not equity.
+8511b519|Without a clear title, families often have trouble getting home-repair loans, the homestead tax break or disaster aid, and they usually can't borrow against the home (LISC, 2024).
 bc10f055|December 31
 3efc0f9d|Deed
 3d932c77|The paper, recorded with the County, that says who owns a home.
@@ -356,10 +356,10 @@ ed3376f1|{n} people would own the home
 f4b4bae5|All {n} would have to agree and sign to sell or refinance it.
 abad30e0|What is the home worth?
 a45044a5|We started with an example.
-7402f0e0|Use the market value on the tax bill or the Auditor's website.
-eca6e6c5|of family wealth is **locked** until both heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.
-8ef26222|of family wealth is **locked** until all {n} heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.
-c0018e9a|One heir can use all of the home's equity.
+e45fe660|Use the market value on the tax bill or the Auditor's website. This is the home's value, not equity: any mortgage, liens or unpaid taxes come off first.
+20a2bc66|of home value is **tied up** until both heirs agree. Selling it, refinancing it or borrowing against it usually needs both to sign. If they can't agree, a court can divide or sell it (a partition case).
+bf445176|of home value is **tied up** until all {n} heirs agree. Selling it, refinancing it or borrowing against it usually needs all of them to sign. If they can't agree, a court can divide or sell it (a partition case).
+51a94baa|One heir would own the whole home.
 5e2e9ef2|How the home would be split
 72122ce9|owner
 b132392a|owners
@@ -372,9 +372,9 @@ e89d76cc|What happens if nobody files for generations
 52ac81ab|Children per person:
 98054900|Generations:
 9ff6bfed|People who own a piece of the home, by generation
-6247eb64|After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.
-a2b5fe8d|After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.
-9c82b0a2|**The fix takes one form, recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). Then the home goes straight to the people named, with no court.
+7b8d986f|After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.
+4370c700|After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.
+0086192e|**One form can prevent this if it's recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). The people named get the home without probate. They still record a short affidavit with the death certificate afterward.
 53609811|Check a home now
 8f7f4c1c|About
 fb61758d|Sources
@@ -390,14 +390,16 @@ fa1aaa96|Check my home
 3513d2de|Larger text
 e0125c0c|This page was translated with the help of AI. Office names, addresses and forms are in English. If anything is unclear, Legal Aid can help.
 2ab5b48b|Free, private and plain-English. Built by Central Ohio high school students.
-b338a134|Nothing you type is saved.
+0f4de82c|HomeKeep doesn't store what you type.
+e24d81a4|What leaves your browser
 fd022c70|This is general information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices or a lawyer before filing anything.
 682618f7|Free legal help
 9adaa673|About and sources
+2508b63e|For professionals
 5cbab1cb|Type the home's street address
 5f6c5315|Check this home
 4c0c0085|Try a demo home
-36c1a63c|Free and private. Nothing you type is saved.
+4102c282|Free. HomeKeep doesn't store your answers. The address goes to the Franklin County Auditor to find the record.
 2875e145|Is your family's home legally in the right name?
 31bb4e01|When a homeowner dies and the paperwork never gets filed, the family can lose the home, the tax breaks, and the wealth it was supposed to pass on. Find out where your home stands in **2 minutes**, and get the free steps to fix it or protect it.
 fc7e3dcb|A few homes matched. Which one is it?
@@ -407,9 +409,9 @@ aaa152c8|They're on the property tax bill, or the Auditor's website. One name pe
 a0bfb8e5|Continue
 d1450b5a|Why this matters in Ohio
 31f08efb|Ohio homes are estimated to be heirs' property, stuck in the name of someone who died
-91d2bbcd|in family wealth those homes hold, waiting on a clear title
+6758d1eb|estimated total value of those homes, before any mortgage, liens or unpaid taxes
 2f585ad0|1 form
-c3cc3ad5|recorded while the owner is alive can prevent it, for a $34 fee
+8d424230|recorded while the owner is alive can often avoid probate. Recording it costs $34 in Franklin County.
 322c7876|Sources: Greater Ohio Policy Center (2024), LISC (2024), Franklin County Recorder fee schedule.
 9ffdb952|How it works
 a17a8b5e|Find the home
@@ -455,8 +457,8 @@ ff17c6e7|[Ohio Legal Help]({url}): plain-English guides and forms for probate an
 b4e9abf1|[Homestead exemption]({url}): apply online with the County Auditor.
 6b2c7ee7|Ohio inheritance, in pictures
 0d0b38f1|Who would inherit the home?
-458f18d5|When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would have to sign to sell it, refinance it, or fix the title.
-77e57d49|A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. Nothing you type is saved.
+a4ebf17b|When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would usually need to sign to sell it or refinance it.
+fb781242|A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. HomeKeep doesn't store what you type.
 ed2cda20|What is a tangled title?
 a97d236e|One owner becomes four, then eleven
 16ba038e|Grandpa

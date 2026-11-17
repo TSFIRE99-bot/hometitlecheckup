@@ -19,14 +19,16 @@ nunca han hablado con un abogado, funciona en el celular y tiene un botón para 
 ## Por qué importa aquí {users}
 
 Las propiedades de herederos se concentran en vecindarios que sufrieron años de falta de inversión, donde las familias
-tenían menos acceso a abogados y a planificación de herencias (Greater Ohio Policy Center, 2024). Un título claro es lo
-que le permite a una familia conseguir préstamos para reparaciones, ayuda por desastres y la reducción de impuestos de
-vivienda, y pasar la casa a la siguiente generación.
+tenían menos acceso a abogados y a planificación de herencias (Greater Ohio Policy Center, 2024). Con un título claro
+es mucho más fácil para una familia conseguir préstamos para reparaciones, ayuda por desastres y la reducción de
+impuestos de vivienda, y pasar la casa a la siguiente generación.
 
 ## Cómo funciona {map}
 
 1. Usted escribe una dirección. La aplicación consulta los registros públicos de parcelas del Auditor del Condado de
-   Franklin (un servicio ArcGIS REST) para ver quién está en la escritura y cuándo cambió de dueño por última vez.
+   Franklin (un servicio ArcGIS REST) para ver qué nombre aparece en el registro de impuestos y cuándo cambió de dueño
+   por última vez. Ese nombre es para las facturas de impuestos. No prueba quién es el dueño legal de la casa, así que
+   la aplicación le pregunta a usted lo demás.
 2. Usted contesta unas preguntas de sí o no, por ejemplo si todas las personas en la escritura están vivas.
 3. Reglas basadas en la ley de Ohio (declaraciones juradas de Transferencia en caso de Muerte, escrituras con derecho
    de supervivencia y las opciones para patrimonios pequeños de la Corte de Sucesiones del Condado de Franklin)
@@ -34,8 +36,9 @@ vivienda, y pasar la casa a la siguiente generación.
    con tiempo, costo y adónde ir en cada paso.
 4. La revisión opcional de beneficios de vivienda calcula el ahorro en impuestos de propiedad para el distrito de
    impuestos de la casa, usando las cifras publicadas por el Auditor del Condado, y explica cómo y cuándo solicitarlo.
-5. "¿Quién heredaría?" muestra cómo la ley de Ohio dividiría la casa, y cuántos dólares de riqueza familiar quedan
-   bloqueados hasta que todos los herederos firmen.
+5. "¿Quién heredaría?" muestra cómo la ley de Ohio dividiría la casa, cuántas personas la compartirían y cuánto vale
+   cada parte del valor de la casa. El valor no es lo mismo que el capital: primero se restan las hipotecas, los
+   gravámenes y los impuestos sin pagar.
 6. "Ayuda gratis cerca de usted" muestra en un mapa las oficinas gratis y oficiales que se encargan de cada paso.
 7. Toda la aplicación está disponible en inglés, español y somalí.
 
@@ -44,8 +47,14 @@ vivienda, y pasar la casa a la siguiente generación.
 - Una dirección a la vez. La aplicación nunca hace listas ni mapas de casas que podrían tener títulos enredados,
   porque las personas que se aprovechan de las propiedades de herederos podrían usarlos mal.
 - Los vecinos en el mapa solo muestran lo que el mapa público del Condado ya muestra, nunca el estado de un título.
-- Nada de lo que escribe se guarda. El servidor no guarda nada entre un clic y otro. Las marcas de su plan de pasos
-  se quedan en su propio dispositivo.
+- HomeKeep no guarda lo que usted escribe. La revisión gratis no tiene cuentas ni base de datos, y las marcas de su
+  plan de pasos se quedan en su propio dispositivo.
+- Algunas cosas sí salen de su navegador. La dirección que escribe va al servicio de mapas del Auditor del Condado de
+  Franklin para buscar el registro. Las páginas cargan letras (fuentes) de Google Fonts, y los mapas cargan código e
+  imágenes de mapas de servicios externos (jsDelivr, cdnjs, code.jquery.com, el CDN de Bootstrap, OpenStreetMap y
+  Esri). Esos servicios ven su dirección IP. Nuestro proveedor de hospedaje, Vercel, guarda registros normales de
+  solicitudes (qué página, cuándo y desde qué dirección IP) por un tiempo limitado.
+- Sin anuncios y sin analítica. HomeKeep nunca vende ni comparte lo que usted escribe.
 
 ## Límites {info}
 

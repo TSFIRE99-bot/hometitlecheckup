@@ -489,10 +489,10 @@ T: dict[str, str] = {
         "Costos de la corte (pregunte al empleado)",
     "Ohio has an estimated 9,000 heirs' properties (Greater Ohio Policy Center, 2024).":
         "Ohio tiene unas 9,000 propiedades de herederos (Greater Ohio Policy Center, 2024).",
-    "Those homes hold about $313 million in family wealth that clear titles could unlock (LISC, 2024).":
-        "Esas casas guardan unos $313 millones en riqueza familiar que los títulos claros podrían liberar (LISC, 2024).",
-    "Without a clear title, families can't get home-repair financing, claim the homestead tax break, get disaster aid, or borrow against the home (LISC, 2024).":
-        "Sin un título claro, las familias no pueden conseguir préstamos para reparar la casa, recibir la reducción de impuestos de vivienda, recibir ayuda por desastres ni pedir dinero prestado con la casa como garantía (LISC, 2024).",
+    "Those homes are worth about $313 million in total (LISC, 2024). That's property value, not equity.":
+        "Esas casas valen unos $313 millones en total (LISC, 2024). Es el valor de las propiedades, no el capital.",
+    "Without a clear title, families often have trouble getting home-repair loans, the homestead tax break or disaster aid, and they usually can't borrow against the home (LISC, 2024).":
+        "Sin un título claro, a las familias muchas veces se les hace difícil conseguir préstamos para reparar la casa, la reducción de impuestos de vivienda o ayuda por desastres, y normalmente no pueden pedir dinero prestado con la casa como garantía (LISC, 2024).",
     "December 31":
         "31 de diciembre",
     "Deed":
@@ -717,14 +717,14 @@ T: dict[str, str] = {
         "¿Cuánto vale la casa?",
     "We started with an example.":
         "Empezamos con un ejemplo.",
-    "Use the market value on the tax bill or the Auditor's website.":
-        "Use el valor de mercado que aparece en la factura de impuestos o en el sitio web del Auditor.",
-    "of family wealth is **locked** until both heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.":
-        "de riqueza familiar está **bloqueado** hasta que los dos herederos se pongan de acuerdo y firmen. Mientras tanto no se puede vender, refinanciar ni usar como garantía para un préstamo de reparaciones.",
-    "of family wealth is **locked** until all {n} heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.":
-        "de riqueza familiar está **bloqueado** hasta que los {n} herederos se pongan de acuerdo y firmen. Mientras tanto no se puede vender, refinanciar ni usar como garantía para un préstamo de reparaciones.",
-    "One heir can use all of the home's equity.":
-        "Un solo heredero puede usar todo el valor de la casa.",
+    "Use the market value on the tax bill or the Auditor's website. This is the home's value, not equity: any mortgage, liens or unpaid taxes come off first.":
+        "Use el valor de mercado que aparece en la factura de impuestos o en el sitio web del Auditor. Es el valor de la casa, no el capital: primero se restan las hipotecas, los gravámenes y los impuestos sin pagar.",
+    "of home value is **tied up** until both heirs agree. Selling it, refinancing it or borrowing against it usually needs both to sign. If they can't agree, a court can divide or sell it (a partition case).":
+        "del valor de la casa queda **atado** hasta que los dos herederos se pongan de acuerdo. Para venderla, refinanciarla o usarla como garantía de un préstamo normalmente tienen que firmar los dos. Si no se ponen de acuerdo, una corte puede dividirla o venderla (un caso de partición).",
+    "of home value is **tied up** until all {n} heirs agree. Selling it, refinancing it or borrowing against it usually needs all of them to sign. If they can't agree, a court can divide or sell it (a partition case).":
+        "del valor de la casa queda **atado** hasta que los {n} herederos se pongan de acuerdo. Para venderla, refinanciarla o usarla como garantía de un préstamo normalmente tienen que firmar todos. Si no se ponen de acuerdo, una corte puede dividirla o venderla (un caso de partición).",
+    "One heir would own the whole home.":
+        "Un solo heredero sería dueño de toda la casa.",
     "How the home would be split":
         "Cómo se dividiría la casa",
     "owner":
@@ -749,12 +749,12 @@ T: dict[str, str] = {
         "Generaciones:",
     "People who own a piece of the home, by generation":
         "Personas que son dueñas de una parte de la casa, por generación",
-    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.":
-        "Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una, que vale unos **${worth}** cada parte. Hay que encontrar a cada una y todas tienen que firmar antes de que la casa se pueda vender, refinanciar o reparar con un préstamo.",
-    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.":
-        "Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una. Hay que encontrar a cada una y todas tienen que firmar antes de que la casa se pueda vender, refinanciar o reparar con un préstamo.",
-    "**The fix takes one form, recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). Then the home goes straight to the people named, with no court.":
-        "**La solución es un formulario, registrado mientras el dueño está vivo:** una declaración jurada de Transferencia en caso de Muerte ({forms}). Así la casa pasa directamente a las personas nombradas, sin corte.",
+    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.":
+        "Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una, que vale unos **${worth}** cada parte. Para vender o refinanciar de la forma normal, en general hay que encontrar a todas y todas tienen que firmar. Si no, hace falta un caso en la corte.",
+    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.":
+        "Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una. Para vender o refinanciar de la forma normal, en general hay que encontrar a todas y todas tienen que firmar. Si no, hace falta un caso en la corte.",
+    "**One form can prevent this if it's recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). The people named get the home without probate. They still record a short affidavit with the death certificate afterward.":
+        "**Un formulario puede evitarlo si se registra mientras el dueño está vivo:** una declaración jurada de Transferencia en caso de Muerte ({forms}). Las personas nombradas reciben la casa sin la corte de sucesiones. Después todavía registran una declaración jurada corta con el certificado de defunción.",
     "Check a home now":
         "Revise una casa ahora",
     "About":
@@ -785,22 +785,26 @@ T: dict[str, str] = {
         "Esta página se tradujo con ayuda de inteligencia artificial. Los nombres de las oficinas, las direcciones y los formularios están en inglés. Si algo no está claro, Legal Aid puede ayudarle.",
     "Free, private and plain-English. Built by Central Ohio high school students.":
         "Gratis, privado y en lenguaje sencillo. Hecho por estudiantes de preparatoria del centro de Ohio.",
-    "Nothing you type is saved.":
-        "Nada de lo que escribe se guarda.",
+    "HomeKeep doesn't store what you type.":
+        "HomeKeep no guarda lo que usted escribe.",
+    "What leaves your browser":
+        "Lo que sale de su navegador",
     "This is general information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices or a lawyer before filing anything.":
         "Esta es información general sobre la ley de Ohio, no es consejo legal. Las leyes, los formularios y los costos cambian; confirme con las oficinas del Condado o con un abogado antes de presentar cualquier cosa.",
     "Free legal help":
         "Ayuda legal gratis",
     "About and sources":
         "Acerca de y fuentes",
+    "For professionals":
+        "Para profesionales",
     "Type the home's street address":
         "Escriba la dirección de la casa",
     "Check this home":
         "Revisar esta casa",
     "Try a demo home":
         "Probar con una casa de ejemplo",
-    "Free and private. Nothing you type is saved.":
-        "Gratis y privado. Nada de lo que escribe se guarda.",
+    "Free. HomeKeep doesn't store your answers. The address goes to the Franklin County Auditor to find the record.":
+        "Gratis. HomeKeep no guarda sus respuestas. La dirección va al Auditor del Condado de Franklin para buscar el registro.",
     "Is your family's home legally in the right name?":
         "¿La casa de su familia está legalmente a nombre de la persona correcta?",
     "When a homeowner dies and the paperwork never gets filed, the family can lose the home, the tax breaks, and the wealth it was supposed to pass on. Find out where your home stands in **2 minutes**, and get the free steps to fix it or protect it.":
@@ -819,12 +823,12 @@ T: dict[str, str] = {
         "Por qué esto importa en Ohio",
     "Ohio homes are estimated to be heirs' property, stuck in the name of someone who died":
         "casas en Ohio se calcula que son propiedad de herederos, atrapadas a nombre de alguien que murió",
-    "in family wealth those homes hold, waiting on a clear title":
-        "en riqueza familiar que guardan esas casas, esperando un título claro",
+    "estimated total value of those homes, before any mortgage, liens or unpaid taxes":
+        "valor total estimado de esas casas, antes de restar hipotecas, gravámenes o impuestos sin pagar",
     "1 form":
         "1 formulario",
-    "recorded while the owner is alive can prevent it, for a $34 fee":
-        "registrado mientras el dueño está vivo puede evitarlo, por un costo de $34",
+    "recorded while the owner is alive can often avoid probate. Recording it costs $34 in Franklin County.":
+        "registrado mientras el dueño está vivo muchas veces evita la corte de sucesiones. Registrarlo cuesta $34 en el Condado de Franklin.",
     "Sources: Greater Ohio Policy Center (2024), LISC (2024), Franklin County Recorder fee schedule.":
         "Fuentes: Greater Ohio Policy Center (2024), LISC (2024), tabla de costos del Registrador del Condado de Franklin.",
     "How it works":
@@ -915,10 +919,10 @@ T: dict[str, str] = {
         "La herencia en Ohio, en imágenes",
     "Who would inherit the home?":
         "¿Quién heredaría la casa?",
-    "When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would have to sign to sell it, refinance it, or fix the title.":
-        "Cuando un dueño de casa en Ohio muere **sin testamento y sin una declaración jurada de Transferencia en caso de Muerte**, la ley del estado decide quién es el siguiente dueño de la casa. Arme la familia abajo para ver cómo se dividiría la casa, y cuántas personas tendrían que firmar para venderla, refinanciarla o arreglar el título.",
-    "A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. Nothing you type is saved.":
-        "Una versión simplificada de las reglas de Ohio (ORC 2105.06). Un testamento, las deudas o una familia más complicada cambian la respuesta. Información general, no es consejo legal. Nada de lo que escribe se guarda.",
+    "When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would usually need to sign to sell it or refinance it.":
+        "Cuando un dueño de casa en Ohio muere **sin testamento y sin una declaración jurada de Transferencia en caso de Muerte**, la ley del estado decide quién es el siguiente dueño de la casa. Arme la familia abajo para ver cómo se dividiría la casa, y cuántas personas normalmente tendrían que firmar para venderla o refinanciarla.",
+    "A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. HomeKeep doesn't store what you type.":
+        "Una versión simplificada de las reglas de Ohio (ORC 2105.06). Un testamento, las deudas o una familia más complicada cambian la respuesta. Información general, no es consejo legal. HomeKeep no guarda lo que usted escribe.",
     "What is a tangled title?":
         "¿Qué es un título enredado?",
     "One owner becomes four, then eleven":

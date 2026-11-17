@@ -125,7 +125,7 @@ def share_values(result: Inheritance, home_value: int) -> list[int]:
 
 
 def frozen_equity(result: Inheritance, home_value: int) -> int:
-    """Dollars that can't be sold, refinanced or borrowed against until every heir signs (all of it, if 2+ heirs)."""
+    """Home value (not equity) tied up until every heir agrees: all of it when there are 2+ heirs, else 0."""
     return home_value if result.signers > 1 else 0
 
 

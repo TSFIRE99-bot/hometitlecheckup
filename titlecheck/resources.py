@@ -57,9 +57,9 @@ FEES = {
 
 FACTS = {
     "ohio_count": N_("Ohio has an estimated 9,000 heirs' properties (Greater Ohio Policy Center, 2024)."),
-    "ohio_value": N_("Those homes hold about $313 million in family wealth that clear titles could unlock (LISC, 2024)."),
-    "blocked": N_("Without a clear title, families can't get home-repair financing, claim the homestead tax break, "
-                  "get disaster aid, or borrow against the home (LISC, 2024)."),
+    "ohio_value": N_("Those homes are worth about $313 million in total (LISC, 2024). That's property value, not equity."),
+    "blocked": N_("Without a clear title, families often have trouble getting home-repair loans, the homestead tax break or "
+                  "disaster aid, and they usually can't borrow against the home (LISC, 2024)."),
 }
 
 # Homestead figures from the Franklin County Auditor's Homestead pages (checked October 2026). They change every year.

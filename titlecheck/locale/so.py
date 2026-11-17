@@ -489,10 +489,10 @@ T: dict[str, str] = {
         "Lacagaha maxkamadda (weydii shaqaalaha)",
     "Ohio has an estimated 9,000 heirs' properties (Greater Ohio Policy Center, 2024).":
         "Ohio waxay leedahay qiyaastii 9,000 hanti dhaxal ah (Greater Ohio Policy Center, 2024).",
-    "Those homes hold about $313 million in family wealth that clear titles could unlock (LISC, 2024).":
-        "Guryahaasi waxay hayaan qiyaastii $313 milyan oo hanti qoys ah oo lahaansho cad uu furi karo (LISC, 2024).",
-    "Without a clear title, families can't get home-repair financing, claim the homestead tax break, get disaster aid, or borrow against the home (LISC, 2024).":
-        "Lahaansho cad la'aantiis, qoysasku ma heli karaan amaah dayactirka guriga, dhimista canshuurta guriga, gargaarka masiibada, ama inay guriga ku amaahdaan (LISC, 2024).",
+    "Those homes are worth about $313 million in total (LISC, 2024). That's property value, not equity.":
+        "Guryahaasi wadar ahaan qiimahoodu waa qiyaastii $313 milyan (LISC, 2024). Taasi waa qiimaha hantida, ma aha hantida saafiga ah.",
+    "Without a clear title, families often have trouble getting home-repair loans, the homestead tax break or disaster aid, and they usually can't borrow against the home (LISC, 2024).":
+        "Lahaansho cad la'aantiis, qoysasku inta badan way ku adkaataa inay helaan amaah dayactirka guriga, dhimista canshuurta guriga, ama gargaarka masiibada, badanaana ma awoodaan inay guriga ku amaahdaan (LISC, 2024).",
     "December 31":
         "31 Desembar",
     "Deed":
@@ -717,14 +717,14 @@ T: dict[str, str] = {
         "Gurigu intee buu u qiimo leeyahay?",
     "We started with an example.":
         "Waxaan ku bilownay tusaale.",
-    "Use the market value on the tax bill or the Auditor's website.":
-        "Isticmaal qiimaha suuqa ee ku qoran biilka canshuurta ama website-ka Auditor-ka.",
-    "of family wealth is **locked** until both heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.":
-        "oo hanti qoys ah ayaa **xiran** ilaa labada dhaxle ay isku raacaan oo saxiixaan. Ilaa markaas lama iibin karo, dib looma maalgelin karo, laguma amaahan karo dayactir.",
-    "of family wealth is **locked** until all {n} heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.":
-        "oo hanti qoys ah ayaa **xiran** ilaa dhammaan {n}-da dhaxle ay isku raacaan oo saxiixaan. Ilaa markaas lama iibin karo, dib looma maalgelin karo, laguma amaahan karo dayactir.",
-    "One heir can use all of the home's equity.":
-        "Hal dhaxle ayaa isticmaali kara qiimaha guriga oo dhan.",
+    "Use the market value on the tax bill or the Auditor's website. This is the home's value, not equity: any mortgage, liens or unpaid taxes come off first.":
+        "Isticmaal qiimaha suuqa ee ku qoran biilka canshuurta ama website-ka Auditor-ka. Kani waa qiimaha guriga, ma aha hantida saafiga ah: amaahda guriga, deymaha guriga saaran iyo canshuurta aan la bixin ayaa marka hore laga jaraa.",
+    "of home value is **tied up** until both heirs agree. Selling it, refinancing it or borrowing against it usually needs both to sign. If they can't agree, a court can divide or sell it (a partition case).":
+        "oo qiimaha guriga ah ayaa **xiran** ilaa labada dhaxle ay isku raacaan. Iibinta, dib u maalgelinta ama ku amaahashada guriga badanaa waxay u baahan tahay in labaduba saxiixaan. Haddii aysan isku raacin, maxkamad ayaa qaybin karta ama iibin karta (kiis qaybin).",
+    "of home value is **tied up** until all {n} heirs agree. Selling it, refinancing it or borrowing against it usually needs all of them to sign. If they can't agree, a court can divide or sell it (a partition case).":
+        "oo qiimaha guriga ah ayaa **xiran** ilaa dhammaan {n}-da dhaxle ay isku raacaan. Iibinta, dib u maalgelinta ama ku amaahashada guriga badanaa waxay u baahan tahay in dhammaantood saxiixaan. Haddii aysan isku raacin, maxkamad ayaa qaybin karta ama iibin karta (kiis qaybin).",
+    "One heir would own the whole home.":
+        "Hal dhaxle ayaa yeelan lahaa guriga oo dhan.",
     "How the home would be split":
         "Sida guriga loo qaybin lahaa",
     "owner":
@@ -749,12 +749,12 @@ T: dict[str, str] = {
         "Jiilal:",
     "People who own a piece of the home, by generation":
         "Dadka leh qayb ka mid ah guriga, jiil kasta",
-    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.":
-        "Kadib **{gens}** jiil, **{people} qof** mid kastaa wuxuu leeyahay qiyaastii **{percent}%** guriga, qiimihiisuna waa qiyaastii **${worth}** mid kasta. Mid kasta waa in la helaa oo uu saxiixaa ka hor inta guriga aan la iibin, dib loo maalgelin ama amaah lagu dayactirin.",
-    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.":
-        "Kadib **{gens}** jiil, **{people} qof** mid kastaa wuxuu leeyahay qiyaastii **{percent}%** guriga. Mid kasta waa in la helaa oo uu saxiixaa ka hor inta guriga aan la iibin, dib loo maalgelin ama amaah lagu dayactirin.",
-    "**The fix takes one form, recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). Then the home goes straight to the people named, with no court.":
-        "**Xalku waa hal foom, oo la diiwaangeliyo inta milkiiluhu nool yahay:** Warqadda Wareejinta Marka Geeriyoodo ({forms}). Kadib guriga si toos ah ayuu ugu gudbaa dadka la magacaabay, maxkamad la'aan.",
+    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.":
+        "Kadib **{gens}** jiil, **{people} qof** mid kastaa wuxuu leeyahay qiyaastii **{percent}%** guriga, qiimihiisuna waa qiyaastii **${worth}** mid kasta. Si guriga loo iibiyo ama dib loogu maalgeliyo sida caadiga ah, guud ahaan dhammaantood waa in la helaa oo ay saxiixaan. Haddii kale waxaa loo baahan yahay kiis maxkamadeed.",
+    "After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.":
+        "Kadib **{gens}** jiil, **{people} qof** mid kastaa wuxuu leeyahay qiyaastii **{percent}%** guriga. Si guriga loo iibiyo ama dib loogu maalgeliyo sida caadiga ah, guud ahaan dhammaantood waa in la helaa oo ay saxiixaan. Haddii kale waxaa loo baahan yahay kiis maxkamadeed.",
+    "**One form can prevent this if it's recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). The people named get the home without probate. They still record a short affidavit with the death certificate afterward.":
+        "**Hal foom ayaa ka hortagi kara tan haddii la diiwaangeliyo inta milkiiluhu nool yahay:** Warqadda Wareejinta Marka Geeriyoodo ({forms}). Dadka la magacaabay waxay helaan guriga iyada oo aan maxkamad dhaxal loo marin. Kadib weli waxay diiwaangeliyaan warqad dhaarsan oo gaaban oo ay la socoto shahaadada dhimashada.",
     "Check a home now":
         "Hadda hubi guri",
     "About":
@@ -785,22 +785,26 @@ T: dict[str, str] = {
         "Boggan waxaa lagu turjumay caawimaadda AI. Magacyada xafiisyada, cinwaannada iyo foomamku waa Ingiriisi. Haddii wax kuu caddayn waayaan, Legal Aid ayaa ku caawin kara.",
     "Free, private and plain-English. Built by Central Ohio high school students.":
         "Bilaash, qarsoodi ah oo luqad fudud ah. Waxaa sameeyay arday dugsi sare oo Bartamaha Ohio ah.",
-    "Nothing you type is saved.":
-        "Waxa aad qorto lama keydiyo.",
+    "HomeKeep doesn't store what you type.":
+        "HomeKeep ma keydiyo waxa aad qorto.",
+    "What leaves your browser":
+        "Waxa ka baxa browser-kaaga",
     "This is general information about Ohio law, not legal advice. Laws, forms and fees change; confirm with the County offices or a lawyer before filing anything.":
         "Kani waa macluumaad guud oo ku saabsan sharciga Ohio, ma aha talo sharci. Sharciyada, foomamka iyo lacagaha way isbeddelaan; la xaqiiji xafiisyada Degmada ama qareen ka hor intaadan wax gudbin.",
     "Free legal help":
         "Caawimaad sharci oo bilaash ah",
     "About and sources":
         "Ku saabsan iyo ilaha",
+    "For professionals":
+        "Loogu talagalay xirfadlayaasha",
     "Type the home's street address":
         "Qor cinwaanka guriga",
     "Check this home":
         "Hubi gurigan",
     "Try a demo home":
         "Isku day guri tusaale ah",
-    "Free and private. Nothing you type is saved.":
-        "Bilaash iyo qarsoodi. Waxa aad qorto lama keydiyo.",
+    "Free. HomeKeep doesn't store your answers. The address goes to the Franklin County Auditor to find the record.":
+        "Bilaash. HomeKeep ma keydiyo jawaabahaaga. Cinwaanka wuxuu u tagaa Auditor-ka Degmada Franklin si loo helo diiwaanka.",
     "Is your family's home legally in the right name?":
         "Guriga qoyskaagu sharci ahaan ma ku qoran yahay magaca saxda ah?",
     "When a homeowner dies and the paperwork never gets filed, the family can lose the home, the tax breaks, and the wealth it was supposed to pass on. Find out where your home stands in **2 minutes**, and get the free steps to fix it or protect it.":
@@ -819,12 +823,12 @@ T: dict[str, str] = {
         "Sababta ay tani Ohio muhiim ugu tahay",
     "Ohio homes are estimated to be heirs' property, stuck in the name of someone who died":
         "guryaha Ohio ayaa la qiyaasay inay yihiin hanti dhaxal ah, oo ku dhegan magaca qof dhintay",
-    "in family wealth those homes hold, waiting on a clear title":
-        "oo hanti qoys ah ayay guryahaasi hayaan, oo sugaya lahaansho cad",
+    "estimated total value of those homes, before any mortgage, liens or unpaid taxes":
+        "wadarta qiimaha la qiyaasay ee guryahaas, ka hor amaahda guriga, deymaha saaran ama canshuurta aan la bixin",
     "1 form":
         "1 foom",
-    "recorded while the owner is alive can prevent it, for a $34 fee":
-        "oo la diiwaangeliyo inta milkiiluhu nool yahay ayaa ka hortagi kara, lacag $34 ah",
+    "recorded while the owner is alive can often avoid probate. Recording it costs $34 in Franklin County.":
+        "oo la diiwaangeliyo inta milkiiluhu nool yahay ayaa inta badan ka badbaadin kara maxkamadda dhaxalka. Diiwaangelintiisu waa $34 Degmada Franklin.",
     "Sources: Greater Ohio Policy Center (2024), LISC (2024), Franklin County Recorder fee schedule.":
         "Ilaha: Greater Ohio Policy Center (2024), LISC (2024), jadwalka lacagaha Recorder-ka Degmada Franklin.",
     "How it works":
@@ -915,10 +919,10 @@ T: dict[str, str] = {
         "Dhaxalka Ohio, sawirro ahaan",
     "Who would inherit the home?":
         "Yaa dhaxli lahaa guriga?",
-    "When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would have to sign to sell it, refinance it, or fix the title.":
-        "Marka milkiile guri oo Ohio ah dhinto **isaga oo aan lahayn dardaaran iyo Warqadda Wareejinta Marka Geeriyoodo**, sharciga gobolka ayaa go'aamiya cidda guriga xigta. Hoos ka dhis qoyska si aad u aragto sida guriga loo qaybin lahaa, iyo inta qof ee ay tahay inay saxiixaan si guriga loo iibiyo, dib loogu maalgeliyo, ama lahaanshaha loo hagaajiyo.",
-    "A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. Nothing you type is saved.":
-        "Nooc la fududeeyay oo ah xeerarka Ohio (ORC 2105.06). Dardaaran, deyn, ama qoys ka murugsan ayaa beddela jawaabta. Macluumaad guud, ma aha talo sharci. Waxa aad qorto lama keydiyo.",
+    "When an Ohio homeowner dies **without a will and without a Transfer on Death affidavit**, state law decides who owns the home next. Build the family below to see how the home would be split, and how many people would usually need to sign to sell it or refinance it.":
+        "Marka milkiile guri oo Ohio ah dhinto **isaga oo aan lahayn dardaaran iyo Warqadda Wareejinta Marka Geeriyoodo**, sharciga gobolka ayaa go'aamiya cidda guriga xigta. Hoos ka dhis qoyska si aad u aragto sida guriga loo qaybin lahaa, iyo inta qof ee badanaa ay tahay inay saxiixaan si guriga loo iibiyo ama dib loogu maalgeliyo.",
+    "A simplified version of Ohio's rules (ORC 2105.06). A will, debts, or a more complicated family change the answer. General information, not legal advice. HomeKeep doesn't store what you type.":
+        "Nooc la fududeeyay oo ah xeerarka Ohio (ORC 2105.06). Dardaaran, deyn, ama qoys ka murugsan ayaa beddela jawaabta. Macluumaad guud, ma aha talo sharci. HomeKeep ma keydiyo waxa aad qorto.",
     "What is a tangled title?":
         "Waa maxay lahaansho isku dhex yaacsan?",
     "One owner becomes four, then eleven":

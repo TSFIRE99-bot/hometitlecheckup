@@ -200,3 +200,18 @@ def test_about_and_learn_text_comes_from_the_content_files(client):
     assert "EDIT ME" not in about and "TEAM:" not in about          # notes in the file never show
     learn = client.get("/learn").get_data(as_text=True)
     assert "What is a tangled title?" in learn and "class=\"flow\"" in learn and 'href="/inherit"' in learn
+
+
+@pytest.mark.parametrize("path", ["/", "/inherit", "/learn", "/about", "/?lang=es", "/inherit?lang=so"])
+def test_public_pages_avoid_the_claims_the_audit_removed(client, path):
+    html = client.get(path).get_data(as_text=True)
+    for claim in ("Nothing you type is saved", "family wealth is", "can't get home-repair financing",
+                  "has to be found and has to sign", "for a $34 fee", "goes straight to the people named"):
+        assert claim not in html
+    assert 'href="/pro"' in html                      # the separate section for law offices
+
+
+def test_about_page_lists_what_leaves_the_browser(client):
+    html = client.get("/about").get_data(as_text=True)
+    for name in ("Franklin County Auditor", "Google Fonts", "Vercel", "No ads and no analytics"):
+        assert name in html

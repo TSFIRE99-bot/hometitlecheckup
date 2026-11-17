@@ -110,7 +110,6 @@ d6ecf94d|Casa: {address}    Fecha: {date}
 6f8002eb|no se buscó
 6a289a14|HomeKeep: mi plan de acción
 12171c7e|Resultado: {label}. {headline}
-1197ba6e|Mi plan de pasos: marque cada paso
 17bbc905|Información general sobre la ley de Ohio, no es consejo legal. Las leyes, los formularios y los costos cambian; confirme con las oficinas del Condado o con un abogado antes de presentar cualquier cosa.
 b09586ff|HomeKeep: lista de beneficios de vivienda (homestead)
 9ea501cf|Ahorro estimado: unos ${amount} al año.
@@ -246,8 +245,6 @@ e63f052c|Auditor del Condado de Franklin: crédito por ocupación del dueño
 2e91eb56|Costo de registro de $34 (2 páginas)
 7d7b93b3|Costos de la corte (pregunte al empleado)
 2129ccf5|Ohio tiene unas 9,000 propiedades de herederos (Greater Ohio Policy Center, 2024).
-d5caaa4c|Esas casas guardan unos $313 millones en riqueza familiar que los títulos claros podrían liberar (LISC, 2024).
-d178c0f4|Sin un título claro, las familias no pueden conseguir préstamos para reparar la casa, recibir la reducción de impuestos de vivienda, recibir ayuda por desastres ni pedir dinero prestado con la casa como garantía (LISC, 2024).
 bc10f055|31 de diciembre
 3efc0f9d|Escritura (deed)
 3d932c77|El documento, registrado con el Condado, que dice quién es dueño de una casa.
@@ -323,14 +320,12 @@ a46e498b|Ninguna propiedad del Condado de Franklin coincide con esa dirección. 
 c54492c8|Dueño original
 6cb2b956|Generación {n}
 147f3f72|Unas preguntas
-6d92a741|Hágalo personal
 d57c24f3|opcional
 14249f09|Su nombre
 2ec66938|por ejemplo, María
 8a0fedf7|Solo se usa para escribir su plan. Nunca se guarda.
 f44620b5|No se necesitan preguntas para este dueño.
 e4a769ae|Actualizar mi resultado
-4a555707|Su plan de pasos
 e4b15b1b|{done} de {total} pasos hechos
 f8b4d84e|Marcar el paso {n} como hecho
 e6979af9|Marque los pasos a medida que avanza. Su progreso se guarda solo en este dispositivo.
@@ -360,10 +355,6 @@ ed3376f1|{n} personas serían dueñas de la casa
 f4b4bae5|Las {n} tendrían que ponerse de acuerdo y firmar para vender o refinanciar.
 abad30e0|¿Cuánto vale la casa?
 a45044a5|Empezamos con un ejemplo.
-7402f0e0|Use el valor de mercado que aparece en la factura de impuestos o en el sitio web del Auditor.
-eca6e6c5|de riqueza familiar está **bloqueado** hasta que los dos herederos se pongan de acuerdo y firmen. Mientras tanto no se puede vender, refinanciar ni usar como garantía para un préstamo de reparaciones.
-8ef26222|de riqueza familiar está **bloqueado** hasta que los {n} herederos se pongan de acuerdo y firmen. Mientras tanto no se puede vender, refinanciar ni usar como garantía para un préstamo de reparaciones.
-c0018e9a|Un solo heredero puede usar todo el valor de la casa.
 5e2e9ef2|Cómo se dividiría la casa
 72122ce9|dueño
 b132392a|dueños
@@ -376,9 +367,6 @@ e89d76cc|Qué pasa si nadie hace el trámite por generaciones
 52ac81ab|Hijos por persona:
 98054900|Generaciones:
 9ff6bfed|Personas que son dueñas de una parte de la casa, por generación
-6247eb64|Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una, que vale unos **${worth}** cada parte. Hay que encontrar a cada una y todas tienen que firmar antes de que la casa se pueda vender, refinanciar o reparar con un préstamo.
-a2b5fe8d|Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una. Hay que encontrar a cada una y todas tienen que firmar antes de que la casa se pueda vender, refinanciar o reparar con un préstamo.
-9c82b0a2|**La solución es un formulario, registrado mientras el dueño está vivo:** una declaración jurada de Transferencia en caso de Muerte ({forms}). Así la casa pasa directamente a las personas nombradas, sin corte.
 53609811|Revise una casa ahora
 8f7f4c1c|Acerca de
 fb61758d|Fuentes
@@ -394,14 +382,12 @@ fa1aaa96|Revisar mi casa
 3513d2de|Letra más grande
 e0125c0c|Esta página se tradujo con ayuda de inteligencia artificial. Los nombres de las oficinas, las direcciones y los formularios están en inglés. Si algo no está claro, Legal Aid puede ayudarle.
 2ab5b48b|Gratis, privado y en lenguaje sencillo. Hecho por estudiantes de preparatoria del centro de Ohio.
-b338a134|Nada de lo que escribe se guarda.
 fd022c70|Esta es información general sobre la ley de Ohio, no es consejo legal. Las leyes, los formularios y los costos cambian; confirme con las oficinas del Condado o con un abogado antes de presentar cualquier cosa.
 682618f7|Ayuda legal gratis
 9adaa673|Acerca de y fuentes
 5cbab1cb|Escriba la dirección de la casa
 5f6c5315|Revisar esta casa
 4c0c0085|Probar con una casa de ejemplo
-36c1a63c|Gratis y privado. Nada de lo que escribe se guarda.
 2875e145|¿La casa de su familia está legalmente a nombre de la persona correcta?
 31bb4e01|Cuando un dueño muere y nadie presenta los papeles, la familia puede perder la casa, las reducciones de impuestos y la riqueza que se suponía que iba a heredar. Averigüe cómo está su casa en **2 minutos**, y reciba los pasos gratis para arreglarla o protegerla.
 fc7e3dcb|Varias casas coinciden. ¿Cuál es?
@@ -411,16 +397,13 @@ aaa152c8|Están en la factura de impuestos de propiedad o en el sitio web del Au
 a0bfb8e5|Continuar
 d1450b5a|Por qué esto importa en Ohio
 31f08efb|casas en Ohio se calcula que son propiedad de herederos, atrapadas a nombre de alguien que murió
-91d2bbcd|en riqueza familiar que guardan esas casas, esperando un título claro
 2f585ad0|1 formulario
-c3cc3ad5|registrado mientras el dueño está vivo puede evitarlo, por un costo de $34
 322c7876|Fuentes: Greater Ohio Policy Center (2024), LISC (2024), tabla de costos del Registrador del Condado de Franklin.
 9ffdb952|Cómo funciona
 a17a8b5e|Buscar la casa
 138ce66a|Buscamos el registro público del Condado: quién está en la escritura y cuándo cambió de dueño por última vez.
 709181f8|Contestar unas preguntas
 543a2ad5|Sí o no, por ejemplo: ¿todas las personas en la escritura están vivas? No necesita papeles.
-a50ee3b2|Recibir su plan de pasos
 e3b30d35|Pasos en lenguaje sencillo con tiempo, costo y adónde ir, una lista para imprimir y ayuda gratis cerca.
 46b5f8c5|Progreso
 92093df1|Contestar preguntas
@@ -459,8 +442,6 @@ ff17c6e7|[Ohio Legal Help]({url}): guías y formularios en lenguaje sencillo sob
 b4e9abf1|[Exención de vivienda]({url}): solicítela en línea con el Auditor del Condado.
 6b2c7ee7|La herencia en Ohio, en imágenes
 0d0b38f1|¿Quién heredaría la casa?
-458f18d5|Cuando un dueño de casa en Ohio muere **sin testamento y sin una declaración jurada de Transferencia en caso de Muerte**, la ley del estado decide quién es el siguiente dueño de la casa. Arme la familia abajo para ver cómo se dividiría la casa, y cuántas personas tendrían que firmar para venderla, refinanciarla o arreglar el título.
-77e57d49|Una versión simplificada de las reglas de Ohio (ORC 2105.06). Un testamento, las deudas o una familia más complicada cambian la respuesta. Información general, no es consejo legal. Nada de lo que escribe se guarda.
 ed2cda20|¿Qué es un título enredado?
 a97d236e|Un dueño se convierte en cuatro, y después en once
 16ba038e|El abuelo
@@ -474,3 +455,20 @@ ece16298|Mi plan paso a paso: marque cada paso
 87e93f21|¿No conoce palabras como escritura o sucesión (probate)? [Vea qué significan](/learn#words).
 b62257be|Su plan paso a paso
 1cd5c4f8|Reciba su plan paso a paso
+6c7a6f09|Esas casas valen unos $313 millones en total (LISC, 2024). Es el valor de las propiedades, no el capital.
+8511b519|Sin un título claro, a las familias muchas veces se les hace difícil conseguir préstamos para reparar la casa, la reducción de impuestos de vivienda o ayuda por desastres, y normalmente no pueden pedir dinero prestado con la casa como garantía (LISC, 2024).
+e45fe660|Use el valor de mercado que aparece en la factura de impuestos o en el sitio web del Auditor. Es el valor de la casa, no el capital: primero se restan las hipotecas, los gravámenes y los impuestos sin pagar.
+20a2bc66|del valor de la casa queda **atado** hasta que los dos herederos se pongan de acuerdo. Para venderla, refinanciarla o usarla como garantía de un préstamo normalmente tienen que firmar los dos. Si no se ponen de acuerdo, una corte puede dividirla o venderla (un caso de partición).
+bf445176|del valor de la casa queda **atado** hasta que los {n} herederos se pongan de acuerdo. Para venderla, refinanciarla o usarla como garantía de un préstamo normalmente tienen que firmar todos. Si no se ponen de acuerdo, una corte puede dividirla o venderla (un caso de partición).
+51a94baa|Un solo heredero sería dueño de toda la casa.
+7b8d986f|Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una, que vale unos **${worth}** cada parte. Para vender o refinanciar de la forma normal, en general hay que encontrar a todas y todas tienen que firmar. Si no, hace falta un caso en la corte.
+4370c700|Después de **{gens}** generaciones, **{people} personas** son dueñas de un **{percent}%** de la casa cada una. Para vender o refinanciar de la forma normal, en general hay que encontrar a todas y todas tienen que firmar. Si no, hace falta un caso en la corte.
+0086192e|**Un formulario puede evitarlo si se registra mientras el dueño está vivo:** una declaración jurada de Transferencia en caso de Muerte ({forms}). Las personas nombradas reciben la casa sin la corte de sucesiones. Después todavía registran una declaración jurada corta con el certificado de defunción.
+0f4de82c|HomeKeep no guarda lo que usted escribe.
+e24d81a4|Lo que sale de su navegador
+2508b63e|Para profesionales
+4102c282|Gratis. HomeKeep no guarda sus respuestas. La dirección va al Auditor del Condado de Franklin para buscar el registro.
+6758d1eb|valor total estimado de esas casas, antes de restar hipotecas, gravámenes o impuestos sin pagar
+8d424230|registrado mientras el dueño está vivo muchas veces evita la corte de sucesiones. Registrarlo cuesta $34 en el Condado de Franklin.
+a4ebf17b|Cuando un dueño de casa en Ohio muere **sin testamento y sin una declaración jurada de Transferencia en caso de Muerte**, la ley del estado decide quién es el siguiente dueño de la casa. Arme la familia abajo para ver cómo se dividiría la casa, y cuántas personas normalmente tendrían que firmar para venderla o refinanciarla.
+fb781242|Una versión simplificada de las reglas de Ohio (ORC 2105.06). Un testamento, las deudas o una familia más complicada cambian la respuesta. Información general, no es consejo legal. HomeKeep no guarda lo que usted escribe.

@@ -27,21 +27,22 @@ talked to a lawyer, works on a phone, and has a larger-text button.
 ## Why it matters here {users}
 
 Heirs' property is concentrated in neighborhoods that faced long-term disinvestment, where families had less access to
-lawyers and estate planning (Greater Ohio Policy Center, 2024). A clear title is what lets a family get repair loans,
-disaster aid, and the homestead tax break, and pass the home on.
+lawyers and estate planning (Greater Ohio Policy Center, 2024). A clear title makes it much easier for a family to
+get repair loans, disaster aid and the homestead tax break, and to pass the home on.
 
 ## How it works {map}
 
-1. You type an address. The app asks the Franklin County Auditor's public parcel records (an ArcGIS REST service) who
-   is on the deed and when the home last changed hands.
+1. You type an address. The app asks the Franklin County Auditor's public parcel records (an ArcGIS REST service)
+   whose name is on the tax record and when the home last changed hands. That name is for tax bills. It isn't proof
+   of who legally owns the home, so the app asks you the rest.
 2. You answer a few yes / no questions, like whether everyone on the deed is living.
 3. Rules based on Ohio law (Transfer on Death affidavits, survivorship deeds, and Franklin County Probate Court's
    small-estate options) turn the answers into a status, a plain-English summary written for you, and a step-by-step
    roadmap with time, cost and where to go for each step.
 4. The optional Homestead Benefits Check estimates the property tax savings for the home's own tax district, using the
    County Auditor's published figures, and shows how and when to apply.
-5. "Who would inherit?" shows how Ohio law would split the home, and how many dollars of family wealth are locked until
-   every heir signs.
+5. "Who would inherit?" shows how Ohio law would split the home, how many people would share it, and what each share
+   of the home's value comes to. Value isn't equity: any mortgage, liens or unpaid taxes come off first.
 6. "Free help near you" maps the free and official offices that handle each step.
 
 ## Privacy and safety by design {shield}
@@ -49,7 +50,13 @@ disaster aid, and the homestead tax break, and pass the home on.
 - One address at a time. The app never builds lists or maps of homes that might have tangled titles, because people
   who prey on heirs' property could misuse them.
 - Neighbors on the map only show what the County's own public map shows, never a title status.
-- Nothing you type is saved. The server keeps no record between clicks. Roadmap check marks stay on your own device.
+- HomeKeep doesn't store what you type. The free checkup has no accounts and no database, and roadmap check marks
+  stay on your own device.
+- Some things do leave your browser. The address you type goes to the Franklin County Auditor's map service to find
+  the record. Pages load fonts from Google Fonts, and the maps load code and map pictures from outside services
+  (jsDelivr, cdnjs, code.jquery.com, the Bootstrap CDN, OpenStreetMap and Esri). Those services see your IP address.
+  Our host, Vercel, keeps standard request logs (which page, when, and from what IP address) for a limited time.
+- No ads and no analytics. HomeKeep never sells or shares what you type.
 
 ## Limits {info}
 

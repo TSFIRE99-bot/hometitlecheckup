@@ -57,16 +57,16 @@
         <label class="field" for="value">{{ t("What is the home worth?") }}</label>
         <div class="money"><span>$</span><input id="value" type="text" name="value" inputmode="numeric" autocomplete="off"
                value="{{ '{:,}'.format(value) if value else '' }}" placeholder="200,000"></div>
-        <p class="help">{% if is_example %}{{ t("We started with an example.") }} {% endif %}{{ t("Use the market value on the tax bill or the Auditor's website.") }}</p>
+        <p class="help">{% if is_example %}{{ t("We started with an example.") }} {% endif %}{{ t("Use the market value on the tax bill or the Auditor's website. This is the home's value, not equity: any mortgage, liens or unpaid taxes come off first.") }}</p>
       </div>
       {% if value %}
       <div class="equity-stat{{ ' locked' if n > 1 }}">
         {% if n > 1 %}
         <span class="equity-num">${{ "{:,}".format(frozen) }}</span>
-        <span class="equity-text">{% if n == 2 %}{{ t("of family wealth is **locked** until both heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.")|md }}{% else %}{{ t("of family wealth is **locked** until all {n} heirs agree and sign. Until then it can't be sold, refinanced or borrowed against for repairs.", n=n)|md }}{% endif %}</span>
+        <span class="equity-text">{% if n == 2 %}{{ t("of home value is **tied up** until both heirs agree. Selling it, refinancing it or borrowing against it usually needs both to sign. If they can't agree, a court can divide or sell it (a partition case).")|md }}{% else %}{{ t("of home value is **tied up** until all {n} heirs agree. Selling it, refinancing it or borrowing against it usually needs all of them to sign. If they can't agree, a court can divide or sell it (a partition case).", n=n)|md }}{% endif %}</span>
         {% else %}
         <span class="equity-num">${{ "{:,}".format(value) }}</span>
-        <span class="equity-text">{{ t("One heir can use all of the home's equity.") }}</span>
+        <span class="equity-text">{{ t("One heir would own the whole home.") }}</span>
         {% endif %}
       </div>
       {% endif %}
@@ -104,11 +104,11 @@
         <span class="bar-label">{{ b.label }}</span></div>
       {% endfor %}
     </div>
-    <p>{% if value %}{{ t("After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.", gens=gens, people="{:,}".format(last), percent='%.2f'|format(100 / last), worth="{:,}".format(piece))|md }}{% else %}{{ t("After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. Every one of them has to be found and has to sign before the home can be sold, refinanced or repaired with a loan.", gens=gens, people="{:,}".format(last), percent='%.2f'|format(100 / last))|md }}{% endif %}</p>
+    <p>{% if value %}{{ t("After **{gens}** generations, **{people} people** each own about **{percent}%** of the home, worth about **${worth}** each. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.", gens=gens, people="{:,}".format(last), percent='%.2f'|format(100 / last), worth="{:,}".format(piece))|md }}{% else %}{{ t("After **{gens}** generations, **{people} people** each own about **{percent}%** of the home. To sell or refinance the usual way, all of them generally have to be found and sign. Otherwise it takes a court case.", gens=gens, people="{:,}".format(last), percent='%.2f'|format(100 / last))|md }}{% endif %}</p>
   </div>
 </section>
 
 <div class="callout">
-  <p>{{ t("**The fix takes one form, recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). Then the home goes straight to the people named, with no court.", forms=tod_link)|md }}</p>
+  <p>{{ t("**One form can prevent this if it's recorded while the owner is alive:** a Transfer on Death Designation Affidavit ({forms}). The people named get the home without probate. They still record a short affidavit with the death certificate afterward.", forms=tod_link)|md }}</p>
   <a href="/" class="button primary">{{ t("Check a home now") }}</a>
 </div>

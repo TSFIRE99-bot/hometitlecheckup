@@ -15,9 +15,9 @@ When a homeowner dies and nobody files the paperwork, the home stays in the dead
 living there, but they can't prove they own it. That's called a tangled title, or heirs' property.
 
 - Ohio has an estimated **9,000** heirs' properties ([Greater Ohio Policy Center, 2024](https://www.greaterohio.org/blog/2024/8/27/heirs-properties-in-ohio)).
-- They hold about **$313 million** in family wealth that a clear title could unlock ([LISC, 2024](https://lisc.org/our-stories/story/lisc-brings-heirs-property-relief-to-under-resourced-communities-in-cincinnati-and-cleveland)).
-- Without a clear title, families can't get home-repair financing, claim the homestead tax break, get disaster aid,
-  or borrow against the home (LISC, 2024).
+- Together they're worth about **$313 million** (property value, not equity) ([LISC, 2024](https://lisc.org/our-stories/story/lisc-brings-heirs-property-relief-to-under-resourced-communities-in-cincinnati-and-cleveland)).
+- Without a clear title, families often have trouble getting home-repair loans, the homestead tax break or disaster
+  aid, and usually can't borrow against the home (LISC, 2024).
 
 Ohio already has a simple way to prevent it: a **Transfer on Death Designation Affidavit**
 ([ORC 5302.22](https://codes.ohio.gov/ohio-revised-code/section-5302.22)), recorded with the County while the owner
@@ -65,9 +65,9 @@ Along the way:
 - **Who would inherit?** Build the family (spouse, children, a child who has died and their children) and see how
   Ohio law would split the home if nothing is filed (ORC 2105.06), shown as a chart, with the number of people who
   would have to sign to sell or refinance. A generations simulator shows how one owner becomes dozens.
-  **Equity locked up calculator:** type the home's value (it starts with a $200,000 example) to see what each heir's
-  share is worth in dollars, how much family wealth is locked until every heir signs, and what each owner's piece is
-  worth after several generations.
+  **Home value calculator:** type the home's value (it starts with a $200,000 example) to see what each heir's share
+  of that value comes to, how much of it is tied up until the heirs agree, and what each owner's piece is worth after
+  several generations. It says plainly that value isn't equity.
 - **Homestead Benefits Check** (optional, after the action plan). Explains Ohio's homestead exemption and owner
   occupancy credit, asks whether an owner lives in the home as their main home, whether the home gets the exemption
   now, and whether an owner is 65+, disabled, a surviving spouse or a 100% disabled veteran. It then shows which
@@ -236,7 +236,10 @@ plus children from another relationship, the spouse gets $20,000 or $60,000 off 
   shows a neighbor's title status, last sale date, or anything else about their family.
 - The demo home sits on a made-up block with no street or satellite tiles under it, so it never points at a real
   house.
-- Nothing typed is saved. Owner names shown are already public on the County Auditor's website.
+- HomeKeep doesn't store what visitors type. The address goes to the Franklin County Auditor's ArcGIS service;
+  pages load Google Fonts, and maps load scripts and tiles from jsDelivr, cdnjs, code.jquery.com, the Bootstrap CDN,
+  OpenStreetMap and Esri; Vercel keeps standard request logs. No ads or analytics. Owner names shown are already
+  public on the County Auditor's website.
 - General information, not legal advice, and every plan points to free legal help.
 
 ## Limits
