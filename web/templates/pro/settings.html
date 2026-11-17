@@ -69,4 +69,18 @@
     <p class="help">Payment is not connected; no charges happen in HomeKeep. Going over a limit never adds a fee.</p>
   </div>
 </section>
+
+<section class="split">
+  <div class="split-head"><h2>Pilot measures</h2><p class="help">Counted from what HomeKeep already records. They describe
+    use, not results: they don't show that HomeKeep caused any change, and staff time comes from your own notes.</p></div>
+  <div class="split-body">
+    <dl class="facts">
+      <div><dt>Cases opened</dt><dd>{{ measures.cases }}</dd></div>
+      <div><dt>Packets exported</dt><dd>{{ measures.packets }}{% if measures.median_days_to_packet is not none %} (median {{ measures.median_days_to_packet }} days from opening){% endif %}</dd></div>
+      <div><dt>Files sent by families</dt><dd>{{ measures.family_uploads }} (staff uploaded {{ measures.staff_uploads }})</dd></div>
+      <div><dt>Follow-ups recorded</dt><dd>{{ measures.follow_ups }}</dd></div>
+      <div><dt>Facts reviewed</dt><dd>{{ measures.facts_reviewed }}{% if measures.correction_rate is not none %} ({{ measures.facts_corrected }} corrected, {{ measures.correction_rate }}%){% endif %}</dd></div>
+    </dl>
+  </div>
+</section>
 {% endblock %}

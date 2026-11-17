@@ -533,7 +533,8 @@ def settings():
         data = {"staff": store.staff(conn, g.firm.id), "templates": store.firm_templates(conn, g.firm.id),
                 "plan": billing.plan_for(g.firm.plan), "used": store.matters_this_period(conn, g.firm),
                 "period_start": store.period_start(g.firm), "storage": store.firm_storage_bytes(conn, g.firm.id),
-                "usage": store.usage_totals(conn, g.firm.id), "cfg": pro()["cfg"]}
+                "usage": store.usage_totals(conn, g.firm.id), "cfg": pro()["cfg"],
+                "measures": store.pilot_measures(conn, g.firm.id)}
     return render_template("pro/settings.html", **data, roles=ROLES, checklist_items=checklist.DEFAULT)
 
 

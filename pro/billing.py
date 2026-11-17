@@ -44,7 +44,7 @@ def plans() -> dict[str, Plan]:
         "pilot": Plan("pilot", "30-day pilot", _num("PRO_PLAN_PILOT_PRICE", 500), 30,
                       _num("PRO_PLAN_PILOT_MATTERS", 10), 60, 500, _num("PRO_PLAN_PILOT_SUPPORT_HOURS", 4), False),
         "monthly": Plan("monthly", "Monthly (illustrative)", _num("PRO_PLAN_MONTHLY_PRICE", 399), 30,
-                        _num("PRO_PLAN_MONTHLY_MATTERS", 10), 60, 1000, _num("PRO_PLAN_MONTHLY_SUPPORT_HOURS", 2), True),
+                        _num("PRO_PLAN_MONTHLY_MATTERS", 10), 60, 500, _num("PRO_PLAN_MONTHLY_SUPPORT_HOURS", 2), True),
         "demo": Plan("demo", "Demo (fictional data)", 0, 3650, 1000, 60, 500, 0, False),
     }
 

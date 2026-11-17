@@ -1,0 +1,44 @@
+Item,Value,Notes
+ASSUMPTIONS (change column B),,"Every value is a guess to replace with pilot data. Same defaults as pro/finance.py."
+Paying firms on the monthly plan,5,
+New 30-day pilots started per month,2,
+Monthly price ($),399,"Illustrative; not validated"
+Pilot price ($),500,"Pilot hypothesis: 30 days and up to 10 new matters"
+New matters per firm per month,6,"Plan allows 10"
+Documents per matter,8,
+Pages per document,3,
+AI cost per page ($),0,"0 while extraction is rule-based"
+OCR cost per page ($),0,"0 until OCR is set up"
+Storage per firm per month ($),2,
+Messages per matter,4,
+Cost per email ($),0.001,
+Card fee rate,0.029,
+Card fee per charge ($),0.30,
+Support hours per firm per month,2,
+Onboarding hours per pilot,6,
+Founder hourly rate ($),35,"Founder time is a cost, not free"
+Hosting per month ($),20,
+Legal and security review per month ($),250,"A one-time review spread over a year"
+Insurance per month ($),100,"Only if a policy is bought"
+Founder product hours per month,20,"Fixes, security updates, features"
+Acquisition hours per firm won,15,"Outreach, calls and demos"
+Acquisition cash per firm won ($),0,"No paid ads planned"
+New paying firms per month,1,
+RESULTS (formulas; do not type over),,
+Variable cost per firm per month ($),=B7*B8*B9*(B10+B11)+B12+B7*B13*B14+B5*B15+B16+B17*B19,"Includes support time at the founder rate"
+Contribution per firm per month ($),=B5-B28,"Price minus costs that grow with each firm"
+Contribution margin,=B29/B5,
+Subscription revenue per month ($),=B3*B5,
+Pilot revenue this month ($),=B4*B6,"One-time; not recurring"
+Pilot costs this month ($),=B4*(B18*B19+B6*B15+B16),
+Pilot contribution this month ($),=B32-B33,"One-time"
+Fixed costs per month ($),=B20+B21+B22+B23*B19,"Includes founder product time"
+Company profit per month ($),=B3*B29+B34-B35,"Before acquisition time"
+Profit without pilot revenue ($),=B36-B34,"What recurring customers alone produce"
+Acquisition cost per firm won ($),=B24*B19+B25,
+Profit after acquisition time ($),=B36-B26*B38,
+Break-even paying firms,=-INT(-B35/B29),"Recurring only; ignore if contribution is 0 or less"
+Payback months on acquisition,=B38/B29,
+New matters per month,=B3*B7,
+Pages read per month,=B42*B8*B9,
+"Home value is never revenue, savings or impact. None of these results is evidence of demand.",,

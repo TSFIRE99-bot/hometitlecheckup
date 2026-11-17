@@ -308,6 +308,20 @@ def test_corrections_keep_history(app, conn):
     assert history[-1].reason == "middle initial on ID"
 
 
+def test_pilot_measures_count_use_without_claiming_results(app, conn):
+    firm_id, owner = firm(conn)
+    other_firm, other_owner = firm(conn, "Firm B", "b@example.com")
+    case_id = store.create_case(conn, firm_id, owner, "M-1", "Case")
+    store.create_case(conn, other_firm, other_owner, "B-1", "Other firm's case")
+    upload(app, conn, firm_id, case_id, uploaded_by=owner)
+    name = next(f for f in store.case_fields(conn, firm_id, case_id) if f.key == "decedent_name")
+    store.review_field(conn, firm_id, case_id, name.id, owner, "correct", "Test Q. Person")
+    m = store.pilot_measures(conn, firm_id)
+    assert m["cases"] == 1 and m["staff_uploads"] == 1 and m["family_uploads"] == 0     # other firm not counted
+    assert m["facts_reviewed"] == 1 and m["facts_corrected"] == 1 and m["correction_rate"] == 100
+    assert m["packets"] == 0 and m["median_days_to_packet"] is None
+
+
 # ------------------------------------------------------------------ follow-ups
 def test_follow_up_rules(app, conn):
     firm_id, owner, case_id, token, person = make_family(app, conn)

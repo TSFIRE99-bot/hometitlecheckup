@@ -4,6 +4,7 @@ so a request signed in to one firm cannot reach another firm's rows even with a 
 from __future__ import annotations
 
 import json
+import statistics
 from datetime import timedelta
 
 from sqlalchemy import and_, delete, func, insert, select, update
@@ -129,6 +130,25 @@ def matters_this_period(conn, firm) -> int:
     return conn.execute(select(func.count()).select_from(cases).where(and_(
         cases.c.firm_id == firm.id, cases.c.counts_toward_plan.is_(True),
         cases.c.created_at >= period_start(firm)))).scalar_one()
+
+
+def pilot_measures(conn, firm_id: int) -> dict:
+    """Counts for the pilot report, from data HomeKeep already keeps. Staff minutes, the firm's baseline and legal
+    outcomes are not measured here: they come from the firm's own time notes (see docs/pro/GO_TO_MARKET.md)."""
+    rows = conn.execute(select(cases.c.created_at, cases.c.packet_ready_at).where(cases.c.firm_id == firm_id)).all()
+    days = [(r.packet_ready_at - r.created_at).total_seconds() / 86400 for r in rows if r.packet_ready_at]
+    actions = dict(conn.execute(select(activity.c.action, func.count()).where(activity.c.firm_id == firm_id)
+                                .group_by(activity.c.action)).all())
+    uploads = conn.execute(select(documents.c.participant_id).where(documents.c.firm_id == firm_id)).all()
+    corrected = actions.get("field_correct", 0)
+    reviewed = actions.get("field_approve", 0) + corrected + actions.get("field_reject", 0)
+    follow_ups = conn.execute(select(func.count()).select_from(outbox).where(outbox.c.firm_id == firm_id)).scalar()
+    return {"cases": len(rows), "packets": len(days),
+            "median_days_to_packet": round(statistics.median(days), 1) if days else None,
+            "family_uploads": sum(1 for u in uploads if u.participant_id),
+            "staff_uploads": sum(1 for u in uploads if not u.participant_id),
+            "follow_ups": follow_ups, "facts_reviewed": reviewed, "facts_corrected": corrected,
+            "correction_rate": round(100 * corrected / reviewed) if reviewed else None}
 
 
 def firm_storage_bytes(conn, firm_id: int) -> int:

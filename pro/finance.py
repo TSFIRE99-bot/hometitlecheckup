@@ -34,8 +34,10 @@ class Assumptions:
     hosting_fixed: float = 20.0             # per month
     professional_review_fixed: float = 250.0    # legal/security review, spread per month
     insurance_fixed: float = 100.0          # per month, if a policy is bought
+    product_hours_per_month: float = 20.0   # founder time on fixes, security updates and features
     acquisition_hours_per_customer: float = 15.0    # outreach, calls and demos per paying customer won
     acquisition_cash_per_customer: float = 0.0      # no paid advertising planned
+    new_customers_per_month: float = 1.0    # paying firms won each month (their acquisition time is a monthly cost)
 
 
 def monthly(a: Assumptions) -> dict:
@@ -52,9 +54,11 @@ def monthly(a: Assumptions) -> dict:
     pilot_revenue = a.pilots_per_month * a.pilot_price
     pilot_costs = a.pilots_per_month * (a.onboarding_hours_per_new_customer * a.founder_hourly_rate
                                         + a.pilot_price * a.payment_fee_rate + a.payment_fee_fixed)
-    fixed = a.hosting_fixed + a.professional_review_fixed + a.insurance_fixed
+    fixed = (a.hosting_fixed + a.professional_review_fixed + a.insurance_fixed
+             + a.product_hours_per_month * a.founder_hourly_rate)
     contribution = a.customers * contribution_per_customer + (pilot_revenue - pilot_costs)
     acquisition_cost = a.acquisition_hours_per_customer * a.founder_hourly_rate + a.acquisition_cash_per_customer
+    profit = contribution - fixed
     return {
         "matters": matters, "pages": pages,
         "subscription_revenue": round(subscription_revenue, 2), "pilot_revenue_one_time": round(pilot_revenue, 2),
@@ -62,7 +66,10 @@ def monthly(a: Assumptions) -> dict:
         "contribution_per_customer": round(contribution_per_customer, 2),
         "contribution_margin_pct": round(100 * contribution_per_customer / a.monthly_price, 1) if a.monthly_price else 0,
         "fixed_costs": round(fixed, 2),
-        "company_profit": round(contribution - fixed, 2),
+        "pilot_contribution_one_time": round(pilot_revenue - pilot_costs, 2),
+        "company_profit": round(profit, 2),
+        "profit_after_acquisition": round(profit - a.new_customers_per_month * acquisition_cost, 2),
+        "profit_without_pilots": round(profit - (pilot_revenue - pilot_costs), 2),
         "break_even_customers": (math.ceil(fixed / contribution_per_customer) if contribution_per_customer > 0
                                  else None),
         "acquisition_cost_per_customer": round(acquisition_cost, 2),
