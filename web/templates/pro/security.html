@@ -1,0 +1,43 @@
+{% extends "pro/base.html" %}
+{% block robots %}index{% endblock %}
+{% block title %}How HomeKeep Pro handles documents{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>How HomeKeep Pro handles documents</h1>
+  <p class="lead">This page describes what is built today and what is not. HomeKeep has no security certification, and
+    nothing here is a promise of legal privilege or confidentiality; firms should review it with their own counsel
+    before uploading real client documents.</p>
+</section>
+
+<section class="split"><div class="split-head"><h2>What is in place</h2></div><div class="split-body"><ul>
+  <li>Staff sign in with an email and password (stored only as a salted hash). Roles: owner, attorney, staff.</li>
+  <li>Every case, document and message belongs to one firm, and every database query is limited to the signed-in
+    person's firm.</li>
+  <li>Family members get a random link that expires after {{ cfg.family_link_days }} days, can be revoked, and shows only
+    the items they were asked for. Only a one-way hash of the link is stored.</li>
+  <li>Uploads must be PDF, JPG or PNG, under {{ cfg.max_upload_bytes // (1024 * 1024) }} MB, and their contents must match
+    their file type. Files from family members stay quarantined until staff release them, and downloads are always
+    sent as attachments.</li>
+  <li>The activity history records who did what and when. It names documents and facts, not their contents.</li>
+  <li>Firms set how long closed cases are kept (default {{ cfg.default_retention_days }} days). Staff can delete a
+    document or a whole case at any time.</li>
+  <li>No analytics run on these pages, and they load no outside fonts or scripts.</li>
+  <li>Document text is read by HomeKeep's own rules on our server. No AI provider receives any document today.</li>
+</ul></div></section>
+
+<section class="split"><div class="split-head"><h2>Not in place yet</h2></div><div class="split-body"><ul>
+  <li>No virus or malware scanning. Quarantine and download-only handling are the interim controls.</li>
+  <li>No two-factor sign-in.</li>
+  <li>Files are stored in the application database. The staging site uses temporary storage that can be erased at
+    any time; do not upload real documents there. A durable, encrypted database is required before a real pilot.</li>
+  <li>Email delivery is not connected; follow-ups are recorded in an outbox.</li>
+  <li>No independent security review or penetration test has been done.</li>
+</ul></div></section>
+
+<section class="split"><div class="split-head"><h2>Service providers</h2></div><div class="split-body">
+  <p>Hosting: Vercel (application and request logs: page addresses, IP addresses and browsers, not form contents or
+    files). Database: the hosting database chosen for the pilot (not yet selected). Franklin County Auditor's public
+    records service receives a property address when staff choose to attach a County record. No other provider
+    receives case data. This list will be updated before any provider is added.</p>
+</div></section>
+{% endblock %}

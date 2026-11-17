@@ -1,0 +1,65 @@
+{% extends "pro/base.html" %}
+{% block title %}Review · {{ case.reference }} · HomeKeep Pro{% endblock %}
+{% set source_labels = {"family": "Reported by family", "record": "Appears in a document", "staff": "Entered by staff"} %}
+{% set state_labels = {"approved": "Approved", "awaiting_review": "Awaiting review", "conflicting": "Conflicting", "missing": "Missing", "rejected": "Rejected", "set_aside": "Set aside"} %}
+{% block content %}
+<section class="page-head">
+  <p class="eyebrow"><a href="{{ url_for('pro.case', case_id=case.id) }}">Matter {{ case.reference }}</a> · Review facts</p>
+  <h1>{{ case.title }}</h1>
+  <p class="lead">Each value is shown beside the line it came from. Approve it, correct it, or reject it. When two
+    sources disagree, both are marked conflicting until someone decides.</p>
+</section>
+
+{% if warnings %}<div class="alert">
+  <p><strong>Text in a document looked like instructions to software.</strong> HomeKeep ignored it; nothing was sent or changed. Check the document itself.</p>
+  <ul>{% for w in warnings %}<li>{{ w.detail }}</li>{% endfor %}</ul></div>{% endif %}
+
+{% for fact in facts %}
+<div class="fact" id="fact-{{ fact.key }}">
+  <div class="fact-head"><h3>{{ fact.label }}</h3><span class="badge {{ fact.state }}">{{ state_labels[fact.state] }}</span></div>
+  {% for f in fact.fields %}
+  <div class="value-row" id="field-{{ f.id }}">
+    <div>
+      <p class="value">{{ f.value }}</p>
+      <p class="meta"><span class="badge {{ f.state }}">{{ state_labels.get(f.state, f.state) }}</span>
+        {{ source_labels[f.source] }}{% if f.reported_by %} ({{ people.get(f.reported_by, "family member") }}){% endif %}
+        {% if f.reviewed_by %} · reviewed by {{ staff_names.get(f.reviewed_by, "staff") }}{% endif %}</p>
+      {% if f.state != "approved" %}
+      <form method="post" action="{{ url_for('pro.review_field', case_id=case.id, field_id=f.id) }}" class="inline-form">
+        <input type="hidden" name="csrf" value="{{ csrf() }}">
+        <button class="button small primary" name="action" value="approve">Approve</button>
+        <button class="button small" name="action" value="reject">Reject</button>
+      </form>
+      {% endif %}
+      <form method="post" action="{{ url_for('pro.review_field', case_id=case.id, field_id=f.id) }}" class="inline-form" style="margin-top:.5rem">
+        <input type="hidden" name="csrf" value="{{ csrf() }}">
+        <input type="text" name="value" value="{{ f.value }}" aria-label="Corrected value" style="width:14rem">
+        <input type="text" name="reason" placeholder="Why (optional)" style="width:10rem">
+        <button class="button small" name="action" value="correct">Save correction</button>
+      </form>
+      {% if history[f.id] %}<ul class="history">{% for h in history[f.id] %}<li>{{ h.changed_at.strftime("%b %d %H:%M") }}: {{ staff_names.get(h.changed_by, "staff") }} changed "{{ h.old_value }}" ({{ h.old_state }}) to "{{ h.new_value }}" ({{ h.new_state }}){% if h.reason %}: {{ h.reason }}{% endif %}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    <div>
+      {% if f.document_id %}{% set d = docs.get(f.document_id) %}
+      <p class="meta">{{ d.filename if d else "Deleted document" }}{% if f.page %}, page {{ f.page }}{% endif %}</p>
+      {% endif %}
+      {% if f.evidence %}<div class="evidence">{{ f.evidence }}</div>{% else %}<p class="meta">No quoted evidence (entered by a person).</p>{% endif %}
+    </div>
+  </div>
+  {% else %}
+  <p class="meta">Not found in any document or answer yet.</p>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<section class="split">
+  <div class="split-head"><h2>Add a fact</h2><p class="help">For information staff confirmed themselves, for example from a phone call or a scan HomeKeep couldn't read.</p></div>
+  <div class="split-body"><form method="post" action="{{ url_for('pro.add_staff_field', case_id=case.id) }}" class="grid-form">
+    <input type="hidden" name="csrf" value="{{ csrf() }}">
+    <label>Fact<select name="key">{% for key, label in labels.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select></label>
+    <label>Value<input type="text" name="value" required maxlength="200"></label>
+    <label>Where it came from<input type="text" name="evidence" maxlength="300" placeholder="e.g. phone call with Lucia, Nov 17"></label>
+    <div><button class="button primary">Add</button></div>
+  </form></div>
+</section>
+{% endblock %}

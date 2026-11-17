@@ -1,0 +1,38 @@
+{% extends "pro/base.html" %}
+{% block title %}Documents for {{ firm.name }}{% endblock %}
+{% block nav %}{% endblock %}
+{% block content %}
+<section class="page-head">
+  <p class="eyebrow">Requested by {{ firm.name }}</p>
+  <h1>Hello, {{ person.name }}</h1>
+  <p class="lead">The law office asked you for the items below. Upload a photo or PDF of each one, or type your answer.
+    You don't need an account. This link works until {{ person.expires_at.strftime("%B %d, %Y") }}.</p>
+  <p class="help">Please don't send Social Security numbers, bank or account numbers, or passwords. Files must be PDF,
+    JPG or PNG and under {{ max_mb }} MB. This page is in English only for now; if you need help in another language,
+    call the law office.</p>
+</section>
+
+{% for item in asked %}
+<div class="family-item">
+  <h2>{{ item.label }}</h2>
+  {% if item.status in ("received", "approved") %}<p><span class="badge ok">Received</span> Thank you. You can send another file if needed.</p>{% endif %}
+  {% if item.kind == "document" %}
+  <form method="post" action="{{ url_for('pro.family_upload', token=token) }}" enctype="multipart/form-data">
+    <input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="item" value="{{ item.id }}">
+    <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required aria-label="Choose a file for {{ item.label }}">
+    <div><button class="button primary">Send</button></div>
+  </form>
+  {% else %}
+  <form method="post" action="{{ url_for('pro.family_info', token=token) }}">
+    <input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="item" value="{{ item.id }}">
+    <label class="help" for="text-{{ item.id }}">{% if item.key == "family_tree" %}One person per line: their name and how they are related to the person who died.{% else %}Your answer{% endif %}</label>
+    <textarea id="text-{{ item.id }}" name="text" rows="4" maxlength="2000" required></textarea>
+    <div><button class="button primary">Send</button></div>
+  </form>
+  {% endif %}
+</div>
+{% endfor %}
+
+{% if uploads %}<section class="section"><h2>What you've sent</h2><ul>{% for u in uploads %}<li>{{ u.filename }} ({{ u.created_at.strftime("%b %d") }})</li>{% endfor %}</ul></section>{% endif %}
+<p class="help">Your files go only to {{ firm.name }}. HomeKeep doesn't share them with anyone else.</p>
+{% endblock %}

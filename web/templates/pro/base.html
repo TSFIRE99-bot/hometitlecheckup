@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="{% block robots %}noindex{% endblock %}">
+  <title>{% block title %}HomeKeep Pro{% endblock %}</title>
+  <meta name="theme-color" content="#13315c">
+  {# No outside fonts or scripts on professional and family pages: nothing here loads from another company. #}
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/pro.css">
+</head>
+<body class="pro">
+<header class="top">
+  <div class="top-inner">
+    <a href="{{ url_for('pro.cases') if pro_user else url_for('pro.landing') }}" class="brand"><span>Home<b>Keep</b> Pro</span></a>
+    {% block nav %}
+    <nav aria-label="Main">
+      {% if pro_user %}
+      <a href="{{ url_for('pro.cases') }}">Cases</a>
+      <a href="{{ url_for('pro.settings') }}">Firm settings</a>
+      <a href="{{ url_for('pro.security') }}">Data handling</a>
+      {% else %}
+      <a href="{{ url_for('pro.landing') }}">For professionals</a>
+      <a href="{{ url_for('pro.security') }}">Data handling</a>
+      <a href="/">Free homeowner checkup</a>
+      {% endif %}
+    </nav>
+    <div class="top-tools">
+      {% if pro_user %}
+      <span class="who">{{ pro_user.name }} · {{ role_names[pro_user.role] }}</span>
+      <form method="post" action="{{ url_for('pro.logout') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="chip-button">Sign out</button></form>
+      {% else %}
+      <a class="chip-button" href="{{ url_for('pro.login') }}">Sign in</a>
+      {% endif %}
+    </div>
+    {% endblock %}
+  </div>
+</header>
+<main id="main">
+{% if pro_firm and pro_firm.is_demo %}<p class="banner demo">Fictional demo firm. Every person, property and document here is made up.</p>{% endif %}
+{% for note in staging_notes %}<p class="banner">{{ note }}</p>{% endfor %}
+{% for category, message in get_flashed_messages(with_categories=true) %}
+  {% if category == "link" %}{% set label, _, link = message.rpartition(": ") %}
+  <div class="flash link"><p>{{ label }}:</p><input type="text" readonly value="{{ link }}" onclick="this.select()" aria-label="Link to copy"></div>
+  {% else %}<p class="flash {{ category }}">{{ message }}</p>{% endif %}
+{% endfor %}
+{% block content %}{% endblock %}
+</main>
+<footer class="foot">
+  <div class="foot-inner">
+    <div><p class="foot-brand">HomeKeep Pro</p><p>Software for administrative intake work supervised by legal professionals. Built by a student team.</p></div>
+    <div><p>HomeKeep does not give legal advice, determine heirs, certify title or file documents. Packets are prepared for professional review.</p>
+      <p><a href="{{ url_for('pro.security') }}">How documents are handled</a> · <a href="/">Free homeowner checkup</a></p></div>
+  </div>
+</footer>
+</body>
+</html>

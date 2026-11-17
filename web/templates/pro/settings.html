@@ -1,0 +1,72 @@
+{% extends "pro/base.html" %}
+{% block title %}Firm settings · HomeKeep Pro{% endblock %}
+{% block content %}
+<section class="page-head"><p class="eyebrow">{{ pro_firm.name }}</p><h1>Firm settings</h1></section>
+
+<section class="split">
+  <div class="split-head"><h2>Staff</h2><p class="help">Owners manage staff and settings. Attorneys approve checklists, templates and facts. Staff run cases.</p></div>
+  <div class="split-body">
+    <div class="table-wrap"><table class="data"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead><tbody>
+      {% for u in staff %}<tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ role_names[u.role] }}{% if not u.active %} (inactive){% endif %}</td>
+        <td>{% if can("staff") and u.role != "owner" and u.id != pro_user.id %}<form method="post" action="{{ url_for('pro.settings_action', action='activate' if not u.active else 'deactivate') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="user" value="{{ u.id }}"><button class="button small">{{ "Reactivate" if not u.active else "Deactivate" }}</button></form>{% endif %}</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% if can("staff") %}
+    <form method="post" action="{{ url_for('pro.settings_action', action='invite') }}" class="inline-form" style="margin-top:1rem">
+      <input type="hidden" name="csrf" value="{{ csrf() }}">
+      <input type="text" name="email" placeholder="colleague@yourfirm.com" required inputmode="email" style="width:16rem">
+      <select name="role"><option value="staff">Staff</option><option value="attorney">Attorney</option></select>
+      <button class="button small primary">Create invitation link</button>
+    </form>{% endif %}
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Intake checklist</h2>
+    <p class="help">{% if pro_firm.checklist_approved_at %}Approved {{ pro_firm.checklist_approved_at.strftime("%b %d, %Y") }}.{% else %}Draft: awaiting professional approval.{% endif %}</p></div>
+  <div class="split-body">
+    <ul>{% for i in checklist_items %}<li>{{ i.label }} ({{ "required" if i.required else "if applicable" }}{% if not i.family_can_provide %}, staff only{% endif %})</li>{% endfor %}</ul>
+    <p class="help">A starting template for inherited-home intake in Franklin County. It is not legal guidance about what a matter needs; staff can mark items not needed per case.</p>
+    {% if can("approve") and not pro_firm.checklist_approved_at %}<form method="post" action="{{ url_for('pro.settings_action', action='approve-checklist') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="button small primary">Approve this checklist for our firm</button></form>{% endif %}
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Follow-up templates</h2><p class="help">Only approved templates can be sent. Editing a template removes its approval. Placeholders: {name}, {case_title}, {missing_list}, {link}, {link_expires}, {firm_name}.</p></div>
+  <div class="split-body">
+    {% for tpl in templates %}
+    <form method="post" action="{{ url_for('pro.settings_action', action='template') }}" class="fact">
+      <input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="template" value="{{ tpl.id }}">
+      <div class="fact-head"><h3>{{ tpl.name }}</h3><span class="badge {{ 'approved' if tpl.approved_at else 'awaiting_review' }}">{{ "Approved" if tpl.approved_at else "Not approved" }}</span></div>
+      <label>Subject<input type="text" name="subject" value="{{ tpl.subject }}" maxlength="200"></label>
+      <label>Message<textarea name="body" rows="7">{{ tpl.body }}</textarea></label>
+      <div class="row">{% if can("send") %}<button class="button small">Save changes</button>{% endif %}
+        {% if can("approve") and not tpl.approved_at %}<button class="button small primary" formaction="{{ url_for('pro.settings_action', action='approve-template') }}">Approve</button>{% endif %}</div>
+    </form>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Retention</h2><p class="help">Closed cases, with their documents, are deleted automatically after this many days (30 to 3650).</p></div>
+  <div class="split-body">
+    <form method="post" action="{{ url_for('pro.settings_action', action='retention') }}" class="inline-form">
+      <input type="hidden" name="csrf" value="{{ csrf() }}">
+      <input type="number" name="days" value="{{ pro_firm.retention_days }}" min="30" max="3650" {% if not can("settings") %}disabled{% endif %}>
+      {% if can("settings") %}<button class="button small">Save</button>{% endif %}
+    </form>
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Plan and usage</h2></div>
+  <div class="split-body">
+    <dl class="facts">
+      <div><dt>Plan</dt><dd>{{ plan.label }}{% if plan.price_dollars %} · ${{ plan.price_dollars }}{% endif %}</dd></div>
+      <div><dt>New matters this period</dt><dd>{{ used }} of {{ plan.new_matters }} (since {{ period_start.strftime("%b %d") }})</dd></div>
+      <div><dt>Storage</dt><dd>{{ (storage / 1048576)|round(1) }} MB of {{ plan.storage_mb }} MB</dd></div>
+      <div><dt>Pages read</dt><dd>{{ usage.get("pages_read", 0) }}</dd></div>
+    </dl>
+    <p class="help">Payment is not connected; no charges happen in HomeKeep. Going over a limit never adds a fee.</p>
+  </div>
+</section>
+{% endblock %}

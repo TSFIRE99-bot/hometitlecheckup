@@ -1,0 +1,45 @@
+/* HomeKeep Pro additions on top of style.css. System fonts only: no outside requests on these pages. */
+body.pro { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.pro .top nav { order: 2; width: auto; margin-right: auto; }
+.pro .top-tools { order: 3; }
+.pro .who { color: #d6dfee; font-size: .85rem; }
+.pro .top-tools form { margin: 0; }
+.banner { font-size: var(--t-sm); background: var(--amber-tint); border-left: 4px solid var(--amber); padding: var(--s2) var(--s4); margin: 0 0 var(--s3); }
+.banner.demo { background: var(--blue-tint); border-left-color: var(--blue); }
+.flash { padding: var(--s3) var(--s4); border-left: 4px solid var(--green); background: var(--green-tint); margin: 0 0 var(--s4); }
+.flash.error { border-left-color: var(--red); background: var(--red-tint); }
+.flash.link { border-left-color: var(--navy); background: var(--tint); }
+.flash.link p { margin: 0 0 var(--s2); font-weight: 700; }
+.flash.link input { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; }
+.badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: .1rem .5rem; border-radius: 4px; background: var(--gray-tint); color: var(--gray); white-space: nowrap; }
+.badge.approved, .badge.released, .badge.ok { background: var(--green-tint); color: var(--green); }
+.badge.awaiting_review, .badge.received, .badge.requested, .badge.quarantined { background: var(--amber-tint); color: var(--amber); }
+.badge.conflicting, .badge.missing, .badge.error, .badge.no_text { background: var(--red-tint); color: var(--red); }
+.data td, .data th { padding: var(--s2) var(--s3) var(--s2) 0; }
+.data td form { display: inline; }
+.inline-form { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.inline-form select, .inline-form input[type="text"] { width: auto; }
+.tabs { display: flex; flex-wrap: wrap; gap: var(--s4); border-bottom: 1px solid var(--line); margin: var(--s4) 0 0; font-size: .95rem; }
+.tabs a { text-decoration: none; padding: var(--s2) 0; }
+.grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--s3) var(--s4); }
+.grid-form label { font-weight: 700; font-size: .9rem; color: var(--navy); }
+.checks label { font-weight: 400; display: flex; gap: var(--s2); align-items: center; margin: var(--s1) 0; }
+.fact { border-top: 1px solid var(--line); padding: var(--s4) 0; scroll-margin-top: 4rem; }
+.fact-head { display: flex; gap: var(--s3); align-items: baseline; flex-wrap: wrap; }
+.fact-head h3 { margin: 0; font-size: var(--t-md); }
+.value-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--s3) var(--s5); padding: var(--s3) 0; border-top: 1px dashed var(--line); }
+.value { font-weight: 700; font-size: var(--t-md); }
+.evidence { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; background: var(--tint); border-left: 3px solid var(--line); padding: var(--s2) var(--s3); white-space: pre-wrap; overflow-wrap: anywhere; }
+.meta { color: var(--muted); font-size: var(--t-sm); }
+.history { font-size: var(--t-sm); color: var(--muted); margin: var(--s2) 0 0; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s6); }
+.pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s5); }
+.price { border-top: 4px solid var(--navy); padding-top: var(--s3); }
+.price .amount { font-size: var(--t-2xl); font-weight: 700; color: var(--navy); }
+.flow-steps { counter-reset: s; list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--s5); }
+.flow-steps li { counter-increment: s; margin: 0; }
+.flow-steps li::before { content: counter(s); display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; margin-bottom: var(--s2); }
+.danger { border-top: 2px solid var(--red); }
+.family-item { border-top: 1px solid var(--line); padding: var(--s4) 0; }
+.family-item input[type="file"] { margin: var(--s2) 0; }
+@media (max-width: 860px) { .cols, .value-row { grid-template-columns: 1fr; } }

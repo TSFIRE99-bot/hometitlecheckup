@@ -1,0 +1,96 @@
+{% extends "pro/base.html" %}
+{% block robots %}index{% endblock %}
+{% block title %}HomeKeep Pro: inherited-home intake for Ohio probate firms{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">For Ohio probate and estate-planning firms · Franklin County first</p>
+    <h1>Get inherited-home cases ready for attorney review with less document chasing.</h1>
+    <p class="lead">HomeKeep Pro collects family information and documents for matters involving a residential home,
+      shows what is missing or inconsistent, helps your staff follow up, and produces an organized packet for attorney
+      review. Your staff review everything; the software never gives legal advice or decides who the heirs are.</p>
+    <div class="row">
+      {% if demo %}
+      <form method="post" action="{{ url_for('pro.start_demo') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="role" value="staff"><button class="button primary">Try the demo (fictional cases)</button></form>
+      {% endif %}
+      <a class="button" href="#request">Request a walkthrough</a>
+    </div>
+    <p class="fine">Built by a student team in Central Ohio. HomeKeep Pro is new and in early pilots; we are looking for a
+      few firms to test it with fictional and then real matters.</p>
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>How it works</h2></div>
+  <div class="split-body">
+    <ol class="flow-steps">
+      <li><strong>Open a matter.</strong><br>Staff add the property and choose what to collect from a checklist your attorney approves.</li>
+      <li><strong>Invite family.</strong><br>Each relative gets an expiring phone-friendly link that shows only what they were asked for.</li>
+      <li><strong>Read documents.</strong><br>Text-based PDFs are read and proposed facts are shown next to the exact line they came from.</li>
+      <li><strong>Review and follow up.</strong><br>Staff approve or correct each fact. Conflicts and missing items are listed; follow-ups use templates you approve.</li>
+      <li><strong>Export the packet.</strong><br>A PDF and JSON packet with the document inventory, approved facts, evidence, open questions and missing items.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>What it does not do</h2></div>
+  <div class="split-body">
+    <ul>
+      <li>It does not give legal advice, determine heirs, calculate legally binding shares, certify title, draft deeds or file anything.</li>
+      <li>It treats the County Auditor's owner field as a tax record, not proof of title, and never assumes anyone has died.</li>
+      <li>It never sends a message on its own. A staff member reviews and sends every follow-up.</li>
+      <li>It does not sell or share homeowner information. The free homeowner checkup at myhomekeep.org stays free and never feeds this workspace.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Pilot offer</h2><p class="help">Prices are proposals we are testing in conversations with firms.</p></div>
+  <div class="split-body">
+    <div class="pricing">
+      {% for key in ("pilot", "monthly") %}{% set p = plans[key] %}
+      <div class="price">
+        <p class="eyebrow">{{ p.label }}</p>
+        <p class="amount">${{ p.price_dollars }}{% if p.renews %}<small>/month</small>{% endif %}</p>
+        <ul>
+          <li>Up to {{ p.new_matters }} new inherited-home matters {% if p.renews %}per month{% else %}in {{ p.period_days }} days{% endif %}</li>
+          <li>Up to {{ p.documents_per_matter }} documents per matter, {{ p.storage_mb }} MB total</li>
+          <li>{{ p.support_hours }} hours of setup and support{% if p.renews %} per month{% endif %}</li>
+          <li>{% if p.renews %}Renews only with your written agreement; cancel any time{% else %}Does not renew automatically{% endif %}</li>
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="help">No overage charges. If a limit is reached, new matters pause until we talk; nothing already stored is
+      locked, and you can export or delete your data at any time. Payment isn't connected yet.</p>
+  </div>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Documents and data</h2></div>
+  <div class="split-body">
+    <p>Files are checked on upload, kept out of the free site, separated by firm, and downloadable only by signed-in
+      staff of the firm that owns them. Family links expire and show only what each person was asked for.
+      <a href="{{ url_for('pro.security') }}">Read exactly how documents are handled</a>, including what is not in
+      place yet.</p>
+  </div>
+</section>
+
+<section class="split" id="request">
+  <div class="split-head"><h2>Request a walkthrough</h2><p class="help">We use this only to reply to you. No mailing list.</p></div>
+  <div class="split-body">
+    <form method="post" action="{{ url_for('pro.request_demo') }}" class="grid-form">
+      <input type="hidden" name="csrf" value="{{ csrf() }}">
+      <label>Your name<input type="text" name="name" required maxlength="200" autocomplete="name"></label>
+      <label>Firm<input type="text" name="firm" required maxlength="200" autocomplete="organization"></label>
+      <label>Work email<input type="text" name="email" required maxlength="254" inputmode="email" autocomplete="email"></label>
+      <label>Your role<input type="text" name="role" maxlength="120" placeholder="Attorney, paralegal, office manager"></label>
+      <label style="grid-column: 1 / -1">How does your office handle inherited-home intake today? (optional, please no client details)
+        <textarea name="message" rows="3" maxlength="2000"></textarea></label>
+      <label class="checks" style="grid-column: 1 / -1"><span><input type="checkbox" name="consent" value="yes" required> HomeKeep may email me about this request.</span></label>
+      <div><button class="button primary">Send request</button></div>
+    </form>
+  </div>
+</section>
+{% endblock %}

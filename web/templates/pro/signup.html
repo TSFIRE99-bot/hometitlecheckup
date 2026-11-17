@@ -1,0 +1,14 @@
+{% extends "pro/base.html" %}
+{% block title %}Create a firm account · HomeKeep Pro{% endblock %}
+{% block content %}
+<section class="page-head"><h1>Create a firm account</h1>
+  <p class="lead">For staging and pilot setup only. The first person becomes the firm's owner and can invite staff.</p></section>
+<form method="post" class="grid-form">
+  <input type="hidden" name="csrf" value="{{ csrf() }}">
+  <label>Firm name<input type="text" name="firm" required maxlength="200"></label>
+  <label>Your name<input type="text" name="name" required maxlength="200"></label>
+  <label>Email<input type="text" name="email" required inputmode="email" autocomplete="username"></label>
+  <label>Password (10+ characters)<input type="password" name="password" required minlength="10" autocomplete="new-password"></label>
+  <div><button class="button primary">Create account</button></div>
+</form>
+{% endblock %}

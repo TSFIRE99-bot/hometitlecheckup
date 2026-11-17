@@ -1,0 +1,12 @@
+{% extends "pro/base.html" %}
+{% block title %}Join your firm · HomeKeep Pro{% endblock %}
+{% block content %}
+<section class="page-head"><h1>Join your firm on HomeKeep Pro</h1>
+  <p class="lead">This invitation is for {{ invite.email }} as {{ role_names[invite.role] }}.</p></section>
+<form method="post" class="grid-form">
+  <input type="hidden" name="csrf" value="{{ csrf() }}">
+  <label>Your name<input type="text" name="name" required maxlength="200" autocomplete="name"></label>
+  <label>Choose a password (10+ characters)<input type="password" name="password" required minlength="10" autocomplete="new-password"></label>
+  <div><button class="button primary">Join</button></div>
+</form>
+{% endblock %}
