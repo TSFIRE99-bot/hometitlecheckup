@@ -41,6 +41,10 @@ class ProConfig:
     demo_enabled: bool = field(default_factory=lambda: _flag("PRO_DEMO", True))
     extractor: str = field(default_factory=lambda: os.environ.get("PRO_EXTRACTOR", "rules"))
     email_mode: str = field(default_factory=lambda: os.environ.get("PRO_EMAIL", "outbox"))
+    # PRO_SITE=on makes this deployment the stand-alone HomeKeep Pro site: "/" opens /pro, and links to the free
+    # checkup point at the public HomeKeep site instead of this one.
+    pro_site: bool = field(default_factory=lambda: _flag("PRO_SITE", False))
+    free_site_url: str = field(default_factory=lambda: os.environ.get("HOMEKEEP_FREE_URL", "https://www.myhomekeep.org/"))
 
     # Upload limits. Files are kept in the database for the pilot, so these also cap database growth. Vercel refuses
     # request bodies over 4.5 MB, so one file stays under 4 MB.

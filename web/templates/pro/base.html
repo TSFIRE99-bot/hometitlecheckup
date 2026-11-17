@@ -23,7 +23,7 @@
       {% else %}
       <a href="{{ url_for('pro.landing') }}">For professionals</a>
       <a href="{{ url_for('pro.security') }}">Data handling</a>
-      <a href="/">Free homeowner checkup</a>
+      <a href="{{ free_site }}">Free homeowner checkup</a>
       {% endif %}
     </nav>
     <div class="top-tools">
@@ -51,7 +51,7 @@
   <div class="foot-inner">
     <div><p class="foot-brand">HomeKeep Pro</p><p>Software for administrative intake work supervised by legal professionals. Built by a student team.</p></div>
     <div><p>HomeKeep does not give legal advice, determine heirs, certify title or file documents. Packets are prepared for professional review.</p>
-      <p><a href="{{ url_for('pro.security') }}">How documents are handled</a> · <a href="/">Free homeowner checkup</a></p></div>
+      <p><a href="{{ url_for('pro.security') }}">How documents are handled</a> · <a href="{{ free_site }}">Free homeowner checkup</a></p></div>
   </div>
 </footer>
 </body>

@@ -36,4 +36,13 @@ def create_app(pro_config=None) -> Flask:
     from web.pro_routes import bp as pro_bp
     app.register_blueprint(bp)
     app.register_blueprint(pro_bp)
+
+    if cfg.pro_site:
+        # The stand-alone Pro deployment: its home page is the Pro landing page. The free checkup stays at its own site.
+        from flask import redirect, request
+
+        @app.before_request
+        def pro_site_home():
+            if request.path == "/":
+                return redirect("/pro", code=302)
     return app

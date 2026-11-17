@@ -67,7 +67,8 @@ def pro_context():
     cfg = current_app.extensions["homekeep_pro"]["cfg"]
     return {"csrf": lambda: csrf_token(session), "pro_user": getattr(g, "user", None),
             "pro_firm": getattr(g, "firm", None), "can": lambda p: bool(getattr(g, "user", None)) and can(g.user.role, p),
-            "role_names": ROLE_NAMES, "staging_notes": staging_notes(cfg)}
+            "role_names": ROLE_NAMES, "staging_notes": staging_notes(cfg),
+            "free_site": cfg.free_site_url if cfg.pro_site else "/"}
 
 
 def staging_notes(cfg) -> list[str]:

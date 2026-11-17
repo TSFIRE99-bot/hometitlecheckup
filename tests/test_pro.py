@@ -456,3 +456,17 @@ def test_financial_model_counts_founder_time_and_breaks_even():
     assert worse["contribution_per_customer"] < base["contribution_per_customer"]
     unpaid = finance.monthly(finance.Assumptions(monthly_price=50))
     assert unpaid["break_even_customers"] is None            # no break-even when each customer loses money
+
+
+def test_stand_alone_pro_site_opens_on_the_pro_page(tmp_path):
+    cfg = ProConfig(database_url=f"sqlite:///{tmp_path / 'site.db'}", secret_key="k", demo_enabled=False,
+                    pro_site=True, free_site_url="https://www.myhomekeep.org/")
+    client = create_app(cfg).test_client()
+    home = client.get("/")
+    assert home.status_code == 302 and home.headers["Location"].endswith("/pro")
+    assert 'href="https://www.myhomekeep.org/">Free homeowner checkup' in client.get("/pro").get_data(as_text=True)
+
+
+def test_combined_site_keeps_the_free_checkup_at_home(app):
+    assert app.test_client().get("/").status_code == 200
+    assert 'href="/">Free homeowner checkup' in app.test_client().get("/pro").get_data(as_text=True)

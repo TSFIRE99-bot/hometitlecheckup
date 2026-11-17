@@ -39,6 +39,8 @@ Names only. Never put values in the repo, in docs, in commit messages or in chat
 | `PRO_DATABASE_URL` | SQLAlchemy URL for the Pro database, for example a Postgres URL. | SQLite in `/tmp` on Vercel (wiped on cold start), or `instance/homekeep-pro.db` locally. |
 | `PRO_DEMO` | `on` seeds the fictional demo firm and shows the demo button. | on |
 | `PRO_SIGNUP` | `on` lets anyone create a firm account at `/pro/signup`. Keep it off until there are terms and a durable database. | off |
+| `PRO_SITE` | `on` makes the deployment the stand-alone HomeKeep Pro site: `/` opens `/pro`, and "Free homeowner checkup" links go to `HOMEKEEP_FREE_URL`. Set it only in the separate `homekeep-pro` Vercel project. | off |
+| `HOMEKEEP_FREE_URL` | Where the stand-alone Pro site sends people looking for the free checkup. | https://www.myhomekeep.org/ |
 | `PRO_EXTRACTOR` | Which extractor reads PDFs. Only `rules` exists. | rules |
 | `PRO_EMAIL` | `outbox` records messages without sending. There is no sending mode yet. | outbox |
 | `PRO_PLAN_PILOT_PRICE`, `PRO_PLAN_PILOT_MATTERS`, `PRO_PLAN_PILOT_SUPPORT_HOURS` | Pilot plan numbers shown on the landing page and enforced as limits. | 500, 10, 4 |
