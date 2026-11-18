@@ -5,3 +5,4 @@ folium==0.20.0
 SQLAlchemy==2.0.41
 pypdf==5.4.0
 pytest==9.1.1
+psycopg[binary]==3.2.9

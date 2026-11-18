@@ -33,9 +33,21 @@ def default_database_url() -> str:
     return f"sqlite:///{folder / 'homekeep-pro.db'}"
 
 
+def database_url_from_env() -> str:
+    """PRO_DATABASE_URL, or DATABASE_URL as set by Vercel's Neon (Postgres) integration, else local SQLite.
+    Postgres addresses are rewritten to use the psycopg driver that requirements.txt installs."""
+    url = os.environ.get("PRO_DATABASE_URL") or os.environ.get("DATABASE_URL") or ""
+    if not url:
+        return default_database_url()
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix):]
+    return url
+
+
 @dataclass
 class ProConfig:
-    database_url: str = field(default_factory=lambda: os.environ.get("PRO_DATABASE_URL") or default_database_url())
+    database_url: str = field(default_factory=database_url_from_env)
     secret_key: str = field(default_factory=lambda: os.environ.get("SECRET_KEY") or "")
     signup_enabled: bool = field(default_factory=lambda: _flag("PRO_SIGNUP", False))
     demo_enabled: bool = field(default_factory=lambda: _flag("PRO_DEMO", True))

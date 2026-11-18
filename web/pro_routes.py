@@ -14,6 +14,8 @@ from functools import wraps
 from flask import (Blueprint, Response, abort, current_app, flash, g, redirect, render_template, request, session,
                    url_for)
 
+from sqlalchemy.exc import IntegrityError
+
 from pro import billing, checklist, demo, extract, packet, store
 from pro.documents import UploadRejected, check_upload
 from pro.security import ROLE_NAMES, ROLES, Throttle, can, csrf_ok, csrf_token, password_problem
@@ -35,9 +37,12 @@ def db():
 def prepare():
     state = pro()
     if state["cfg"].demo_enabled and not state.get("seeded"):
-        with db() as conn:
-            state["demo_firm"] = demo.seed(conn, state["cfg"])
-        state["seeded"] = True
+        try:
+            with db() as conn:
+                state["demo_firm"] = demo.seed(conn, state["cfg"])
+            state["seeded"] = True
+        except IntegrityError:
+            pass        # another server copy created the demo firm at the same moment; the next request finds it
     if time.monotonic() - state.get("purged", 0) > 3600:
         with db() as conn:
             store.purge_expired(conn)

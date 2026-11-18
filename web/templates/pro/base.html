@@ -42,7 +42,7 @@
   </div>
 </header>
 <main id="main">
-{% if pro_firm and pro_firm.is_demo %}<p class="banner demo">Demo firm. Every person, property and document here is made up.</p>{% endif %}
+{% if pro_firm and pro_firm.is_demo %}<p class="banner demo">Demo firm. Every person, property and document here is made up, and anyone trying the demo can see it. Don't upload real documents.</p>{% endif %}
 {% for note in staging_notes %}<p class="banner">{{ note }}</p>{% endfor %}
 {% for category, message in get_flashed_messages(with_categories=true) %}
   {% if category == "link" %}{% set label, _, link = message.rpartition(": ") %}

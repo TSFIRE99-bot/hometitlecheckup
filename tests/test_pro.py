@@ -563,3 +563,12 @@ def test_firm_export_has_every_case_but_no_working_family_links(app, conn):
     assert data["cases"][0]["family"][0]["name"] == "Relative"
     assert token not in text and "[link removed]" in text and "password" not in text.lower()
     assert packet.firm_export(conn, other_firm)["cases"] == []
+
+
+def test_database_address_from_vercel_neon(monkeypatch):
+    from pro.config import database_url_from_env
+    monkeypatch.delenv("PRO_DATABASE_URL", raising=False)
+    monkeypatch.setenv("DATABASE_URL", "postgres://user:secret@example.invalid/db?sslmode=require")
+    assert database_url_from_env() == "postgresql+psycopg://user:secret@example.invalid/db?sslmode=require"
+    monkeypatch.setenv("PRO_DATABASE_URL", "sqlite:///chosen.db")             # an explicit choice wins
+    assert database_url_from_env() == "sqlite:///chosen.db"

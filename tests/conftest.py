@@ -5,8 +5,9 @@ import pytest
 from titlecheck.i18n import set_lang
 
 # The tests describe the combined app. A deployment's own site settings (the separate HomeKeep Pro project sets
-# PRO_SITE=on) must not leak into them, so they're cleared before any test module imports the app.
-for _name in ("PRO_SITE", "HOMEKEEP_FREE_URL", "PRO_SIGNUP", "PRO_DEMO"):
+# PRO_SITE=on, and its Neon DATABASE_URL) must not leak into them: tests never touch a real database, so they're cleared before any test module imports the app.
+for _name in ("PRO_SITE", "HOMEKEEP_FREE_URL", "PRO_SIGNUP", "PRO_DEMO", "PRO_DATABASE_URL", "DATABASE_URL",
+              "DATABASE_URL_UNPOOLED", "POSTGRES_URL", "POSTGRES_PRISMA_URL", "POSTGRES_URL_NON_POOLING"):
     os.environ.pop(_name, None)
 
 
