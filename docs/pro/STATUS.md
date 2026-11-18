@@ -57,7 +57,7 @@ documents. Evaluation results so far come from fictional documents only and say 
 
 | What | Waiting on |
 |---|---|
-| Real firm data | Durable database, `SECRET_KEY`, malware scanning decision, attorney review of terms |
+| Real firm data | Malware scanning decision, attorney review of terms (a free Neon database in Cleveland and `SECRET_KEY` are now set up) |
 | Sending email | Email provider with a data processing agreement |
 | Payments | Contracting party decision (some founders are under 18), processor account, reviewed agreement |
 | OCR and AI reading | Provider choice, firm approval, cost limits, evaluation on permitted real samples |

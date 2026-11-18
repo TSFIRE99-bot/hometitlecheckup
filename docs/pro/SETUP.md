@@ -54,6 +54,12 @@ Ignored Build Step is "Only build production," so it builds nothing else. The or
 (`hometitlecheckup-h5fn`, www.myhomekeep.org) has a custom Ignored Build Step that skips the `homekeep-pro` branch.
 `tests/conftest.py` clears the site settings so the tests behave the same in both projects.
 
+Database: a free Neon Postgres database (Vercel Marketplace, Free plan, region Cleveland `cle1`, Neon Auth off) is
+connected to the `homekeep-pro` project only, for Production and Preview, since November 18, 2026. Vercel provides
+`DATABASE_URL` (and other `POSTGRES_*` / `PG*` variables); the app reads `DATABASE_URL`. Free plan limits: 1 GB storage
+and 100 compute-hours a month. The data, including the public demo firm, now persists between deploys. Real client
+data still waits on attorney review of the terms and a malware-scanning decision.
+
 ## Staging on Vercel
 
 Every push to a branch other than `main` gets a Vercel preview URL. The `homekeep-pro` branch preview is the staging
