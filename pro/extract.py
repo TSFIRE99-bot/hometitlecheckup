@@ -8,8 +8,8 @@ The default extractor is rule-based and needs no network or credentials. It doub
 the tests. A hosted AI model can be added later as another class with the same two methods, chosen by PRO_EXTRACTOR,
 once (1) an evaluation on authorized, de-identified documents shows it beats the rules, and (2) the firm has approved
 the provider's data-use and retention terms. Its key would stay on the server, with per-case page, token and spending
-limits recorded in the usage table. Scanned PDFs and photos need OCR, which is not set up; they are marked unreadable
-so staff can enter the fields by hand.
+limits recorded in the usage table. Scanned PDFs and photos are marked unread. Staff can read them with OCR in their own browser (public/ocr.js,
+store.read_ocr_text) or enter the fields by hand.
 
 Document text is untrusted data. The extractor only fills a fixed set of field keys, never sends messages or changes
 settings, and flags text that looks like instructions aimed at software so staff can see it.
@@ -115,7 +115,7 @@ def read_pdf(data: bytes, max_pages: int) -> ReadResult:
     except Exception:                                   # a damaged or encrypted PDF must not stop the upload
         return ReadResult("error", [])
     if sum(len(p.text) for p in found) < 20:
-        return ReadResult("no_text", found)            # a scan with no text layer: needs OCR, which isn't set up
+        return ReadResult("no_text", found)            # a scan with no text layer: staff can read it with in-browser OCR
     return ReadResult("ok", found)
 
 

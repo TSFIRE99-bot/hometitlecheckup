@@ -266,13 +266,14 @@ def case(case_id: int):
             "staff": store.staff(conn, g.firm.id),
             "usage": store.usage_totals(conn, g.firm.id, case_id),
             "record": json.loads(c.record_source) if c.record_source else None,
+            "time": store.case_time(conn, g.firm.id, case_id),
         }
     requests_by_person = {}
     with db() as conn:
         for p in data["participants"]:
             requests_by_person[p.id] = [i.label for i in store.participant_requests(conn, p)]
     return render_template("pro/case.html", **data, requests_by_person=requests_by_person,
-                           statuses=store.CASE_STATUSES, item_labels=checklist.STATUS_LABELS,
+                           statuses=store.CASE_STATUSES, item_labels=checklist.STATUS_LABELS, time_kinds=store.TIME_KINDS,
                            doc_types=extract.DOC_TYPES, outstanding=checklist.outstanding(data["items"]),
                            family_items=[i for i in data["items"] if checklist.BY_KEY.get(i.key) is None
                                          or checklist.BY_KEY[i.key].family_can_provide])
@@ -400,6 +401,29 @@ def participant_action(case_id: int, pid: int, action: str):
     return redirect(url_for("pro.case", case_id=case_id) + "#family")
 
 
+@bp.post("/pro/app/cases/<int:case_id>/time")
+@signed_in("cases")
+def log_time(case_id: int):
+    form = request.form
+    minutes = form.get("minutes", "").strip()
+    with db() as conn:
+        load_case(conn, case_id)
+        problem = store.log_time(conn, g.firm.id, case_id, g.user.id, int(minutes) if minutes.isdigit() else 0,
+                                 form.get("kind", ""), form.get("note", ""))
+    flash(problem or "Time noted.", "error" if problem else "ok")
+    return redirect(url_for("pro.case", case_id=case_id) + "#time")
+
+
+@bp.post("/pro/app/cases/<int:case_id>/outbox/<int:message_id>/sent")
+@signed_in("send")
+def outbox_sent(case_id: int, message_id: int):
+    with db() as conn:
+        load_case(conn, case_id)
+        if store.mark_outbox_sent(conn, g.firm.id, case_id, message_id, g.user.id):
+            flash("Marked as sent.", "ok")
+    return redirect(url_for("pro.case", case_id=case_id) + "#family")
+
+
 class _Rollback(Exception):
     """Undo a renewed link when the follow-up it was made for is refused."""
 
@@ -471,6 +495,36 @@ def download(case_id: int, doc_id: int):
                     headers={"Content-Disposition": f'attachment; filename="{doc.filename}"'})
 
 
+@bp.get("/pro/app/cases/<int:case_id>/documents/<int:doc_id>/read")
+@signed_in("cases")
+def read_page(case_id: int, doc_id: int):
+    """Reads a scan or photo with OCR in the staff member's own browser. The file never goes to another service."""
+    with db() as conn:
+        c = load_case(conn, case_id)
+        doc = store.get_document(conn, g.firm.id, case_id, doc_id)
+        if doc is None:
+            abort(404)
+        if doc.status != "released" or doc.text_status not in ("no_text", "not_pdf"):
+            flash("Only released scans and photos that haven't been read yet can be read this way.", "error")
+            return redirect(url_for("pro.case", case_id=case_id) + "#documents")
+    return render_template("pro/read.html", case=c, doc=doc, max_pages=pro()["cfg"].max_pages_per_document)
+
+
+@bp.post("/pro/app/cases/<int:case_id>/documents/<int:doc_id>/text")
+@signed_in("cases")
+def save_read_text(case_id: int, doc_id: int):
+    with db() as conn:
+        load_case(conn, case_id)
+        problem = store.read_ocr_text(conn, pro()["cfg"], g.firm.id, case_id, doc_id, g.user.id,
+                                      request.form.getlist("page"))
+    if problem:
+        flash(problem, "error")
+        return redirect(url_for("pro.case", case_id=case_id) + "#documents")
+    flash("Text read and saved. Every suggested fact is waiting for review; OCR makes mistakes, so check each one "
+          "against the file.", "ok")
+    return redirect(url_for("pro.review", case_id=case_id))
+
+
 # ------------------------------------------------------------------ review
 @bp.get("/pro/app/cases/<int:case_id>/review")
 @signed_in("review")
@@ -537,6 +591,16 @@ def settings():
                 "usage": store.usage_totals(conn, g.firm.id), "cfg": pro()["cfg"],
                 "measures": store.pilot_measures(conn, g.firm.id)}
     return render_template("pro/settings.html", **data, roles=ROLES, checklist_items=checklist.DEFAULT)
+
+
+@bp.get("/pro/app/settings/export.json")
+@signed_in("settings")
+def firm_export():
+    with db() as conn:
+        data = packet.firm_export(conn, g.firm.id)
+        store.log(conn, g.firm.id, None, actor(), "firm_exported", f"{len(data['cases'])} cases")
+    return Response(packet.as_json(data), mimetype="application/json",
+                    headers={"Content-Disposition": 'attachment; filename="homekeep-firm-export.json"'})
 
 
 @bp.post("/pro/app/settings/<action>")

@@ -56,4 +56,67 @@ def check_upload(filename: str, data: bytes, max_bytes: int) -> CheckedFile:
     head = data[:2048].lower()
     if any(marker in head for marker in ACTIVE_CONTENT):
         raise UploadRejected("This file contains web page code and can't be accepted.")
+    if content_type == "application/pdf" and pdf_active_content(data):
+        raise UploadRejected("This PDF contains scripts, actions or attached files, which HomeKeep doesn't accept. "
+                             "Print it to a new PDF or scan the paper copy, and upload that instead.")
     return CheckedFile(name, content_type, data, hashlib.sha256(data).hexdigest())
+
+
+# PDF features that run code, open other programs or carry other files. Deeds, certificates and tax bills don't
+# need any of them. A best-effort check, not a virus scanner: it reads the raw file (with #xx-escaped names decoded,
+# a common way to hide them) and the document structure through pypdf, which also sees compressed object streams.
+PDF_DANGEROUS = (b"/javascript", b"/js", b"/launch", b"/embeddedfile", b"/embeddedfiles", b"/richmedia",
+                 b"/submitform", b"/importdata", b"/xfa")
+_PDF_NAME = re.compile(rb"/[A-Za-z0-9#_.+-]+")
+
+
+_PDF_STREAM = re.compile(rb"stream\r?\n.*?endstream", re.S)
+
+
+def _decoded_names(data: bytes) -> set[bytes]:
+    # Stream contents are skipped: compressed image bytes can spell "/JS" by chance, and a scan must not be refused
+    # for that. Names hidden inside compressed object streams are found by _structure_names instead.
+    names = set()
+    for match in _PDF_NAME.finditer(_PDF_STREAM.sub(b"", data)):
+        raw = match.group()
+        if b"#" in raw:
+            raw = re.sub(rb"#([0-9A-Fa-f]{2})", lambda m: bytes([int(m.group(1), 16)]), raw)
+        names.add(raw.lower())
+    return names
+
+
+def _structure_names(data: bytes) -> set[bytes]:
+    """Every dictionary key and name value pypdf can reach from the document root, including compressed objects."""
+    try:
+        import io
+
+        from pypdf import PdfReader
+        from pypdf.generic import ArrayObject, DictionaryObject, IndirectObject, NameObject
+        reader = PdfReader(io.BytesIO(data))
+        found: set[bytes] = set()
+        seen: set[int] = set()
+        stack = [reader.trailer]
+        while stack and len(seen) < 20000:
+            item = stack.pop()
+            if isinstance(item, IndirectObject):
+                key = (item.idnum, item.generation)
+                if key in seen:
+                    continue
+                seen.add(key)
+                item = item.get_object()
+            if isinstance(item, DictionaryObject):
+                for k, v in item.items():
+                    found.add(str(k).lower().encode())
+                    stack.append(v)
+            elif isinstance(item, ArrayObject):
+                stack.extend(item)
+            elif isinstance(item, NameObject):
+                found.add(str(item).lower().encode())
+        return found
+    except Exception:                       # unreadable structure: the raw scan still applies, and reading flags it
+        return set()
+
+
+def pdf_active_content(data: bytes) -> bool:
+    names = _decoded_names(data) | _structure_names(data)
+    return any(name in names for name in PDF_DANGEROUS)

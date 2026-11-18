@@ -23,6 +23,9 @@ www.myhomekeep.org is unchanged.
 - Fictional demo firm with complete, incomplete and conflicting cases; an evaluation harness.
 - Landing page with an honest description, pilot offer from configurable plans, working demo-request form with
   consent; a security page listing what is and isn't in place.
+- Free additions (November 18, 2026): in-browser OCR for scans and photos; refusal of PDFs with scripts, launch
+  actions or attached files; follow-ups that open in staff's own email and are marked sent; a staff time log per
+  case; a whole-firm data export; a cost calculator on the landing page that uses only the firm's own numbers.
 - Pilot measures panel in settings.
 - Public site: corrected claims in English, Spanish and Somali, and a "For professionals" link in the footer.
 

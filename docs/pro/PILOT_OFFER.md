@@ -15,7 +15,7 @@ Gets inherited-home cases ready for attorney review with less document chasing.
   will from a phone, and type in who's in the family. No account needed.
 - HomeKeep reads text from ordinary PDFs and suggests facts (names, dates, parcel numbers), each tied to the page it
   came from. Staff approve, correct or reject every one. The reading is simple pattern matching: it works on our
-  fictional demo files but hasn't been tested on real deeds or certificates, and it can't read scans or photos yet.
+  fictional demo files but hasn't been tested on real deeds or certificates. Scans and photos are read with free OCR in the staff member's own browser, so files never go to another company; OCR makes mistakes, so staff check every value.
   Staff can always type a fact in by hand.
 - It flags missing items and conflicts, such as a death date that differs between the certificate and the family's
   note.

@@ -1,0 +1,38 @@
+{% extends "pro/base.html" %}
+{% block title %}Read {{ doc.filename }} · HomeKeep Pro{% endblock %}
+{% block content %}
+<section class="page-head">
+  <p class="eyebrow"><a href="{{ url_for('pro.case', case_id=case.id) }}">Matter <span class="ref">{{ case.reference }}</span></a> · Read a scan</p>
+  <h1>Read the text in {{ doc.filename }}</h1>
+  <p class="lead">HomeKeep reads the words in this {{ "scan" if doc.content_type == "application/pdf" else "photo" }}
+    right here in your browser. The file doesn't go to any other company. It takes about 10 to 30 seconds a page.</p>
+</section>
+
+<section class="split">
+  <div class="split-head"><h2>Reading</h2>
+    <p class="help">Character recognition (OCR) mixes up letters and numbers, especially in handwriting and faint
+      copies. Every fact it suggests waits for a person to check it against the file.</p></div>
+  <div class="split-body" id="ocr"
+       data-file="{{ url_for('pro.download', case_id=case.id, doc_id=doc.id) }}"
+       data-pdf="{{ 'yes' if doc.content_type == 'application/pdf' else 'no' }}"
+       data-max-pages="{{ max_pages }}">
+    <div class="ocr-status" role="status" aria-live="polite">
+      <p class="empty-title" id="ocr-step">Ready</p>
+      <div class="meter" aria-hidden="true"><span id="ocr-bar"></span></div>
+      <p class="meta" id="ocr-detail">Nothing has been read yet.</p>
+    </div>
+    <div class="row">
+      <button type="button" class="button primary" id="ocr-start" data-busy-label="Reading…">Read the text</button>
+      <a class="button" href="{{ url_for('pro.case', case_id=case.id) }}#documents">Back to the case</a>
+    </div>
+    <form method="post" action="{{ url_for('pro.save_read_text', case_id=case.id, doc_id=doc.id) }}" id="ocr-form" hidden>
+      <input type="hidden" name="csrf" value="{{ csrf() }}">
+      <h3>What it read</h3>
+      <p class="help">You can fix obvious mistakes here before saving. Nothing is saved until you press Save.</p>
+      <div id="ocr-pages"></div>
+      <div class="row"><button class="button primary" data-busy-label="Saving…">Save text and suggest facts</button></div>
+    </form>
+  </div>
+</section>
+<script type="module" src="/ocr.js"></script>
+{% endblock %}

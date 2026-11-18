@@ -168,6 +168,14 @@ outbox = Table("outbox", metadata, _id(), _firm(),
                Column("created_by", Integer, nullable=False),
                Column("created_at", DateTime, nullable=False, default=now))
 
+time_entries = Table("time_entries", metadata, _id(), _firm(),         # staff minutes, typed in by staff themselves
+                     Column("case_id", Integer, nullable=False, index=True),
+                     Column("user_id", Integer, nullable=False),
+                     Column("minutes", Integer, nullable=False),
+                     Column("kind", String(20), nullable=False),       # chasing, review, other
+                     Column("note", String(200)),
+                     Column("created_at", DateTime, nullable=False, default=now))
+
 usage = Table("usage", metadata, _id(), _firm(),
               Column("case_id", Integer),
               Column("kind", String(40), nullable=False),     # pages_read, model_calls, model_cost_cents, ...

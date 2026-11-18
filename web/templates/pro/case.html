@@ -14,7 +14,7 @@
   </form>
   <nav class="tabs" aria-label="Case sections">
     <a href="#checklist">Checklist</a><a href="#family">Family</a><a href="#documents">Documents</a>
-    <a href="{{ url_for('pro.review', case_id=case.id) }}">Review facts</a><a href="#packet">Packet</a><a href="#activity">History</a>
+    <a href="{{ url_for('pro.review', case_id=case.id) }}">Review facts</a><a href="#packet">Packet</a><a href="#time">Time</a><a href="#activity">History</a>
   </nav>
 </section>
 
@@ -75,8 +75,14 @@
       <div><button class="button primary" data-busy-label="Creating link…">Create link</button></div>
     </form>
 
-    {% if outbox %}<h3>Outbox</h3><div class="table-wrap"><table class="data"><thead><tr><th>When</th><th>To</th><th>Subject</th><th>Status</th></tr></thead><tbody>
-      {% for m in outbox %}<tr><td>{{ m.created_at.strftime("%b %d %H:%M") }}</td><td>{{ m.to_email }}</td><td>{{ m.subject }}</td><td>{{ "Recorded (email not connected)" if m.status == "recorded" else m.status }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+    {% if outbox %}<h3>Outbox</h3>
+    <p class="help">HomeKeep doesn't send email itself. "Open in my email" starts a message in your own email program
+      with the approved text filled in; send it from there, then mark it sent here.</p>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Prepared</th><th>To</th><th>Subject</th><th>Status</th><th></th></tr></thead><tbody>
+      {% for m in outbox %}<tr><td>{{ m.created_at.strftime("%b %d %H:%M") }}</td><td>{{ m.to_email }}</td><td>{{ m.subject }}</td>
+        <td><span class="badge {{ 'ok' if m.status in ('sent', 'sent_by_staff') else 'awaiting_review' }}">{{ {"recorded": "Not sent yet", "sent_by_staff": "Sent by staff", "sent": "Sent"}.get(m.status, m.status) }}</span></td>
+        <td class="actions">{% if m.status == "recorded" %}<a class="button small primary" href="mailto:{{ m.to_email }}?subject={{ m.subject|urlencode }}&amp;body={{ m.body|urlencode }}">Open in my email</a>
+          <form method="post" action="{{ url_for('pro.outbox_sent', case_id=case.id, message_id=m.id) }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="button small">Mark sent</button></form>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
   </div>
 </section>
 
@@ -88,11 +94,12 @@
       <tbody>{% for d in documents %}<tr>
         <td>{{ d.filename }}<div class="meta">{{ (d.size / 1024)|round|int }} KB · {{ d.created_at.strftime("%b %d") }} · {{ "family upload" if d.participant_id else "staff upload" }}</div></td>
         <td>{{ doc_types.get(d.doc_type or "", "Not identified") }}</td>
-        <td><span class="badge {{ d.text_status }}">{{ {"ok": "Read", "no_text": "Scan: needs manual entry", "not_pdf": "Image: needs manual entry", "too_long": "Too many pages", "error": "Could not read"}.get(d.text_status, d.text_status) }}</span></td>
+        <td><span class="badge {{ d.text_status }}">{{ {"ok": "Read", "no_text": "Scan: not read yet", "not_pdf": "Photo: not read yet", "ocr": "Read by OCR: check carefully", "too_long": "Too many pages", "error": "Could not read"}.get(d.text_status, d.text_status) }}</span></td>
         <td><span class="badge {{ d.status }}">{{ d.status }}</span></td>
         <td class="actions">
           {% if d.status == "quarantined" %}<form method="post" action="{{ url_for('pro.document_action', case_id=case.id, doc_id=d.id, action='release') }}"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="button small">Release</button></form>
           {% else %}<a class="button small" href="{{ url_for('pro.download', case_id=case.id, doc_id=d.id) }}">Download</a>{% endif %}
+          {% if d.status == "released" and d.text_status in ("no_text", "not_pdf") %}<a class="button small primary" href="{{ url_for('pro.read_page', case_id=case.id, doc_id=d.id) }}">Read text</a>{% endif %}
           {% if can("delete") %}<form method="post" action="{{ url_for('pro.document_action', case_id=case.id, doc_id=d.id, action='delete') }}" class="inline-form"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="text" name="reason" placeholder="Reason" required maxlength="200" style="width:9rem"><button class="button small destructive">Delete</button></form>{% endif %}
         </td></tr>{% endfor %}</tbody>
     </table></div>{% endif %}
@@ -116,6 +123,28 @@
     <div class="row"><a class="button primary" href="{{ url_for('pro.case_packet', case_id=case.id, fmt='pdf') }}">Download packet (PDF)</a>
       <a class="button" href="{{ url_for('pro.case_packet', case_id=case.id, fmt='json') }}">Download data (JSON)</a></div>
     <p class="meta">Pages read for this case: {{ usage.get("pages_read", 0) }}. AI processing: none (rule-based reading).</p>
+  </div>
+</section>
+
+<section class="split" id="time">
+  <div class="split-head"><h2>Time spent</h2><p class="help">A rough note is enough. It's how a pilot shows whether
+    document chasing actually got shorter, compared with your own past matters.</p></div>
+  <div class="split-body">
+    {% set names = {} %}{% for u in staff %}{% set _ = names.update({u.id: u.name}) %}{% endfor %}
+    {% if time %}
+    <p class="meta">{{ time|sum(attribute="minutes") }} minutes noted,
+      {{ time|selectattr("kind", "equalto", "chasing")|sum(attribute="minutes") }} of them chasing documents or information.</p>
+    <div class="table-wrap"><table class="data"><thead><tr><th>When</th><th>Who</th><th>Minutes</th><th>For</th><th>Note</th></tr></thead><tbody>
+      {% for t in time %}<tr><td>{{ t.created_at.strftime("%b %d") }}</td><td>{{ names.get(t.user_id, "staff") }}</td><td class="ref">{{ t.minutes }}</td><td>{{ time_kinds.get(t.kind, t.kind) }}</td><td>{{ t.note or "" }}</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% else %}<div class="empty"><p class="empty-title">No time noted yet.</p><p>After working on this case, note roughly how long it took.</p></div>{% endif %}
+    <form method="post" action="{{ url_for('pro.log_time', case_id=case.id) }}" class="inline-form" style="margin-top:1rem">
+      <input type="hidden" name="csrf" value="{{ csrf() }}">
+      <label class="field-label">Minutes <input type="number" name="minutes" min="1" max="600" required></label>
+      <select name="kind" aria-label="What the time was for">{% for key, label in time_kinds.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select>
+      <input type="text" name="note" maxlength="200" placeholder="Note (optional)" style="width:14rem">
+      <button class="button small primary" data-busy-label="Saving…">Note time</button>
+    </form>
   </div>
 </section>
 

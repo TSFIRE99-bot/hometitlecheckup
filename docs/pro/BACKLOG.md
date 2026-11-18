@@ -15,7 +15,7 @@ Ordered by what blocks a real pilot first. "Blocked" means it needs a founder de
 
 6. Test the rule-based reader on real, redacted or sample Ohio deeds and death certificates (with permission); expect
    it to miss most fields because real documents aren't "Label: value" text.
-7. OCR for scans and phone photos, behind the existing extractor adapter, with page-level evidence and cost tracking.
+7. Done (free): OCR for scans and phone photos runs in the staff member's browser with self-hosted Tesseract.js and pdf.js. Next: test it on permitted real documents; consider server-side OCR only if browser OCR is too slow.
 8. Optional AI extraction behind the same adapter, off by default, with a spending cap, usage logging, the existing
    prompt-injection checks, and the firm's written approval of the provider. Compare against the rules reader with
    `pro/evaluate.py` before turning it on.
@@ -23,14 +23,14 @@ Ordered by what blocks a real pilot first. "Blocked" means it needs a founder de
    duplicate rules. Delivery and bounce tracking.
 10. Spanish and Somali family pages, reviewed by native speakers before they're used, and labeled as such.
 11. Two-factor sign-in for staff; password reset by email.
-12. Staff time note per matter in the app, so the pilot report doesn't depend on spreadsheets.
+12. Done: staff time notes per case, counted in Pilot measures.
 13. Per-firm checklist editing (today every firm starts from the same template and can mark items not needed).
 
 ## Later
 
 14. Clio or other practice-software export (CSV first, no integration until a firm asks).
 15. More counties' public records, each with its own terms checked first.
-16. A data export for the whole firm in one file.
+16. Done: whole-firm JSON export (document files still download per case because of the 4.5 MB response limit).
 
 ## Known gaps in what's built
 

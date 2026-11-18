@@ -71,6 +71,18 @@
 </section>
 
 <section class="split">
+  <div class="split-head"><h2>Your data</h2><p class="help">It's yours. Take a copy any time, and when you leave,
+    take it with you and ask us to delete the rest.</p></div>
+  <div class="split-body">
+    {% if can("settings") %}<a class="button primary" href="{{ url_for('pro.firm_export') }}">Download everything (JSON)</a>
+    <p class="help" style="margin-top:.75rem">One file with every case: facts and where each came from, checklists, family
+      members and messages (with private link codes removed), time noted and history. Document files download one at a time
+      from each case, because together they're too big for one download here.</p>
+    {% else %}<p class="help">An owner can download a copy of all the firm's data here.</p>{% endif %}
+  </div>
+</section>
+
+<section class="split">
   <div class="split-head"><h2>Pilot measures</h2><p class="help">Counted from what HomeKeep already records. They describe
     use, not results: they don't show that HomeKeep caused any change, and staff time comes from your own notes.</p></div>
   <div class="split-body">
@@ -79,6 +91,7 @@
       <div><dt>Packets exported</dt><dd>{{ measures.packets }}{% if measures.median_days_to_packet is not none %} (median {{ measures.median_days_to_packet }} days from opening){% endif %}</dd></div>
       <div><dt>Files sent by families</dt><dd>{{ measures.family_uploads }} (staff uploaded {{ measures.staff_uploads }})</dd></div>
       <div><dt>Follow-ups recorded</dt><dd>{{ measures.follow_ups }}</dd></div>
+      <div><dt>Staff time noted</dt><dd>{{ measures.minutes_total }} min{% if measures.chasing_per_case is not none %} ({{ measures.chasing_per_case }} min chasing per case, {{ measures.timed_cases }} cases){% endif %}</dd></div>
       <div><dt>Facts reviewed</dt><dd>{{ measures.facts_reviewed }}{% if measures.correction_rate is not none %} ({{ measures.facts_corrected }} corrected, {{ measures.correction_rate }}%){% endif %}</dd></div>
     </dl>
   </div>

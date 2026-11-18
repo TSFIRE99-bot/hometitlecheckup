@@ -47,7 +47,7 @@
     <ol class="ledger">
       <li><b>Open the matter</b><span>Add the property and your matter number. The checklist of what to collect is one your attorney approves once for the firm.</span></li>
       <li><b>Send family a link</b><span>Each relative gets their own link that works on a phone, expires in 14 days, and shows only what they were asked for. No account.</span></li>
-      <li><b>Read the documents</b><span>HomeKeep reads the text in ordinary PDFs and suggests facts, each next to the line it came from. It's simple pattern matching, tested only on our fictional files so far, and it can't read scans or photos yet. Staff can always type a fact in.</span></li>
+      <li><b>Read the documents</b><span>HomeKeep reads the text in ordinary PDFs and suggests facts, each next to the line it came from. Scans and phone photos are read in your own browser with free OCR software, so they never go to another company. Finding facts in the text is simple pattern matching, tested only on our fictional files so far. Staff can always type a fact in.</span></li>
       <li><b>Review and follow up</b><span>Approve, correct or reject each fact. Conflicts and missing items stay listed until someone deals with them. Follow-ups use only templates your attorney approved.</span></li>
       <li><b>Export the packet</b><span>A PDF and a data file with the document list, approved facts and where each came from, open conflicts, and what's still missing, marked for professional review.</span></li>
     </ol>
@@ -70,6 +70,22 @@
       staff. Anything a family sends waits in quarantine until someone at your office releases it.</p>
     <p>Some things aren't in place yet, like malware scanning and a permanent database. The data handling page lists
       them plainly. <a href="{{ url_for('pro.security') }}">Read how documents are handled</a>.</p>
+  </div>
+</section>
+
+<section class="split" id="cost">
+  <div class="split-head"><h2>What chasing costs you now</h2><p class="help">Your own numbers, worked out in your
+    browser. Nothing is sent anywhere. We don't know yet how much time HomeKeep saves; a pilot is how you'd find out.</p></div>
+  <div class="split-body">
+    <form class="grid-form calc" data-calc onsubmit="return false">
+      <label>Inherited-home matters a month<input type="number" name="matters" min="0" max="500" value="4" inputmode="numeric"></label>
+      <label>Minutes chasing documents per matter<input type="number" name="minutes" min="0" max="6000" value="90" inputmode="numeric"></label>
+      <label>Staff cost per hour ($)<input type="number" name="rate" min="0" max="1000" value="30" inputmode="numeric"></label>
+    </form>
+    <p class="calc-out" aria-live="polite"><span data-out="hours">6</span> staff hours a month, about
+      <strong>$<span data-out="dollars">180</span></strong>, spent chasing documents. The 30-day pilot is ${{ plans["pilot"].price_dollars }}.</p>
+    <p class="help">The starting numbers are placeholders, not averages from any firm. Change them to yours.</p>
+    <noscript><p class="help">Turn on JavaScript to use this calculator.</p></noscript>
   </div>
 </section>
 

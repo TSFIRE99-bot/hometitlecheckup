@@ -253,6 +253,21 @@ td.ref, .ref { font-family: var(--mono); font-size: .84rem; font-weight: 600; }
 .plan .amount small { font-family: var(--sans); font-size: .9rem; color: var(--ink-2); margin-left: var(--s1); }
 .plan ul { padding-left: 1rem; font-size: .92rem; }
 
+/* cost calculator */
+.calc-out { font-size: 1.1rem; margin: var(--s4) 0 var(--s2); }
+.calc-out span, .calc-out strong { font-family: var(--serif); font-size: 1.9rem; font-weight: 400; }
+
+/* reading scans in the browser */
+.ocr-status { border: 1px solid var(--rule); border-left: 3px solid var(--ink); background: var(--raised); padding: var(--s4); }
+.ocr-status .empty-title { font-family: var(--serif); font-size: 1.5rem; margin: 0 0 var(--s2); }
+.ocr-status.error { border-left-color: var(--wax); background: linear-gradient(90deg, var(--wax-wash), transparent 70%), var(--raised); }
+.ocr-status.error .empty-title { color: var(--wax); }
+.meter { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin: var(--s2) 0; }
+.meter span { display: block; height: 100%; width: 0; background: var(--ink); transition: width .25s; }
+.ocr-status.error .meter span { background: var(--wax); }
+.ocr-text { font-family: var(--mono); font-size: .82rem; line-height: 1.5; }
+#ocr-pages label { margin-bottom: var(--s4); }
+
 /* family page: one column, big targets */
 .family-item { border-top: 1px solid var(--rule); padding: var(--s5) 0; }
 .family-item h2 { font-size: 1.5rem; }

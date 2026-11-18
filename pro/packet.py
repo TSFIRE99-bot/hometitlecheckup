@@ -7,6 +7,7 @@ any legal outcome.
 from __future__ import annotations
 
 import json
+import re
 from datetime import date
 
 from fpdf import FPDF
@@ -53,6 +54,35 @@ def gather(conn, firm_id: int, case_id: int) -> dict:
                       for i in item_rows],
         "prepared": f"{date.today():%Y-%m-%d}",
     }
+
+
+LINK_CODE = re.compile(r"/f/[A-Za-z0-9_\-]+")
+
+
+def firm_export(conn, firm_id: int) -> dict:
+    """Everything the firm has typed or approved, for every case, in one file. Document files stay downloadable one
+    at a time from each case: together they can be far larger than one download from this hosting allows."""
+    firm = store.get_firm(conn, firm_id)
+    people = {u.id: u.name for u in store.staff(conn, firm_id)}
+    exported = []
+    for c in store.list_cases(conn, firm_id, include_closed=True):
+        data = gather(conn, firm_id, c.id)
+        data["time_spent"] = [{"when": t.created_at, "who": people.get(t.user_id, "staff"), "minutes": t.minutes,
+                               "for": store.TIME_KINDS.get(t.kind, t.kind), "note": t.note}
+                              for t in store.case_time(conn, firm_id, c.id)]
+        data["family"] = [{"name": p.name, "relation": p.relation, "email": p.email,
+                           "agreed_to_email": bool(p.email_consent), "link_expires": p.expires_at,
+                           "link_revoked": bool(p.revoked)} for p in store.case_participants(conn, firm_id, c.id)]
+        # message bodies carry each relative's private link; a copy of the data must not carry working links
+        data["messages"] = [{"prepared": m.created_at, "to": m.to_email, "subject": m.subject,
+                             "body": LINK_CODE.sub("/f/[link removed]", m.body), "status": m.status}
+                            for m in store.case_outbox(conn, firm_id, c.id)]
+        data["history"] = [{"when": a.created_at, "who": a.actor, "what": a.action, "detail": a.detail}
+                           for a in store.case_activity(conn, firm_id, c.id)]
+        exported.append(data)
+    return {"firm": firm.name, "notice": NOTICE, "staff": [{"name": u.name, "email": u.email, "role": u.role}
+                                                          for u in store.staff(conn, firm_id)],
+            "cases": exported}
 
 
 def as_json(data: dict) -> bytes:

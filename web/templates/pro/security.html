@@ -26,11 +26,12 @@
 </ul></div></section>
 
 <section class="split"><div class="split-head"><h2>Not in place yet</h2></div><div class="split-body"><ul>
-  <li>No virus or malware scanning. Quarantine and download-only handling are the interim controls.</li>
+  <li>No virus or malware scanning. PDFs carrying scripts, launch actions or attached files are refused; quarantine and download-only handling are the other controls.</li>
+  <li>Scans and photos are read with OCR inside the staff member's browser, using HomeKeep's own copy of the free Tesseract.js and pdf.js. Files aren't sent to any OCR or AI company.</li>
   <li>No two-factor sign-in.</li>
   <li>Files are stored in the application database. The staging site uses temporary storage that can be erased at
     any time; do not upload real documents there. A durable, encrypted database is required before a real pilot.</li>
-  <li>Email delivery is not connected; follow-ups are recorded in an outbox.</li>
+  <li>HomeKeep doesn't send email. Approved follow-ups open in the staff member's own email program, and staff mark them sent.</li>
   <li>No independent security review or penetration test has been done.</li>
 </ul></div></section>
 

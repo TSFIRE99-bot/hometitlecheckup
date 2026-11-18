@@ -12,7 +12,7 @@ from sqlalchemy import and_, delete, func, insert, select, update
 from pro import billing, checklist, extract, messages
 from pro.config import ProConfig
 from pro.db import (activity, cases, demo_requests, documents, field_history, fields, firms, invites, items, now,
-                    outbox, pages, participant_items, participants, templates, usage, users)
+                    outbox, pages, participant_items, participants, templates, time_entries, usage, users)
 from pro.documents import CheckedFile, UploadRejected
 from pro.security import check_password, hash_password, new_token, token_hash
 
@@ -132,6 +132,28 @@ def matters_this_period(conn, firm) -> int:
         cases.c.created_at >= period_start(firm)))).scalar_one()
 
 
+TIME_KINDS = {"chasing": "Chasing documents or information", "review": "Reviewing and organizing", "other": "Other"}
+
+
+def log_time(conn, firm_id: int, case_id: int, user_id: int, minutes: int, kind: str, note: str = "") -> str | None:
+    """Staff note how long they spent on a case. Returns a message when it refuses, or None."""
+    if get_case(conn, firm_id, case_id) is None:
+        return "Case not found."
+    if kind not in TIME_KINDS:
+        return "Choose what the time was for."
+    if not 1 <= minutes <= 600:
+        return "Enter between 1 and 600 minutes."
+    conn.execute(insert(time_entries).values(firm_id=firm_id, case_id=case_id, user_id=user_id, minutes=minutes,
+                                             kind=kind, note=(note or "").strip()[:200] or None, created_at=now()))
+    return None
+
+
+def case_time(conn, firm_id: int, case_id: int):
+    return conn.execute(select(time_entries).where(and_(time_entries.c.firm_id == firm_id,
+                                                        time_entries.c.case_id == case_id))
+                        .order_by(time_entries.c.created_at.desc())).all()
+
+
 def pilot_measures(conn, firm_id: int) -> dict:
     """Counts for the pilot report, from data HomeKeep already keeps. Staff minutes, the firm's baseline and legal
     outcomes are not measured here: they come from the firm's own time notes (see docs/pro/GO_TO_MARKET.md)."""
@@ -143,7 +165,15 @@ def pilot_measures(conn, firm_id: int) -> dict:
     corrected = actions.get("field_correct", 0)
     reviewed = actions.get("field_approve", 0) + corrected + actions.get("field_reject", 0)
     follow_ups = conn.execute(select(func.count()).select_from(outbox).where(outbox.c.firm_id == firm_id)).scalar()
-    return {"cases": len(rows), "packets": len(days),
+    minutes = dict(conn.execute(select(time_entries.c.kind, func.sum(time_entries.c.minutes))
+                                .where(time_entries.c.firm_id == firm_id).group_by(time_entries.c.kind)).all())
+    timed_cases = conn.execute(select(func.count(func.distinct(time_entries.c.case_id)))
+                               .where(time_entries.c.firm_id == firm_id)).scalar() or 0
+    chasing = int(minutes.get("chasing") or 0)
+    return {"minutes_total": int(sum(v or 0 for v in minutes.values())), "minutes_chasing": chasing,
+            "timed_cases": timed_cases,
+            "chasing_per_case": round(chasing / timed_cases) if timed_cases else None,
+            "cases": len(rows), "packets": len(days),
             "median_days_to_packet": round(statistics.median(days), 1) if days else None,
             "family_uploads": sum(1 for u in uploads if u.participant_id),
             "staff_uploads": sum(1 for u in uploads if not u.participant_id),
@@ -331,21 +361,58 @@ def read_document(conn, cfg: ProConfig, firm_id: int, case_id: int, doc_id: int,
     record_usage(conn, firm_id, case_id, "pages_read", len(result.pages))
     values = {"text_status": result.status, "page_count": len(result.pages) or None}
     if result.status == "ok":
-        found = extract.run(extract.get_extractor(cfg.extractor), result.pages)
-        values.update(doc_type=found.doc_type, doc_type_evidence=found.type_evidence)
-        for proposal in found.proposals:
-            conn.execute(insert(fields).values(firm_id=firm_id, case_id=case_id, key=proposal.key,
-                                               value=proposal.value, source="record", document_id=doc_id,
-                                               page=proposal.page, evidence=proposal.evidence,
-                                               state="awaiting_review", created_at=now()))
-        for warning in found.warnings:
-            log(conn, firm_id, case_id, "system", "document_warning", warning)
-        log(conn, firm_id, case_id, "system", "document_read",
-            f"{checked.filename}: {extract.DOC_TYPES[found.doc_type]}, {len(found.proposals)} fields proposed")
-        recheck_conflicts(conn, firm_id, case_id)
+        values.update(_propose_from_pages(conn, cfg, firm_id, case_id, doc_id, checked.filename, result.pages))
     else:
         log(conn, firm_id, case_id, "system", "document_unreadable", f"{checked.filename}: {result.status}")
     conn.execute(update(documents).where(documents.c.id == doc_id).values(**values))
+
+
+def _propose_from_pages(conn, cfg: ProConfig, firm_id: int, case_id: int, doc_id: int, filename: str,
+                        page_list: list, note: str = "") -> dict:
+    """Suggest facts from a document's text. Every suggestion waits for a person; instruction-like text is flagged."""
+    found = extract.run(extract.get_extractor(cfg.extractor), page_list)
+    for proposal in found.proposals:
+        conn.execute(insert(fields).values(firm_id=firm_id, case_id=case_id, key=proposal.key,
+                                           value=proposal.value, source="record", document_id=doc_id,
+                                           page=proposal.page, evidence=proposal.evidence,
+                                           state="awaiting_review", created_at=now()))
+    for warning in found.warnings:
+        log(conn, firm_id, case_id, "system", "document_warning", warning)
+    log(conn, firm_id, case_id, "system", "document_read",
+        f"{filename}: {extract.DOC_TYPES[found.doc_type]}, {len(found.proposals)} fields proposed{note}")
+    recheck_conflicts(conn, firm_id, case_id)
+    return {"doc_type": found.doc_type, "doc_type_evidence": found.type_evidence}
+
+
+OCR_MAX_CHARS_PER_PAGE = 20000
+
+
+def read_ocr_text(conn, cfg: ProConfig, firm_id: int, case_id: int, doc_id: int, by: int,
+                  texts: list[str]) -> str | None:
+    """Store text that a staff member's own browser read from a scan or photo (Tesseract.js, no outside service),
+    then suggest facts from it like any other document. The text is untrusted input, exactly like a PDF's.
+    Returns a message for staff when it refuses, or None when the text was stored."""
+    doc = get_document(conn, firm_id, case_id, doc_id)
+    if doc is None:
+        return "Document not found."
+    if doc.status != "released":
+        return "Release this file before reading it."
+    if doc.text_status not in ("no_text", "not_pdf"):
+        return "This document's text has already been read."
+    texts = [str(t)[:OCR_MAX_CHARS_PER_PAGE] for t in texts[:cfg.max_pages_per_document]]
+    if sum(len(t.strip()) for t in texts) < 20:
+        return "No readable text was found. Type the facts in by hand on the review page."
+    conn.execute(delete(pages).where(and_(pages.c.firm_id == firm_id, pages.c.document_id == doc_id)))
+    found_pages = [extract.PageText(i + 1, t.strip()) for i, t in enumerate(texts)]
+    for p in found_pages:
+        conn.execute(insert(pages).values(firm_id=firm_id, document_id=doc_id, page=p.page, text=p.text))
+    record_usage(conn, firm_id, case_id, "pages_ocr", len(found_pages))
+    log(conn, firm_id, case_id, f"user:{by}", "document_ocr", doc.filename)
+    values = {"text_status": "ocr", "page_count": len(found_pages)}
+    values.update(_propose_from_pages(conn, cfg, firm_id, case_id, doc_id, doc.filename, found_pages,
+                                      " (read from an image by OCR; check each value against the file)"))
+    conn.execute(update(documents).where(documents.c.id == doc_id).values(**values))
+    return None
 
 
 def list_documents(conn, firm_id: int, case_id: int, include_deleted: bool = False):
@@ -544,14 +611,27 @@ def send_follow_up(conn, cfg: ProConfig, firm_id: int, case_id: int, participant
                                        body=messages.render(template.body, values),
                                        status="recorded" if cfg.email_mode == "outbox" else "sent",
                                        created_by=by, created_at=now()))
-    log(conn, firm_id, case_id, f"user:{by}", "follow_up_sent", f"{template.name} to {person.name}")
-    note = " Email delivery isn't connected yet, so it was saved in the outbox only." if cfg.email_mode == "outbox" else ""
-    return True, f"Message recorded for {person.name}.{note}"
+    log(conn, firm_id, case_id, f"user:{by}", "follow_up_prepared", f"{template.name} to {person.name}")
+    if cfg.email_mode == "outbox":
+        return True, (f"Message ready for {person.name}. In the outbox below, open it in your own email, send it, "
+                      "then mark it sent.")
+    return True, f"Message sent to {person.name}."
 
 
 def case_outbox(conn, firm_id: int, case_id: int):
     return conn.execute(select(outbox).where(and_(outbox.c.firm_id == firm_id, outbox.c.case_id == case_id))
                         .order_by(outbox.c.created_at.desc())).all()
+
+
+def mark_outbox_sent(conn, firm_id: int, case_id: int, message_id: int, by: int) -> bool:
+    """Staff sent a prepared message from their own email program. HomeKeep can't see that, so a person confirms it."""
+    message = conn.execute(select(outbox).where(and_(outbox.c.id == message_id, outbox.c.firm_id == firm_id,
+                                                     outbox.c.case_id == case_id))).first()
+    if message is None or message.status != "recorded":
+        return False
+    conn.execute(update(outbox).where(outbox.c.id == message_id).values(status="sent_by_staff"))
+    log(conn, firm_id, case_id, f"user:{by}", "follow_up_sent", f"{message.subject} to {message.to_email}")
+    return True
 
 
 def record_consent(conn, firm_id: int, case_id: int, participant_id: int, by: int, agreed: bool) -> None:
@@ -590,7 +670,7 @@ def delete_case(conn, firm_id: int, case_id: int, actor: str) -> None:
     if person_ids:
         conn.execute(delete(participant_items).where(and_(participant_items.c.firm_id == firm_id,
                                                           participant_items.c.participant_id.in_(person_ids))))
-    for table in (fields, documents, outbox, participants, items, usage, activity):
+    for table in (fields, documents, outbox, participants, items, usage, time_entries, activity):
         conn.execute(delete(table).where(and_(table.c.firm_id == firm_id, table.c.case_id == case_id)))
     conn.execute(delete(cases).where(and_(cases.c.id == case_id, cases.c.firm_id == firm_id)))
     log(conn, firm_id, None, actor, "case_deleted", f"case {case.reference}")

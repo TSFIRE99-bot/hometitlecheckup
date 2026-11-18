@@ -17,6 +17,19 @@
     }
   });
 
+  // The landing page's cost calculator: the firm's own numbers, worked out here, never sent anywhere.
+  document.querySelectorAll("[data-calc]").forEach(function (form) {
+    var out = form.parentElement;
+    function update() {
+      var n = function (name) { var v = Number(form.elements[name].value); return isFinite(v) && v > 0 ? v : 0; };
+      var hours = n("matters") * n("minutes") / 60;
+      out.querySelector('[data-out="hours"]').textContent = hours.toLocaleString(undefined, { maximumFractionDigits: 1 });
+      out.querySelector('[data-out="dollars"]').textContent = Math.round(hours * n("rate")).toLocaleString();
+    }
+    form.addEventListener("input", update);
+    update();
+  });
+
   // Coming back with the browser's Back button can restore a page mid-submit; reset it.
   window.addEventListener("pageshow", function () {
     document.querySelectorAll("form[aria-busy]").forEach(function (form) {
